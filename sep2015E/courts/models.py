@@ -15,3 +15,4 @@ class Court(models.Model):
     image = models.FileField(null=True)
     comment_access = models.TextField(default="")
     comment_desiderata = models.TextField(default="")
+    available = models.BooleanField(default=True)
