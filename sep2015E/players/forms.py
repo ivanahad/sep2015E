@@ -1,6 +1,7 @@
 from django import forms
+from players.models import User
 
-class RegisterForm(forms.Form):
-	name = forms.CharField(max_length=100)
-	commentaire = forms.CharField(widget=forms.Textarea)
-	email = forms.EmailField(label="Votre adresse mail")
+class RegisterForm(forms.ModelForm):
+	class Meta:
+		model = User
+		fields = ('firstname','lastname','address','city','country','zipcode','email','level',)
