@@ -9,8 +9,12 @@ class User(models.Model):
     zipcode = models.IntegerField(default=0)
     email = models.CharField(max_length=128)
     level = models.CharField(max_length=8)
+    def __str__(self):              # __unicode__ on Python 2
+        return self.lastname + " " + self.firstname
     
 class Pair(models.Model):
     player1 = models.ForeignKey(User, related_name='player1')
     player2 = models.ForeignKey(User, related_name='player2')
     average = models.IntegerField(default=0)
+    def __str__(self):              # __unicode__ on Python 2
+        return self.player1.lastname + " " + self.player2.lastname
