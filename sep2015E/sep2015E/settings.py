@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'players',
     'courts',
     'tournament',
+    'staff',
 )
 
 MIDDLEWARE_CLASSES = (
