@@ -18,6 +18,10 @@
     height: 70px;
     padding-top: 0;
 }
+.panel-body {
+    margin: auto;
+    width: 100%;
+}
 body{
     background-color: #F5F6CE !important;
 }
