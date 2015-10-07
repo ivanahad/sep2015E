@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'courts',
     'tournament',
     'staff',
+    'home',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -110,5 +111,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = ''
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
 
 WALIKI_LOGGED_USER_PERMISSIONS = ('view_page', 'add_page', 'change_page', 'delete_page')
