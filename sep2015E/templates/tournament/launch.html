@@ -1,0 +1,20 @@
+{% extends 'site_template.html' %}
+
+{% block title %}
+<title>Launch a tournament</title>
+{% endblock %}
+
+{% block content %}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Launch a tournament</h3>
+		</div>
+		<div class="panel-body">
+		    <form action="{% url "tournament.views.launch" %}" method="post">
+			    {% csrf_token %}
+			    {{ form.as_p }}
+			    <input type="submit" value="Launch" />
+			</form>
+		</div>
+	</div>
+{% endblock %}

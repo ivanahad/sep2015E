@@ -37,12 +37,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'waliki',
-    'waliki.git',           # optional but recommended
-    'waliki.attachments',   # optional but recommended
-    'waliki.pdf',           # optional
-    'waliki.slides',        # optional
-    'waliki.togetherjs',    # optional
+    #'waliki',
+    #'waliki.git',           # optional but recommended
+    #'waliki.attachments',   # optional but recommended
+    #'waliki.pdf',           # optional
+    #'waliki.slides',        # optional
+    #'waliki.togetherjs',    # optional
     'players',
     'courts',
     'tournament',
