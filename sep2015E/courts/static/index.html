@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="style.css"/>
+		<link rel="icon" type="image/png" href="images/ico.png" />
+		<title>M'inscrire</title>
+	</head>
+
+	<body>
+		<h1 align="center">Inscription au tournoi</h1>
+		
+		<fieldset>
+			<form method="post" action="index.html">
+
+				<h2><u>Informations indispensables</u></h2>
+
+				<label for="sexe">Titre :</label>
+				<select>
+					<option>M.</option>
+					<option>Mme</option>
+					<option>Mlle</option>
+				</select><br/><br/>
+
+				<label for="nom">Nom :</label>
+				<input type="text" maxlength="30" name="nom" id="nom" required/><br/><br/>
+				
+				<label for="prenom">Prénom :</label>
+				<input type"text" maxlength="20" name="prenom" id="prenom" required/><br/><br/>
+				
+				<label for="adresse">Adresse :</label>
+				<input type"text" name="adresse" id="adresse" required/><br/><br/>
+
+				<label for="code_postal">Code postal :</label>
+				<input type"text" name="code_postal" id="code_postal" required/>
+
+				<label for="localite">Localité :</label>
+				<input type"text" name="localite" id="localite" required/><br/><br/>
+
+				<label for="email">E-mail :</label>
+				<input type"email" name="email" id="email" placeholder="mail@domain.com" required/><br/><br/>
+
+				<label for="telephone">Téléphone/GSM :</label>
+				<input type"text" name="telephone" id="telephone" required/><br/><br/>
+
+				<label for="date_de_naissance">Date de naissance :</label>
+				<input type"text" name="date_de_naissance" id="date_de_naissance" placeholder="16/10/1993" required/><br/><br/>
+
+				<label for="sexe">Classement :</label>
+				<select>
+					<option>C30</option>
+					<option>C32</option>
+					<option>B-15</option>
+				</select><br/><br/>
+				
+				<label for="participe">Déjà participer au trounoi ?</label>
+				<input type="radio" value="oui">Oui</input>
+				<input type="radio" value="non">Non</input>
+
+				<h2><u>Informations complémentaires</u></h2>
+
+				<label for="commentaire">Commentaire :</label><br/>
+				<textarea type"text" name="commentaire" id="commentaire" rows="4" cols="50"></textarea><br/><br/>
+
+				<br/>
+					
+				<input type="submit" value="Envoyer"/>
+			</form>
+		</fieldset>
+	</body>
+</html>
