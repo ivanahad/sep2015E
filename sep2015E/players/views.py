@@ -12,19 +12,20 @@ def register(request):
 
             new_user1 = User(firstname = form1.cleaned_data['firstname'], lastname = form1.cleaned_data['lastname'], address = form1.cleaned_data['address'],
                 city = form1.cleaned_data['city'], country = form1.cleaned_data['country'], zipcode = form1.cleaned_data['zipcode'],
-                email = form1.cleaned_data['email'], phone = form1.cleaned_data['phone'], level = form1.cleaned_data['level'])
+                email = form1.cleaned_data['email'], phone = form1.cleaned_data['phone'], level = form1.cleaned_data['level'], 
+                bbq = form1.cleaned_data['bbq'], comment = form1.cleaned_data['comment'])
             new_user1.save()
 
             new_user2 = User(firstname = form2.cleaned_data['firstname'], lastname = form2.cleaned_data['lastname'], address = form2.cleaned_data['address'],
                 city = form2.cleaned_data['city'], country = form2.cleaned_data['country'], zipcode = form2.cleaned_data['zipcode'],
-                email = form2.cleaned_data['email'], phone = form2.cleaned_data['phone'], level = form2.cleaned_data['level'])
+                email = form2.cleaned_data['email'], phone = form2.cleaned_data['phone'], level = form2.cleaned_data['level'], 
+                bbq = form2.cleaned_data['bbq'], comment = form2.cleaned_data['comment'])
             new_user2.save()
 
             new_pair = Pair(player1 = new_user1, player2 = new_user2, average = 0)
             new_pair.save()
 
-            return HttpResponseRedirect('/')
-
+            return render(request, 'players/payement.html')
 
     else: # Si ce n'est pas du POST, c'est probablement une requête GET
         form1 = RegisterForm(prefix="form1")
@@ -34,3 +35,6 @@ def register(request):
         'form1': form1,
         'form2': form2,
     })
+
+def payement(request):
+    return render(request, 'players/payement.html')

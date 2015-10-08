@@ -12,9 +12,23 @@
 		<div class="panel-body">
 		    <form action="{% url "players.views.register" %}" method="post">
 			    {% csrf_token %}
-			    {{ form1.as_p }}
-				{{ form2.as_p }}
-			    <input type="submit" value="Submit" />
+			    <div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">Player 1</h4>
+					</div>
+					<div class="panel-body">
+			    		{{ form1.as_p }}
+			    	</div>
+			    </div>
+			    <div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">Player 2</h4>
+					</div>
+					<div class="panel-body">
+			    		{{ form2.as_p }}
+			    	</div>
+			    </div>
+			    <input type="submit" value="Suivant" />
 			</form>
 		</div>
 	</div>
