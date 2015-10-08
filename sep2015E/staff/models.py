@@ -4,6 +4,7 @@ class Staff(models.Model):
     """This class contains the record on a staff member."""
     firstname = models.CharField(max_length=128)
     lastname = models.CharField(max_length=128)
+    pseudo = models.CharField(max_length=128)
     address = models.CharField(max_length=128)
     city = models.CharField(max_length=64)
     country = models.CharField(max_length=64)
@@ -14,3 +15,10 @@ class Staff(models.Model):
 
     def __str__(self):              # __unicode__ on Python 2
         return self.lastname + " " + self.firstname
+
+class Messages(models.Model):
+    """ This class contains the messages sent between the staff"""
+    author = models.CharField(max_length=128)
+    destinator = models.CharField(max_length=128)
+    title = models.CharField(max_length=128)
+    message = models.TextField(default="", blank=True)
