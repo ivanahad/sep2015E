@@ -30,24 +30,16 @@
 
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
+        {% block nav %} <!-- Block for the navigation bar -->
 		  <ul class="nav navbar-nav">
-        {% block nav %}
 		  	<li><a href="/">Home</a></li>
 			  <li><a href="players/register">Players</a></li>
 			  <li><a href="courts/register">Courts</a></li>
 			  <li><a href="wiki">Wiki</a></li>
 			  <li><a href="admin">Admin</a></li>
 			  <li><a href="staff/home">Staff</a></li>
-        {% endblock %}
 		  </ul>
-
-	      <form class="navbar-form navbar-right" role="search">
-	        <div class="form-group">
-	          <input type="text" class="form-control" placeholder="Search">
-	        </div>
-	        <button type="submit" class="btn btn-default">Submit</button>
-	      </form>
+      {% endblock %}
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
 	</nav>

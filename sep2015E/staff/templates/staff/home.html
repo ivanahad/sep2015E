@@ -1,9 +1,16 @@
 {% extends 'site_template.html' %}
 {% block nav %}
+<ul class="nav navbar-nav">
   <li><a href={% url 'staff.views.home' %}>Home</a></li>
-  <li><a href={% url 'players.views.register'%}>Players</a></li>
+  <li><a href={% url 'players.views.register' %}>Players</a></li>
   <li><a href={% url 'courts.views.register' %}>Courts</a></li>
   <li><a href={% url 'staff.views.home' %}>Tournament</a></li>
+</ul>
+ <p> {{ date }}</p>
 {% endblock %}
 
 {% block panel_title%} <h3 class="panel-title">Home</h3> {% endblock %}
+
+{% block panel_content %}
+  <p>Welcome {{ name }}</p>
+{% endblock %}
