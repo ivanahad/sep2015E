@@ -1,4 +1,5 @@
 {% load static from staticfiles %}
+{% if envoi %}Votre message a bien été envoyé !{% endif %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,7 +56,8 @@
 	  <div class="panel-body">
 	    <form action="{% url "players.views.register" %}" method="post">
 		    {% csrf_token %}
-		    {{ form.as_p }}
+		    {{ form1.as_p }}
+			{{ form2.as_p }}
 		    <input type="submit" value="Submit" />
 		</form>
 	  </div>
