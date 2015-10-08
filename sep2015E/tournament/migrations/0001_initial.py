@@ -7,33 +7,33 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('players', '__first__'),
         ('courts', '__first__'),
+        ('players', '__first__'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Match',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('score1', models.IntegerField(null=True)),
                 ('score2', models.IntegerField(null=True)),
                 ('court', models.ForeignKey(to='courts.Court')),
-                ('team1', models.ForeignKey(to='players.Pair', related_name='team1')),
-                ('team2', models.ForeignKey(to='players.Pair', related_name='team2')),
+                ('team1', models.ForeignKey(related_name='team1', to='players.Pair')),
+                ('team2', models.ForeignKey(related_name='team2', to='players.Pair')),
             ],
         ),
         migrations.CreateModel(
             name='Pool',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('size', models.IntegerField(default=5)),
             ],
         ),
         migrations.CreateModel(
             name='PoolMatch',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('match', models.ForeignKey(to='tournament.Match')),
                 ('pool', models.ForeignKey(to='tournament.Pool')),
             ],
@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PoolParticipant',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('participant', models.ForeignKey(to='players.Pair')),
                 ('pool', models.ForeignKey(to='tournament.Pool')),
             ],
@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Tournament',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=64)),
                 ('category', models.CharField(max_length=64)),
                 ('pool_size', models.IntegerField(default=5)),
@@ -58,17 +58,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TournamentNode',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
-                ('child1', models.ForeignKey(to='tournament.TournamentNode', related_name='child1_')),
-                ('child2', models.ForeignKey(to='tournament.TournamentNode', related_name='child2_')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('child1', models.ForeignKey(related_name='child1_', to='tournament.TournamentNode')),
+                ('child2', models.ForeignKey(related_name='child2_', to='tournament.TournamentNode')),
                 ('match', models.ForeignKey(to='tournament.Match')),
-                ('parent', models.ForeignKey(to='tournament.TournamentNode', related_name='parent_')),
+                ('parent', models.ForeignKey(related_name='parent_', to='tournament.TournamentNode')),
             ],
         ),
         migrations.CreateModel(
             name='TournamentParticipant',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('participant', models.ForeignKey(to='players.Pair')),
                 ('tournament', models.ForeignKey(to='tournament.Tournament')),
             ],
@@ -86,6 +86,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='pool',
             name='winner',
-            field=models.ForeignKey(to='players.Pair', null=True),
+            field=models.ForeignKey(null=True, to='players.Pair'),
         ),
     ]
