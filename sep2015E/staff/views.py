@@ -1,7 +1,9 @@
 from django.shortcuts import render
+from datetime import datetime
 
-# Create your views here.
+
+name = "Eric Duvoie" #replace by a call to database
 
 def home(request):
-    """Welcoming page for staff members."""
+    """Home page for staff members."""
     return render(request, 'staff/home.html')

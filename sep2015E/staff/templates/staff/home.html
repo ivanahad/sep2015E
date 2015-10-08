@@ -1,1 +1,9 @@
-<p1>Welcome Staff!!!<p1>
+{% extends 'site_template.html' %}
+{% block nav %}
+  <li><a href={% url 'staff.views.home' %}>Home</a></li>
+  <li><a href={% url 'players.views.register'%}>Players</a></li>
+  <li><a href={% url 'courts.views.register' %}>Courts</a></li>
+  <li><a href={% url 'staff.views.home' %}>Tournament</a></li>
+{% endblock %}
+
+{% block panel_title%} <h3 class="panel-title">Home</h3> {% endblock %}

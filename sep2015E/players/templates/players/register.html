@@ -1,4 +1,5 @@
 {% load static from staticfiles %}
+{% if envoi %}Votre message a bien été envoyé !{% endif %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="{% static "css/home.css" %}" media="screen" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
@@ -55,7 +56,8 @@
 	  <div class="panel-body">
 	    <form action="{% url "players.views.register" %}" method="post">
 		    {% csrf_token %}
-		    {{ form.as_p }}
+		    {{ form1.as_p }}
+			{{ form2.as_p }}
 		    <input type="submit" value="Submit" />
 		</form>
 	  </div>

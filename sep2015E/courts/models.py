@@ -12,7 +12,10 @@ class Court(models.Model):
     phone = models.CharField(max_length=32)
     ground = models.CharField(max_length=128)
     cover = models.BooleanField(default=False)
-    image = models.FileField(null=True)
+    image = models.FileField(blank=True)
     comment_access = models.TextField(default="")
     comment_desiderata = models.TextField(default="")
     available = models.BooleanField(default=True)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.owner + " " + self.address

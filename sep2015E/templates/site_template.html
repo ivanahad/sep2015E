@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Register court</title>
+  <title>Home</title>
   <link rel="stylesheet" type="text/css" href="{% static "css/home.css" %}" media="screen" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,14 +30,18 @@
 
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
 		  <ul class="nav navbar-nav">
+        {% block nav %}
 		  	<li><a href="/">Home</a></li>
-			<li><a href="/players/register">Players</a></li>
-			<li><a href="/courts/register">Courts</a></li>
-			<li><a href="/wiki">Wiki</a></li>
-			<li><a href="/admin">Admin</a></li>
-			<li><a href="/staff/home">Staff</a></li>
+			  <li><a href="players/register">Players</a></li>
+			  <li><a href="courts/register">Courts</a></li>
+			  <li><a href="wiki">Wiki</a></li>
+			  <li><a href="admin">Admin</a></li>
+			  <li><a href="staff/home">Staff</a></li>
+        {% endblock %}
 		  </ul>
+
 	      <form class="navbar-form navbar-right" role="search">
 	        <div class="form-group">
 	          <input type="text" class="form-control" placeholder="Search">
@@ -47,19 +51,19 @@
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
 	</nav>
-	
-	<div class="panel panel-default">
-	  <div class="panel-heading">
-	    <h3 class="panel-title">Register a court</h3>
-	  </div>
-	  <div class="panel-body">
-	    <form enctype="multipart/form-data" action="{% url "courts.views.register" %}" method="post">
-		    {% csrf_token %}
-		    {{ form.as_p }}
-		    <input type="submit" value="Submit" />
-		</form>
-	  </div>
-	  </div>
+
+  <div class="panel panel-default">
+  <div class="panel-heading">
+    {% block panel_title %}
+    <h3 class="panel-title">Panel title</h3>
+    {% endblock %}
+  </div>
+  <div class="panel-body">
+    {% block panel_content %}
+    Panel content
+    {% endblock %}
+  </div>
+  </div>
 </div>
 
 </body>
