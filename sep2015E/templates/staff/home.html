@@ -4,6 +4,16 @@
   <li><a href={% url 'players.views.register'%}>Players</a></li>
   <li><a href={% url 'courts.views.register' %}>Courts</a></li>
   <li><a href={% url 'staff.views.home' %}>Tournament</a></li>
+  {{ date }}
 {% endblock %}
 
-{% block content %} <h3 class="panel-title">Home</h3> {% endblock %}
+{% block content %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Home</h3>
+  </div>
+  <div class="panel-body">
+      <p> Welcome {{ name }}</p>
+  </div>
+</div>
+{% endblock %}
