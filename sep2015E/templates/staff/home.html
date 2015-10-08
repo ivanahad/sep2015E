@@ -22,7 +22,10 @@
     <h3 class="panel-title">Messages</h3>
   </div>
   <div class="panel-body">
-      <p> Pas de nouveaux messages </p>
+    {% for message in messages %}
+      <p> Title: {{ message.title }} </p>
+      <p> Text: {{ message.message }} </p>
+    {% endfor %}
   </div>
 </div>
 

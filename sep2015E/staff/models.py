@@ -22,3 +22,6 @@ class Messages(models.Model):
     destinator = models.CharField(max_length=128)
     title = models.CharField(max_length=128)
     message = models.TextField(default="", blank=True)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.title + " " + self.message
