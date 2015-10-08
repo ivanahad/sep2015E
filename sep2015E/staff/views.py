@@ -6,4 +6,5 @@ name = "Eric Duvoie" #replace by a call to database
 
 def home(request):
     """Home page for staff members."""
-    return render(request, 'staff/home.html')
+    info = {'date': datetime.now(), 'name': name}
+    return render(request, 'staff/home.html', info)
