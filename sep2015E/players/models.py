@@ -3,15 +3,17 @@ from django.db import models
 class User(models.Model):
     """This class contains the recorded data on a user.
     """
-    firstname = models.CharField(max_length=128)
-    lastname = models.CharField(max_length=128)
-    address = models.CharField(max_length=128)
-    city = models.CharField(max_length=64)
-    country = models.CharField(max_length=64)
-    zipcode = models.IntegerField(default=0)
-    email = models.EmailField(max_length=128)
-    phone = models.CharField(max_length=32)
-    level = models.CharField(max_length=8)
+    firstname = models.CharField(max_length=128, blank=True)
+    lastname = models.CharField(max_length=128, blank=True)
+    address = models.CharField(max_length=128, blank=True)
+    city = models.CharField(max_length=64, blank=True)
+    country = models.CharField(max_length=64, blank=True)
+    zipcode = models.IntegerField(default=0, blank=True)
+    email = models.EmailField(max_length=128, blank=True)
+    phone = models.CharField(max_length=32, blank=True)
+    level = models.CharField(max_length=8, blank=True)
+    bbq = models.BooleanField(default=False, blank=True)
+    comment = models.TextField(default="", blank=True)
 
     def __str__(self):              # __unicode__ on Python 2
         return self.lastname + " " + self.firstname
