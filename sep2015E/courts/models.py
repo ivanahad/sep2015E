@@ -12,7 +12,7 @@ class Court(models.Model):
     phone = models.CharField(max_length=32)
     ground = models.CharField(max_length=128)
     cover = models.BooleanField(default=False)
-    image = models.FileField(blank=True)
+    image = models.ImageField(blank=True)
     comment_access = models.TextField(default="")
     comment_desiderata = models.TextField(default="")
     available = models.BooleanField(default=True)
