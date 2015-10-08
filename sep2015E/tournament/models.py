@@ -8,6 +8,7 @@ class Tournament(models.Model):
     category = models.CharField(max_length=64) # p.ex. "strongest"
     pool_size = models.IntegerField(default=5)
     k_o_root = models.ForeignKey('TournamentNode')
+    is_open = models.BooleanField(default=False)
 
 class TournamentParticipant(models.Model):
     """Link between tournament.Tournament and players.Pair.
@@ -49,7 +50,7 @@ class TournamentNode(models.Model):
     is the recursive links.
     """
     match = models.ForeignKey('Match')
-    parent = models.ForeignKey('self', related_name='parent_')
-    child1 = models.ForeignKey('self', related_name='child1_')
-    child2 = models.ForeignKey('self', related_name='child2_')
+    parent = models.ForeignKey('self', related_name='parent_', blank=True, null=True)
+    child1 = models.ForeignKey('self', related_name='child1_', blank=True, null=True)
+    child2 = models.ForeignKey('self', related_name='child2_', blank=True, null=True)
 
