@@ -10,6 +10,8 @@ def launch(request):
         form = LaunchTournamentForm(request.POST)
         if form.is_valid():
             tournament = Tournament.objects.get(name=form.cleaned_data['name'])
+            if not tournament.is_open :
+                raise Exception("Tournament is already closed.")
             #list of players from database
             pairs_key = TournamentParticipant.objects.filter(tournament=tournament)
             pairs = [entry.participant for entry in pairs_key]
@@ -20,6 +22,7 @@ def launch(request):
             for i in range(nb_pools) :
                 pools.append(Pool())
                 pools[i].size = (std_size-1) if i < nb_reduced_pools else std_size
+                pools[i].number = i
 
             pairs = set(pairs)
             for pool in pools :
@@ -38,6 +41,11 @@ def launch(request):
                         match.team1 = parts[i]
                         match.team2 = parts[j]
                         match.save()
+                        pm = PoolMatch()
+                        pm.pool, pm.match = pool, match
+                        pm.save()
+            tournament.is_open = False
+            tournament.save()
             return HttpResponseRedirect('/')
     else:
         form = LaunchTournamentForm()

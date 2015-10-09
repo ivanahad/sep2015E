@@ -17,7 +17,7 @@ class User(models.Model):
 
     def __str__(self):              # __unicode__ on Python 2
         return self.lastname + " " + self.firstname
-    
+
 class Pair(models.Model):
     """This class contains a pair of users registered for a tournament.
     One pair must only participate in one tournament, and a new pair
