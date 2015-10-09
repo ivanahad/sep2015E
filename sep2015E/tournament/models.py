@@ -7,8 +7,8 @@ class Tournament(models.Model):
     name = models.CharField(max_length=64) # p.ex. "Familles"
     category = models.CharField(max_length=64) # p.ex. "strongest"
     pool_size = models.IntegerField(default=5)
-    k_o_root = models.ForeignKey('TournamentNode')
-    is_open = models.BooleanField(default=False)
+    k_o_root = models.ForeignKey('TournamentNode', null=True, blank=True)
+    is_open = models.BooleanField(default=True)
 
 class TournamentParticipant(models.Model):
     """Link between tournament.Tournament and players.Pair.
@@ -22,7 +22,7 @@ class Pool(models.Model):
     """
     tournament = models.ForeignKey('Tournament')
     size = models.IntegerField(default=5)
-    winner = models.ForeignKey('players.Pair', null=True)
+    winner = models.ForeignKey('players.Pair', null=True, blank=True)
 
 class PoolParticipant(models.Model):
     """Link between tournament.Pool and players.Pair.
@@ -34,9 +34,9 @@ class Match(models.Model):
     """Defines a match between two teams."""
     team1 = models.ForeignKey('players.Pair', related_name='team1')
     team2 = models.ForeignKey('players.Pair', related_name='team2')
-    score1 = models.IntegerField(null=True)
-    score2 = models.IntegerField(null=True)
-    court = models.ForeignKey('courts.Court')
+    score1 = models.IntegerField(null=True, blank=True)
+    score2 = models.IntegerField(null=True, blank=True)
+    court = models.ForeignKey('courts.Court', null=True, blank=True)
 
 class PoolMatch(models.Model):
     """Link between tournament.Pool and tournament.Match.
