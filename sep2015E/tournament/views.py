@@ -2,12 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from players.models import Pair
 from tournament.models import *
-from tournament.forms import LaunchTournamentForm
+from tournament.forms import OpenTournamentChoiceForm
 import math
 
 def launch(request):
     if request.method == 'POST':
-        form = LaunchTournamentForm(request.POST)
+        form = OpenTournamentChoiceForm(request.POST)
         if form.is_valid():
             tournament = form.cleaned_data['tournament']
             if not tournament.is_open :
@@ -48,5 +48,5 @@ def launch(request):
             tournament.save()
             return HttpResponseRedirect('/')
     else:
-        form = LaunchTournamentForm()
+        form = OpenTournamentChoiceForm()
         return render(request, 'tournament/launch.html', {'form':form})
