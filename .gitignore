@@ -219,5 +219,9 @@ pip-log.txt
 
 ## Custom
 db.sqlite3
-*/migrations/*
+sep2015E/tournament/migrations/*
+sep2015E/players/migrations/*
+sep2015E/courts/migrations/*
+sep2015E/staff/migrations/*
+sep2015E/home/migrations/*
 waliki_data/

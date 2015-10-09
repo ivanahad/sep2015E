@@ -11,7 +11,7 @@ def open_action(modeladmin, request, queryset):
 open_action.short_description = "Open tournament"
 
 class MyAdmin(admin.ModelAdmin):
-    list_display=('name', 'is_open')
+    list_display=('name', 'category', 'is_open')
     actions = [close_action, open_action]
 
 admin.site.register(Tournament, MyAdmin)

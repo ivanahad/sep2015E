@@ -9,7 +9,7 @@ def launch(request):
     if request.method == 'POST':
         form = LaunchTournamentForm(request.POST)
         if form.is_valid():
-            tournament = Tournament.objects.get(name=form.cleaned_data['name'])
+            tournament = form.cleaned_data['tournament']
             if not tournament.is_open :
                 raise Exception("Tournament is already closed.")
             #list of players from database
@@ -49,4 +49,4 @@ def launch(request):
             return HttpResponseRedirect('/')
     else:
         form = LaunchTournamentForm()
-        return render(request, 'tournament/launch.html', locals())
+        return render(request, 'tournament/launch.html', {'form':form})

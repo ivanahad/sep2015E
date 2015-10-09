@@ -12,7 +12,7 @@
 		<div class="panel-body">
 		    <form action="{% url "tournament.views.launch" %}" method="post">
 			    {% csrf_token %}
-			    {{ form.as_p }}
+			    {{ form }}
 			    <input type="submit" value="Launch" />
 			</form>
 		</div>
