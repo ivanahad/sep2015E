@@ -1,4 +1,5 @@
 from django.db import models
+import math
 
 class Tournament(models.Model):
     """This class defines a unique tournament.
@@ -9,6 +10,47 @@ class Tournament(models.Model):
     pool_size = models.IntegerField(default=5)
     k_o_root = models.ForeignKey('TournamentNode', null=True, blank=True)
     is_open = models.BooleanField(default=True)
+    season = models.CharField(max_length=32);
+
+    def close_registrations(self):
+        if not self.is_open :
+            raise Exception("Tournament is already closed.")
+
+        #list of players from database
+        pairs_key = TournamentParticipant.objects.filter(tournament=self)
+        pairs = [entry.participant for entry in pairs_key]
+
+        nb_pools = math.ceil(len(pairs) / self.pool_size)
+        pools = [Pool() for _ in range(nb_pools)]
+        for i in range(len(pools)):
+            pools[i].tournament = self
+            pools[i].number = i
+            pools[i].save()
+
+        Tournament.assign_players(pools, pairs, self.pool_size)
+        for pool in pools:
+            pool.create_matches()
+
+        self.is_open = False
+        self.save()
+
+    def assign_players(pools, players, size):
+        """Assign all the players in the pools, trying to match size
+        as the size of the pools.
+        The list players is empty at the end if the method was successful.
+
+        Note: this method can be improved to match the players better,
+        if the players list is sorted.
+        """
+        nb_reduced_pools = len(pools) * size - len(players)
+        nb_standard_pools = len(pools) - nb_reduced_pools
+
+        for i in range(len(pools)):
+            for _ in range(size if i < nb_standard_pools else size - 1):
+                pp = PoolParticipant()
+                pp.pool = pools[i]
+                pp.participant = players.pop()
+                pp.save()
 
     def __str__(self):
         return "%s %s" % (self.name, self.category)
@@ -28,8 +70,24 @@ class Pool(models.Model):
     """
     tournament = models.ForeignKey('Tournament')
     number = models.IntegerField(default=0, blank=True)
-    size = models.IntegerField(default=5)
     winner = models.ForeignKey('players.Pair', null=True, blank=True)
+
+    def compute_winner(self):
+        pass #TODO
+
+    def create_matches(self):
+        parts = [pp.participant for pp in \
+                PoolParticipant.objects.filter(pool=self)]
+        print(len(parts))
+        for i in range(len(parts)):
+            for j in range(i+1, len(parts)):
+                match = Match()
+                match.team1 = parts[i]
+                match.team2 = parts[j]
+                match.save()
+                pm = PoolMatch()
+                pm.pool, pm.match = self, match
+                pm.save()
 
     def __str__(self):
         return "%s - pool %d" % (self.tournament, self.number)

@@ -118,4 +118,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
+# Waliki module config
+
 WALIKI_LOGGED_USER_PERMISSIONS = ('view_page', 'add_page', 'change_page', 'delete_page')
+
+# Global variables configuration
+
+CURRENT_SEASON = "2015-dev"
