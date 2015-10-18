@@ -1,5 +1,26 @@
+* {
+	margin: 0;
+}
+html{
+	height: 100%;
+}
 .container {
-    margin-top: 30px;
+	min-height: 100%;
+	margin: 0 auto -155px; /* the bottom margin is the negative value of the footer's height */
+}
+.push {
+	height: 155px; /* '.push' must be the same height as 'footer' */
+}
+.footer {
+	height: 155px;
+	text-align: center;
+}
+.container {
+    margin-top: 30px !important;
+    min-height: 100%;
+    height: auto !important; /* This line and the next line are not necessary unless you need IE6 support */
+    height: 100%;
+    margin: 0 auto -155px; /* the bottom margin is the negative value of the footer's height */
 }
 .navbar-custom{
     background-color: #FACC2E;
@@ -23,5 +44,6 @@
     width: 100%;
 }
 body{
+    height: 100%;
     background-color: #F5F6CE !important;
 }
