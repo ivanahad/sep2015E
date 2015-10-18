@@ -1,0 +1,30 @@
+{% extends 'site_template.html' %}
+
+{% block nav %}
+  <li><a href={% url 'staff.views.home' %}>Home</a></li>
+  <li><a href={% url 'players.views.register'%}>Players</a></li>
+  <li><a href={% url 'courts.views.register' %}>Courts</a></li>
+  <li><a href={% url 'staff.views.home' %}>Tournament</a></li>
+  {{ date }}
+{% endblock %}
+
+{% block content %}
+<div class="panel panel-default">
+
+  <div class="panel-heading">
+    <h3 class="panel-title">List of current tournaments</h3>
+  </div>
+
+  <div>
+    {% for t in tournaments %}
+      <div class="panel panel-default panel-body">
+	<p> <b>Tournament:</b> {{ t.0.name }} </p>
+	<p> <b>Category:</b> {{ t.0.category }} </p>
+	<p> <b>Number of registered players:</b> {{ t.1 }} </p>
+	<p> <b>Status:</b> {{ t.2 }} </p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
