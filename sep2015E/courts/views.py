@@ -10,10 +10,10 @@ def register(request):
         if form.is_valid(): # Nous vérifions que les données envoyées sont valides
 
             new_court = Court(owner = form.cleaned_data['owner'], address = form.cleaned_data['address'], city = form.cleaned_data['city'],
-             zipcode = form.cleaned_data['zipcode'], email = form.cleaned_data['email'], phone = form.cleaned_data['phone'],
-             ground = form.cleaned_data['ground'], cover = form.cleaned_data['cover'], image = form.cleaned_data['image'],
-             comment_access = form.cleaned_data['comment_access'], comment_desiderata = form.cleaned_data['comment_desiderata'],
-             available = form.cleaned_data['available'])
+            zipcode = form.cleaned_data['zipcode'], email = form.cleaned_data['email'], phone = form.cleaned_data['phone'],
+            ground = form.cleaned_data['ground'], cover = form.cleaned_data['cover'], image = form.cleaned_data['image'],
+            comment_access = form.cleaned_data['comment_access'], comment_desiderata = form.cleaned_data['comment_desiderata'],
+            available = form.cleaned_data['available'])
             new_court.save()
 
             return HttpResponseRedirect('/')

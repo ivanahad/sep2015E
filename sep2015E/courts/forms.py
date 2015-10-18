@@ -3,6 +3,6 @@ from courts.models import Court
 
 class RegisterForm(forms.ModelForm):
 
-	class Meta:
-		model = Court
-		fields = '__all__'
+    class Meta:
+        model = Court
+        fields = '__all__'
