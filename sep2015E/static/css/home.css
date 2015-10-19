@@ -192,3 +192,8 @@ footer p {
         clear: both;
     }
 }
+
+.tournament-a-block:hover {
+	text-decoration: none;
+	background-color: #DDD;
+}

@@ -1,7 +1,7 @@
 {% extends 'site_template.html' %}
 
 {% block title %}
-<title>Charles de Lorraine - Staff page</title>
+<title>Charles de Lorraine - Tournaments page</title>
 {% endblock %}
 
 {% block content %}
@@ -16,12 +16,14 @@
 
 			<div>
 				{% for t in tournaments %}
-				<div class="panel panel-default panel-body">
-					<p> <b>Tournament:</b> {{ t.0.name }} </p>
-					<p> <b>Category:</b> {{ t.0.category }} </p>
-					<p> <b>Number of registered players:</b> {{ t.1 }} </p>
-					<p> <b>Status:</b> {{ t.2 }} </p>
-				</div>
+        <a href="detail?id={{ t.0.pk }}" class="tournament-a-block">
+          <div class="panel panel-default panel-body tournament-a-block">
+            <p> <b>Tournament:</b> {{ t.0.name }} </p>
+            <p> <b>Category:</b> {{ t.0.category }} </p>
+            <p> <b>Number of registered players:</b> {{ t.1 }} </p>
+            <p> <b>Status:</b> {{ t.2 }} </p>
+          </div>
+        </a>
 				{% endfor %}
 			</div>
 		</div>
