@@ -44,8 +44,8 @@ class UserRegistration(models.Model):
             default=PAYMENT_METHODS[0])
     payment_done = models.BooleanField(default=False)
     bbq = models.BooleanField(default=False, blank=True)
-    activities = models.TextField(blank=True)
-    comment = models.TextField(default="", blank=True)
+    activities = models.TextField(max_length=2048, blank=True)
+    comment = models.TextField(max_length=2048, default="", blank=True)
     level = models.CharField(max_length=8, blank=True)
 
     def __str__(self):
