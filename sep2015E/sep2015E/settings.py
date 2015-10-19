@@ -25,7 +25,7 @@ SECRET_KEY = '8a=w96j*a%8pn0mg^yjhp%@(jad#iy(5ei(ki$x%*ocfsgk!rs'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,12 +37,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'waliki',
-    #'waliki.git',           # optional but recommended
-    #'waliki.attachments',   # optional but recommended
-    #'waliki.pdf',           # optional
-    #'waliki.slides',        # optional
-    #'waliki.togetherjs',    # optional
     'players',
     'courts',
     'tournament',
@@ -117,11 +111,5 @@ STATIC_ROOT = ''
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
-
-# Waliki module config
-
-WALIKI_LOGGED_USER_PERMISSIONS = ('view_page', 'add_page', 'change_page', 'delete_page')
-
-# Global variables configuration
 
 CURRENT_SEASON = "2015-dev"
