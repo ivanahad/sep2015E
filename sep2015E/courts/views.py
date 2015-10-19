@@ -3,6 +3,7 @@ from courts.forms import RegisterForm, OwnerCourtsForm
 from django.http import HttpResponseRedirect
 from courts.models import Court
 from tournament.models import Match
+from django.core.mail import send_mail
 
 def register(request):
     if request.method == 'POST':  # S'il s'agit d'une requête POST
@@ -17,13 +18,15 @@ def register(request):
             available = form.cleaned_data['available'])
             new_court.save()
 
+            send_mail('Your owner page', 'You will find informations about your court here : http://'+request.META['HTTP_HOST']+ \
+                '/courts/'+form.cleaned_data['owner']+'/byowner', 'info@sep2015e.com', [form.cleaned_data['email']], fail_silently=False)
+
             return HttpResponseRedirect('/')
 
         form_owner = OwnerCourtsForm(request.POST, prefix="ownerform")
         if form_owner.is_valid():
             #form_owner.cleaned_data['tournament'].close_registrations()
-            request.session['temp_data'] = form_owner.cleaned_data['owner']
-            return HttpResponseRedirect('/courts/byowner.html')
+            return HttpResponseRedirect('/courts/'+form_owner.cleaned_data['owner']+'/byowner.html')
 
     else: # Si ce n'est pas du POST, c'est probablement une requête GET
         form = RegisterForm()  # Nous créons un formulaire vide
@@ -31,9 +34,9 @@ def register(request):
 
     return render(request, 'courts/register.html', locals())
 
-def byowner(request):
-    court_owner = request.session['temp_data']
-    courts = Court.objects.filter(owner=request.session['temp_data'])
+def byowner(request, param):
+    court_owner = param
+    courts = Court.objects.filter(owner=param)
     match_list = []
     for val in courts:
         match_list.append(Match.objects.filter(court=val))
