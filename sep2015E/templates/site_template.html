@@ -27,7 +27,7 @@
 		        <span class="icon-bar"></span>
 		      </button>
 		      <a class="navbar-brand" href="/">
-			<img alt="Brand" src="{% static "img/logo_small.png" %}">
+            <img alt="Le Charles de Lorraine" src="{% static "img/logo_small.png" %}">
 		      </a>
 		    </div>
 
@@ -35,14 +35,14 @@
 		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
 				<ul class="nav navbar-nav">
-	        		{% block nav %}
+          {% block nav %}
 					<li><a href="/players/register">Players</a></li>
 					<li><a href="/courts/register">Courts</a></li>
 					<li><a href="/tournament/all">Tournaments</a></li>
 					<li><a href="/wiki">Wiki</a></li>
 					<li><a href="/admin">Admin</a></li>
 					<li><a href="/staff/home">Staff</a></li>
-	        		{% endblock %}
+          {% endblock %}
 				</ul>
 
 		      <!-- <form class="navbar-form navbar-right" role="search">
