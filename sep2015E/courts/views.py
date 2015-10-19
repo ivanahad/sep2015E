@@ -40,7 +40,6 @@ def byowner(request):
 
 
     return render(request, 'courts/byowner.html', { \
-            'courts': courts,\
             'court_owner': court_owner,\
             'match_list': match_list\
             })

@@ -17,10 +17,14 @@
 			<div>
 				{% for i in match_list %}
 				{% for j in i %}
-				<div class="panel panel-default panel-body">
-					<p> <b>Court:</b> {{ j.court.address }} </p>
-					<p> <b>Team 1:</b> {{ j.team1 }} </p>
-					<p> <b>Team 2:</b> {{ j.team2 }} </p>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title"><b>Court:</b> {{ j.court.address }}</h4>
+					</div>
+					<div class="panel-body">
+						<p> <b>Team 1:</b> {{ j.team1 }} </p>
+						<p> <b>Team 2:</b> {{ j.team2 }} </p>
+					</div>
 				</div>
 				{% endfor %}
 				{% endfor %}
