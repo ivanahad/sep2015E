@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from courts.forms import RegisterForm
+from courts.forms import RegisterForm, OwnerCourtsForm
 from django.http import HttpResponseRedirect
 from courts.models import Court
+from tournament.models import Match
 
 def register(request):
     if request.method == 'POST':  # S'il s'agit d'une requête POST
@@ -18,7 +19,28 @@ def register(request):
 
             return HttpResponseRedirect('/')
 
+        form_owner = OwnerCourtsForm(request.POST, prefix="ownerform")
+        if form_owner.is_valid():
+            #form_owner.cleaned_data['tournament'].close_registrations()
+            request.session['temp_data'] = form_owner.cleaned_data['owner']
+            return HttpResponseRedirect('/courts/byowner.html')
+
     else: # Si ce n'est pas du POST, c'est probablement une requête GET
         form = RegisterForm()  # Nous créons un formulaire vide
+        form_owner = OwnerCourtsForm(prefix="ownerform")
 
     return render(request, 'courts/register.html', locals())
+
+def byowner(request):
+    court_owner = request.session['temp_data']
+    courts = Court.objects.filter(owner=request.session['temp_data'])
+    match_list = []
+    for val in courts:
+        match_list.append(Match.objects.filter(court=val))
+
+
+    return render(request, 'courts/byowner.html', { \
+            'courts': courts,\
+            'court_owner': court_owner,\
+            'match_list': match_list\
+            })
