@@ -25,7 +25,7 @@ SECRET_KEY = '8a=w96j*a%8pn0mg^yjhp%@(jad#iy(5ei(ki$x%*ocfsgk!rs'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,12 +37,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'waliki',
-    #'waliki.git',           # optional but recommended
-    #'waliki.attachments',   # optional but recommended
-    #'waliki.pdf',           # optional
-    #'waliki.slides',        # optional
-    #'waliki.togetherjs',    # optional
     'players',
     'courts',
     'tournament',
@@ -118,10 +112,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-# Waliki module config
-
-WALIKI_LOGGED_USER_PERMISSIONS = ('view_page', 'add_page', 'change_page', 'delete_page')
-
-# Global variables configuration
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'sep2015e@gmail.com'
+EMAIL_HOST_PASSWORD = 'asmae2015'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 CURRENT_SEASON = "2015-dev"

@@ -14,4 +14,9 @@ class RegistrationForm(forms.ModelForm):
                 'payment_method',
                 'bbq',
                 'activities',
-                'comment']
+                'comment'
+            ]
+        widgets = {
+                'comment': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+                'activities': forms.Textarea(attrs={'cols':40, 'rows': 3})
+            }
