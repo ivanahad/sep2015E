@@ -40,3 +40,13 @@ def tournament(request):
 
         except Tournament.DoesNotExist:
             return HttpResponseRedirect('/tournament/all')
+
+def pool(request, id_tournament, id_pool):
+    tournament = Tournament.objects.get(pk=id_tournament)
+    pool = Pool.objects.filter(tournament=tournament, number=id_pool)
+    pool = (pool, PoolParticipant.objects.filter(pool=pool))
+
+    return render(request, 'tournament/pool.html', { \
+            'trn': tournament, \
+            'pool': pool \
+            })

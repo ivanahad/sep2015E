@@ -50,10 +50,10 @@
         <div class="panel-body">
           {% for pool in pools %}
           <div class="panel">
-            <h3 class="panel-title"> Pool {{ pool.0.number }} </h3>
+            <h3 class="panel-title"> <a href="{% url "tournament.views.pool" trn.id pool.0.number %}"> Pool {{ pool.0.number }} </a></h3>
             {% for p in pool.1 %}
             <p> {{ p }} </p>
-            {% endfor %}
+            {% endfor %}>
           </div>
           {% endfor %}
         </div>
