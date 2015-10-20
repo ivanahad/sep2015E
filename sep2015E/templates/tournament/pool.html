@@ -42,6 +42,9 @@
           </table>
 
           <p> Fixtures </p>
+          {% for pool_match in pool_matches %}
+          <p> {{ pool_match.match }}</p>
+          {% endfor %}
         </div>
 
       </div>

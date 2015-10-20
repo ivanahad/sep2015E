@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from tournament.models import Tournament, TournamentParticipant, \
-        Pool, PoolParticipant
+        Pool, PoolParticipant, PoolMatch
 
 def all(request):
     tournaments = Tournament.objects.filter(season=settings.CURRENT_SEASON)
@@ -45,8 +45,10 @@ def pool(request, id_tournament, id_pool):
     tournament = Tournament.objects.get(pk=id_tournament)
     pool = Pool.objects.filter(tournament=tournament, number=id_pool)
     pool = (pool, PoolParticipant.objects.filter(pool=pool))
+    pool_matches = PoolMatch.objects.filter(pool=pool)
 
     return render(request, 'tournament/pool.html', { \
             'trn': tournament, \
-            'pool': pool \
+            'pool': pool, \
+            'pool_matches': pool_matches \
             })
