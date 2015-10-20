@@ -225,3 +225,13 @@ sep2015E/courts/migrations/*
 sep2015E/staff/migrations/*
 sep2015E/home/migrations/*
 waliki_data/
+
+
+#################
+# LATEX
+###############
+informations/*.aux
+informations/*.pdf
+informations/*.synctex.gz
+informations/*.log
+informations/*.out
