@@ -30,25 +30,6 @@
 	<div class="box">
 		<div class="col-lg-12">
 			<hr>
-			<h2 class="intro-text text-center">Launch
-				<strong>a tournament</strong>
-			</h2>
-			<hr>
-			<div class="panel-body">
-				<form action={% url "staff.views.home" %} method="post">
-					{% csrf_token %}
-					{{ form_trn.as_p }}
-					<input type="submit" value="Launch the tournament" onclick="return confirm('Are you sure ? Once the tournament has been launched, no player will be able to register for it.')" />
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="row">
-	<div class="box">
-		<div class="col-lg-12">
-			<hr>
 			<h2 class="intro-text text-center">
 				<strong>Messages</strong>
 			</h2>
