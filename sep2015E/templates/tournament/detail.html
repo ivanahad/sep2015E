@@ -1,7 +1,7 @@
 {% extends 'site_template.html' %}
 
 {% block title %}
-<title>Charles de Lorraine - Details of 
+<title>Charles de Lorraine - Details of
   {{ trn.name }} {{ trn.category }}
 </title>
 {% endblock %}
@@ -51,7 +51,7 @@
           {% for pool in pools %}
           <div class="panel">
             <h3 class="panel-title"> Pool {{ pool.0.number }} </h3>
-            {% for pl in pool.1 %}
+            {% for p in pool.1 %}
             <p> {{ p }} </p>
             {% endfor %}
           </div>
