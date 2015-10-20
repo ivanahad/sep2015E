@@ -11,9 +11,6 @@ class User(models.Model):
     zipcode = models.IntegerField(default=0, blank=True)
     email = models.EmailField(max_length=128, blank=True)
     phone = models.CharField(max_length=32, blank=True)
-    level = models.CharField(max_length=8, blank=True)
-    bbq = models.BooleanField(default=False, blank=True)
-    comment = models.TextField(default="", blank=True)
 
     def __str__(self):              # __unicode__ on Python 2
         return self.lastname + " " + self.firstname
@@ -27,9 +24,14 @@ class Pair(models.Model):
     player1 = models.ForeignKey(User, related_name='player1')
     player2 = models.ForeignKey(User, related_name='player2')
     average = models.IntegerField(default=0)
+    season = models.CharField(max_length=32);
 
     def __str__(self):              # __unicode__ on Python 2
         return self.player1.lastname + " " + self.player2.lastname
+
+PAYMENT_METHODS = (("Cash","Cash"), ("Visa","Visa"), \
+        ("Bancontact","Bancontact"), ("MasterCard","MasterCard"), \
+        ("Paypal","Paypal"))
 
 class UserRegistration(models.Model):
     """This class contains the data on a single registration for one user.
@@ -37,7 +39,14 @@ class UserRegistration(models.Model):
     the payment method used and if the payment has been done.
     """
     user = models.ForeignKey(User)
-    year = models.IntegerField(default=2015)
-    payment_method = models.CharField(max_length=64)
+    season = models.CharField(max_length=32);
+    payment_method = models.CharField(choices=PAYMENT_METHODS, max_length=64, \
+            default=PAYMENT_METHODS[0])
     payment_done = models.BooleanField(default=False)
-    activities = models.TextField()
+    bbq = models.BooleanField(default=False, blank=True)
+    activities = models.TextField(max_length=2048, blank=True)
+    comment = models.TextField(max_length=2048, default="", blank=True)
+    level = models.CharField(max_length=8, blank=True)
+
+    def __str__(self):
+        return "Registration of %s for season %s" % (self.user, self.season)

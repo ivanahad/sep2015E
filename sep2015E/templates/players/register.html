@@ -9,9 +9,11 @@
 		<div class="box">
 			<div class="col-lg-12">
 				<hr>
+
 				<h2 class="intro-text text-center">Register
 					<strong>a player</strong>
 				</h2>
+
 				<hr>
 				<div class="panel-body">
 					<form action="{% url "players.views.register" %}" method="post">
@@ -20,26 +22,35 @@
 							<div class="panel-heading">
 								<h4 class="panel-title">Player 1</h4>
 							</div>
+
 							<div class="panel-body">
-								{{ form1.as_p }}
+                {{ usr1.as_p }}
+                <br/>
+                {{ reg1.as_p }}
 							</div>
 						</div>
+
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class="panel-title">Player 2</h4>
 							</div>
+
 							<div class="panel-body">
-								{{ form2.as_p }}
+                {{ usr2.as_p }}
+                <br/>
+                {{ reg2.as_p }}
 							</div>
 						</div>
+
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class="panel-title">Tournament</h4>
 							</div>
 							<div class="panel-body">
-								{{ tourn.as_p }}
+								{{ trn.as_p }}
 							</div>
 						</div>
+
 						<input type="submit" value="Suivant" />
 					</form>
 				</div>

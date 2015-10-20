@@ -3,6 +3,8 @@ from datetime import datetime
 from staff.models import Messages
 from staff.forms import MessageForm
 from tournament.forms import OpenTournamentChoiceForm
+from courts.models import Court
+
 
 name = "Eric Duvoie" #replace by a call to database
 
@@ -35,3 +37,8 @@ def home(request):
             'form_msg': form_msg,
             'form_trn': form_trn,\
             })
+
+def courts(request):
+    courts = Court.objects.all()
+
+    return render(request, 'staff/courts.html', locals())

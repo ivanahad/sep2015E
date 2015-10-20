@@ -3,11 +3,18 @@ from django.contrib import admin
 from .models import Tournament, TournamentParticipant, Pool, PoolParticipant, Match, PoolMatch, TournamentNode
 
 def close_action(modeladmin, request, queryset):
-    queryset.update(is_open=False)
+    for tournament in queryset:
+        tournament.close_registrations()
 close_action.short_description = "Close tournament"
 
 def open_action(modeladmin, request, queryset):
-    queryset.update(is_open=True)
+    for tournament in queryset:
+        for p in Pool.objects.filter(tournament=tournament):
+            for pm in PoolMatch.objects.filter(pool=p):
+                pm.match.delete()
+            p.delete()
+        tournament.is_open = True
+        tournament.save()
 open_action.short_description = "Open tournament"
 
 class MyAdmin(admin.ModelAdmin):

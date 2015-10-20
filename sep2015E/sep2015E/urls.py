@@ -19,10 +19,13 @@ from home import views
 
 urlpatterns = [
     url(r'^$', 'home.views.index'),
+    url(r'^sponsors', 'home.views.sponsors'),
+    url(r'^contact', 'home.views.contact'),
     url(r'^admin/', include(admin.site.urls)),
     #url(r'^wiki/', include('waliki.urls')),
     url(r'^players/', include('players.urls')),
     url(r'^courts/', include('courts.urls')),
+    url(r'^courts/(?P<param>\w+)', 'courts.views.byowner'),
     url(r'^staff/', include('staff.urls')),
     url(r'^tournament/', include('tournament.urls')),
 ]

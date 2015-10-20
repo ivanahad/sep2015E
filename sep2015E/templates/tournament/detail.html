@@ -1,0 +1,66 @@
+{% extends 'site_template.html' %}
+
+{% block title %}
+<title>Charles de Lorraine - Details of
+  {{ trn.name }} {{ trn.category }}
+</title>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="box">
+		<div class="col-lg-12">
+			<hr>
+			<h2 class="intro-text text-center">
+        Details of tournament {{ trn.name }} category {{ trn.category }}
+			</h2>
+			<hr>
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title"> Informations </h3>
+        </div>
+
+        <div class="panel-body">
+          <p> Season: {{ trn.season }} </p>
+          <p> Number of participants: {{ nbr }} </p>
+          <p> Players per pool: {{ trn.pool_size }} </p>
+          <p> Registrations open: {{ trn.is_open }} </p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title"> Registered players </h3>
+        </div>
+
+        <div class="panel-body">
+          {% for p in parts %}
+            <p> {{ p.player1 }}
+                - {{ p.player2 }} </p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title"> Pools </h3>
+        </div>
+
+        <div class="panel-body">
+          {% for pool in pools %}
+          <div class="panel">
+            <h3 class="panel-title"> Pool {{ pool.0.number }} </h3>
+            {% for p in pool.1 %}
+            <p> {{ p }} </p>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
