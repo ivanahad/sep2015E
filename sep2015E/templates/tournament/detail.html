@@ -53,12 +53,31 @@
             <h3 class="panel-title"> <a href="{% url "tournament.views.pool" trn.id pool.0.number %}"> Pool {{ pool.0.number }} </a></h3>
             {% for p in pool.1 %}
             <p> {{ p }} </p>
-            {% endfor %}>
+            {% endfor %}
           </div>
           {% endfor %}
         </div>
 
 			</div>
+
+      {% if True and trn.is_open %} <!-- enable this section only if user is staff -->
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title"> Close registrations </h3>
+        </div>
+
+        <div class="panel-body">
+          <form action="{% url "tournament.views.tournament" trn.id %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Launch the tournament" onclick="return confirm('Are you sure ? Once the tournament has been launched, no player will be able to register for it.')" name="close_tournament"/>
+          </form>
+        </div>
+      </div>
+
+      {% endif %}
+
+
 		</div>
 	</div>
 </div>

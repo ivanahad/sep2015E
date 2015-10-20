@@ -16,7 +16,7 @@
 
 			<div>
 				{% for t in tournaments %}
-        <a href="detail?id={{ t.0.pk }}" class="tournament-a-block">
+        <a href="{% url "tournament.views.tournament" t.0.pk %}" class="tournament-a-block">
           <div class="panel panel-default panel-body tournament-a-block">
             <p> <b>Tournament:</b> {{ t.0.name }} </p>
             <p> <b>Category:</b> {{ t.0.category }} </p>
