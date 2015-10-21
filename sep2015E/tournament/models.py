@@ -13,7 +13,7 @@ class Tournament(models.Model):
     season = models.CharField(max_length=32);
 
     class Meta:
-        ordering = ['category', 'name']
+        ordering = ['name', 'category']
 
     def close_registrations(self):
         if not self.is_open :
@@ -66,6 +66,15 @@ class TournamentParticipant(models.Model):
 
     def __str__(self):
         return "%s: %s" % (self.tournament, self.participant)
+
+class SoloParticipant(models.Model):
+    """Players registered without a pair for a tournament.
+    """
+    tournament = models.ForeignKey('Tournament')
+    player = models.ForeignKey('players.User')
+
+    def __str__(self):
+        return "Solo %s registered for %s" % (self.player, self.tournament)
 
 class Pool(models.Model):
     """Defines a pool of players trying to qualify for the

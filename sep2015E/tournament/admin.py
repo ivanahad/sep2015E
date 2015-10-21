@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Tournament, TournamentParticipant, Pool, PoolParticipant, Match, PoolMatch, TournamentNode
+from .models import *
 
 def close_action(modeladmin, request, queryset):
     for tournament in queryset:
@@ -23,6 +23,7 @@ class MyAdmin(admin.ModelAdmin):
 
 admin.site.register(Tournament, MyAdmin)
 admin.site.register(TournamentParticipant)
+admin.site.register(SoloParticipant)
 admin.site.register(Pool)
 admin.site.register(PoolParticipant)
 admin.site.register(Match)

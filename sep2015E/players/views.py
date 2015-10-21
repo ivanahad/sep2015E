@@ -4,7 +4,7 @@ from django.conf import settings
 from players.forms import PlayerForm, RegistrationForm
 from players.models import User, Pair, UserRegistration
 from tournament.forms import OpenTournamentChoiceForm
-from tournament.models import TournamentParticipant
+from tournament.models import TournamentParticipant, SoloParticipant
 
 def register(request):
     if request.method == 'POST':  # S'il s'agit d'une requête POST
@@ -14,7 +14,39 @@ def register(request):
         reg2 = RegistrationForm(request.POST, prefix="reg2")
         trn = OpenTournamentChoiceForm(request.POST)
 
-        if usr1.is_valid() and usr2.is_valid() \
+        if 'solo_registration' in request.POST \
+                and usr1.is_valid() and reg1.is_valid() \
+                and trn.is_valid():
+
+            new_user1 = User( \
+                    firstname = usr1.cleaned_data['firstname'], \
+                    lastname = usr1.cleaned_data['lastname'], \
+                    address = usr1.cleaned_data['address'], \
+                    city = usr1.cleaned_data['city'], \
+                    country = usr1.cleaned_data['country'], \
+                    zipcode = usr1.cleaned_data['zipcode'], \
+                    email = usr1.cleaned_data['email'], \
+                    phone = usr1.cleaned_data['phone'])
+            new_user1.save()
+
+            registration1 = UserRegistration( \
+                    user = new_user1, \
+                    season = settings.CURRENT_SEASON, \
+                    payment_method = reg1.cleaned_data['payment_method'], \
+                    bbq = reg1.cleaned_data['bbq'], \
+                    activities = reg1.cleaned_data['activities'], \
+                    comment = reg1.cleaned_data['comment'], \
+                    level = reg1.cleaned_data['level'])
+            registration1.save()
+
+            solo_registration = SoloParticipant( \
+                    player = new_user1, \
+                    tournament = trn.cleaned_data['tournament'])
+            solo_registration.save()
+
+            return render(request, 'players/registration_success.html')
+
+        elif usr1.is_valid() and usr2.is_valid() \
                 and reg1.is_valid() and reg2.is_valid() \
                 and trn.is_valid():
 
