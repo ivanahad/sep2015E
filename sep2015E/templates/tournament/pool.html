@@ -52,8 +52,11 @@
           <div id="matchModal" class="modalDialog">
             <div>
               <a href="#close" title="Close" class="close">X</a>
-              <h2>Match</h2>
-              <p> {{ pool_match.match }}</p>
+              <form action="{% url "tournament.views.pool" trn.id 5 %}" method="post">
+                {% csrf_token %}  
+                {{ form.as_p }}
+                <input type="submit" value="Enregistrer" />
+              </form>
             </div>
           </div>
           {% endfor %}

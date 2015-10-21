@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from tournament.models import Tournament, TournamentParticipant, \
-        Pool, PoolParticipant, PoolMatch
-from tournament.forms import OpenTournamentChoiceForm, CreateTournamentForm
+        Pool, PoolParticipant, PoolMatch, Match
+from tournament.forms import OpenTournamentChoiceForm, CreateTournamentForm, \
+        MatchEditForm
 
 def all(request):
     if request.method == 'POST':
@@ -18,7 +19,7 @@ def all(request):
             tournament.save()
 
         return HttpResponseRedirect('/tournament/all')
-        
+
     else:
         tournaments = Tournament.objects\
                 .filter(season=settings.CURRENT_SEASON)
@@ -68,9 +69,28 @@ def pool(request, id_tournament, id_pool):
     pool = Pool.objects.filter(tournament=tournament, number=id_pool)
     pool = (pool, PoolParticipant.objects.filter(pool=pool))
     pool_matches = PoolMatch.objects.filter(pool=pool)
-
+    if request.method == 'POST':
+        form = MatchEditForm(request.POST)
+        if form.is_valid():
+            score1 = form.cleaned_data['score1']
+            score2 = form.cleaned_data['score2']
+            court = form.cleaned_data['court']
+            team1 = form.clean_team1()
+            team2 = form.clean_team2()
+            match = Match.objects.filter(team1=team1, team2=team2)
+            match = match.get()
+            match.team1 = team1
+            match.team2 = team2
+            match.score1 = score1
+            match.score2 = score2
+            match.court = court
+            match.save()
+    else:
+        id_match = 0
+        form = MatchEditForm()
     return render(request, 'tournament/pool.html', { \
             'trn': tournament, \
             'pool': pool, \
-            'pool_matches': pool_matches \
+            'pool_matches': pool_matches, \
+            'form' : form \
             })
