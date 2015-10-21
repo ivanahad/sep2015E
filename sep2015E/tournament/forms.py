@@ -16,7 +16,7 @@ class CreateTournamentForm(forms.ModelForm):
 class MatchEditForm(forms.ModelForm):
     class Meta:
         model = Match
-        exclude = ()
+        fields='__all__'
 
     def __init__(self, *args, **kwargs):
         super(MatchEditForm, self).__init__(*args, **kwargs)
