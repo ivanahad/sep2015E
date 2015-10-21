@@ -13,6 +13,13 @@ def open_action(modeladmin, request, queryset):
             for pm in PoolMatch.objects.filter(pool=p):
                 pm.match.delete()
             p.delete()
+        
+        solos = [s.player for s in SoloParticipant.objects\
+                .filter(tournament=tournament)]
+        for p in TournamentParticipant.objects.filter(tournament=tournament):
+            if p.participant.player1 in solos or p.participant.player2 in solos:
+                p.participant.delete()
+
         tournament.is_open = True
         tournament.save()
 open_action.short_description = "Open tournament"

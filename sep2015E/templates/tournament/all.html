@@ -16,12 +16,16 @@
 
 			<div>
 				{% for t in tournaments %}
-        <a href="{% url "tournament.views.tournament" t.0.pk %}" class="tournament-a-block">
+        <a href="{% url "tournament.views.tournament" t.tournament.pk %}"
+           class="tournament-a-block">
           <div class="panel panel-default panel-body tournament-a-block">
-            <p> <b>Tournament:</b> {{ t.0.name }} </p>
-            <p> <b>Category:</b> {{ t.0.category }} </p>
-            <p> <b>Number of registered players:</b> {{ t.1 }} </p>
-            <p> <b>Status:</b> {{ t.2 }} </p>
+            <p> <b>Tournament:</b> {{ t.tournament.name }} </p>
+            <p> <b>Category:</b> {{ t.tournament.category }} </p>
+            <p> <b>Number of registered pairs:</b> {{ t.pair_count }} </p>
+            {% if t.tournament.is_open %}
+            <p> <b>Number of solo players:</b> {{ t.solo_count }} </p>
+            {% endif %}
+            <p> <b>Status:</b> {{ t.status }} </p>
           </div>
         </a>
 				{% endfor %}

@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponseRedirect
-from tournament.models import Tournament, TournamentParticipant, \
-        Pool, PoolParticipant, PoolMatch, Match
+from tournament.models import *
 from tournament.forms import OpenTournamentChoiceForm, CreateTournamentForm, \
         MatchEditForm
 
@@ -23,11 +22,14 @@ def all(request):
     else:
         tournaments = Tournament.objects\
                 .filter(season=settings.CURRENT_SEASON)
-        tournaments = [(tournament, \
-                TournamentParticipant.objects\
-                .filter(tournament=tournament).count(), \
-                "open" if tournament.is_open else "closed" \
-                ) for tournament in tournaments]
+        tournaments = [{ \
+                "tournament": tournament, \
+                "pair_count": TournamentParticipant.objects\
+                        .filter(tournament=tournament).count(), \
+                "solo_count": SoloParticipant.objects\
+                        .filter(tournament=tournament).count(), \
+                "status": "open" if tournament.is_open else "closed" \
+                } for tournament in tournaments]
         new_trn = CreateTournamentForm()
 
         return render(request, 'tournament/all.html', { \
@@ -51,13 +53,18 @@ def tournament(request, id_):
             parts = [p.participant for p in \
                     TournamentParticipant.objects\
                     .filter(tournament=tournament)]
+            solos = [entry.player for entry in \
+                    SoloParticipant.objects\
+                    .filter(tournament=tournament)]
             pools = Pool.objects.filter(tournament=tournament)
             pools = [(p, PoolParticipant.objects.filter(pool=p)) \
                     for p in pools]
             return render(request, 'tournament/detail.html', { \
                     'trn': tournament, \
                     'parts': parts, \
-                    'nbr': len(parts), \
+                    'nbr_p': len(parts), \
+                    'solos': solos, \
+                    'nbr_s': len(solos), \
                     'pools': pools, \
                     })
 
