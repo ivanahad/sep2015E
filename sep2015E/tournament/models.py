@@ -12,6 +12,9 @@ class Tournament(models.Model):
     is_open = models.BooleanField(default=True)
     season = models.CharField(max_length=32);
 
+    class Meta:
+        ordering = ['category', 'name']
+
     def close_registrations(self):
         if not self.is_open :
             raise Exception("Tournament is already closed.")

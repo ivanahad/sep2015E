@@ -6,6 +6,7 @@ import tournament
 class OpenTournamentChoiceForm(forms.Form):
     tournament = forms.ModelChoiceField( \
             queryset=Tournament.objects.filter(is_open=True), \
+            empty_label=None, \
         )
 
 class CreateTournamentForm(forms.ModelForm):
