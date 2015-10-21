@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from datetime import datetime
 from staff.models import Messages
-from staff.forms import MessageForm
+from staff.forms import MessageForm, EditPlayerForm
 from courts.models import Court
+from players.models import User
 
 
 name = "Eric Duvoie" #replace by a call to database
@@ -19,9 +20,6 @@ def home(request):
                     destinator = form_msg.cleaned_data['destinator'], \
                     title = form_msg.cleaned_data['title'], \
                     message = form_msg.cleaned_data['message']).save()
-
-
-
     form_msg = MessageForm(prefix="msg")
     messages = Messages.objects.all() #replace by a call destined to the current staff member
 
@@ -36,3 +34,19 @@ def courts(request):
     courts = Court.objects.all()
 
     return render(request, 'staff/courts.html', locals())
+
+def players(request):
+    players = User.objects.all()
+    return render(request, 'staff/players.html', { \
+        'players':players ,
+        })
+
+def particular_player(request, player_id):
+    if request.method == 'POST':
+        pass
+    player = User.objects.filter(id=player_id).get()
+    form = EditPlayerForm()
+    return render(request, 'staff/particular_player.html', { \
+        'player':player, \
+        'form':form,
+        })

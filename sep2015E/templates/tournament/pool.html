@@ -1,5 +1,10 @@
 {% extends 'site_template.html' %}
 
+{% block css %}
+{% load staticfiles %}
+<link href="{% static "css/pool.css" %}" rel="stylesheet">
+{% endblock %}
+
 {% block title %}
 <title> Tournament {{ trn.name }} - Pool {{ pool.0.number }}
 </title>
@@ -43,7 +48,17 @@
 
           <p> Fixtures </p>
           {% for pool_match in pool_matches %}
-          <p> {{ pool_match.match }}</p>
+          <p> {{ pool_match.match }}  <a href="#matchModal">Edit</a></p>
+          <div id="matchModal" class="modalDialog">
+            <div>
+              <a href="#close" title="Close" class="close">X</a>
+              <form action="{% url "tournament.views.pool" trn.id 5 %}" method="post">
+                {% csrf_token %}  
+                {{ form.as_p }}
+                <input type="submit" value="Enregistrer" />
+              </form>
+            </div>
+          </div>
           {% endfor %}
         </div>
 
