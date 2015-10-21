@@ -21,7 +21,7 @@
 			<hr>
 			<div class="panel-body">
 				{% for player in players %}
-        <p>{{ player }}</p>
+        <p><a href="{% url "staff.views.particular_player" player.id %}">{{ player }}</a></p>
         {% endfor %}
 			</div>
 		</div>
