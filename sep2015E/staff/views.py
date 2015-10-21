@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from datetime import datetime
 from staff.models import Messages
-from staff.forms import MessageForm
+from staff.forms import MessageForm, EditPlayerForm
 from courts.models import Court
 from players.models import User
 
@@ -36,9 +36,17 @@ def courts(request):
     return render(request, 'staff/courts.html', locals())
 
 def players(request):
-    if request.method == 'POST':
-        pass
     players = User.objects.all()
     return render(request, 'staff/players.html', { \
         'players':players ,
+        })
+
+def particular_player(request, player_id):
+    if request.method == 'POST':
+        pass
+    player = User.objects.filter(id=player_id).get()
+    form = EditPlayerForm()
+    return render(request, 'staff/particular_player.html', { \
+        'player':player, \
+        'form':form,
         })
