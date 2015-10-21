@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from datetime import datetime
 from staff.models import Messages
 from staff.forms import MessageForm, EditPlayerForm
@@ -43,10 +43,23 @@ def players(request):
 
 def particular_player(request, player_id):
     if request.method == 'POST':
-        pass
-    player = User.objects.filter(id=player_id).get()
-    form = EditPlayerForm()
-    return render(request, 'staff/particular_player.html', { \
-        'player':player, \
-        'form':form,
-        })
+        form=EditPlayerForm(request.POST, player_id=player_id)
+        if form.is_valid():
+            player = User.objects.filter(id=player_id).get()
+            player.firstname=form.cleaned_data['firstname']
+            player.lastname=form.cleaned_data['lastname']
+            player.address=form.cleaned_data['address']
+            player.city=form.cleaned_data['city']
+            player.country=form.cleaned_data['country']
+            player.zipcode=form.cleaned_data['zipcode']
+            player.email=form.cleaned_data['email']
+            player.phone=form.cleaned_data['phone']
+            player.save()
+            return redirect('staff.views.players')
+    else:
+        player = User.objects.filter(id=player_id).get()
+        form = EditPlayerForm(player_id=player.id)
+        return render(request, 'staff/particular_player.html', { \
+            'player':player, \
+            'form':form,
+            })
