@@ -1,0 +1,31 @@
+{% extends 'site_template.html' %}
+
+{% block nav %}
+	<li><a href="{% url "staff.views.home" %}">Home</a></li>
+	<li><a href="{% url "staff.views.players" %}">Players</a></li>
+	<li><a href="{% url "staff.views.courts" %}">Courts</a></li>
+	<li><a href="{% url "tournament.views.all" %}">Tournaments</a></li>
+	<li><a href="https://github.com/ivanahad/sep2015E/wiki">Wiki</a></li>
+	<li><a href="/sponsors">Sponsors</a></li>
+	<li><a href="/contact">Contact</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="box">
+		<div class="col-lg-12">
+			<hr>
+			<h2 class="intro-text text-center">
+				<strong>Liste des joueurs</strong>
+			</h2>
+			<hr>
+			<div class="panel-body">
+				{% for player in players %}
+        <p><a href="{% url "staff.views.particular_player" player.id %}">{{ player }}</a></p>
+        {% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

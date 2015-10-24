@@ -23,25 +23,46 @@
 
         <div class="panel-body">
           <p> Season: {{ trn.season }} </p>
-          <p> Number of participants: {{ nbr }} </p>
+          <p> Number of registered pairs: {{ nbr_p }} </p>
+          {% if trn.is_open %}
+          <p> Number of solo participants: {{ nbr_s }} </p>
+          {% endif %}
           <p> Players per pool: {{ trn.pool_size }} </p>
           <p> Registrations open: {{ trn.is_open }} </p>
         </div>
       </div>
 
+      <!-- Registered pairs -->
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title"> Registered players </h3>
+          <h3 class="panel-title"> Registered pairs </h3>
         </div>
 
         <div class="panel-body">
           {% for p in parts %}
-            <p> {{ p.player1 }}
-                - {{ p.player2 }} </p>
+          <p> {{ p.player1 }}
+              - {{ p.player2 }} </p>
           {% endfor %}
         </div>
       </div>
 
+      <!-- Solo players -->
+      {% if trn.is_open %}
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title"> Solo participants </h3>
+        </div>
+
+        <div class="panel-body">
+          {% for p in solos %}
+          <p> {{ p }} </p>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Pools -->
+      {% if not trn.is_open %}
       <div class="panel">
         <div class="panel-heading">
           <h3 class="panel-title"> Pools </h3>
@@ -50,15 +71,33 @@
         <div class="panel-body">
           {% for pool in pools %}
           <div class="panel">
-            <h3 class="panel-title"> Pool {{ pool.0.number }} </h3>
+            <h3 class="panel-title"> <a href="{% url "tournament.views.pool" trn.id pool.0.number %}"> Pool {{ pool.0.number }} </a></h3>
             {% for p in pool.1 %}
             <p> {{ p }} </p>
             {% endfor %}
           </div>
           {% endfor %}
         </div>
-
 			</div>
+      {% endif %}
+
+      {% if True and trn.is_open %}
+      <!-- enable this section only if user is staff -->
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title"> Close registrations </h3>
+        </div>
+
+        <div class="panel-body">
+          <form action="{% url "tournament.views.tournament" trn.id %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Launch the tournament" onclick="return confirm('Are you sure ? Once the tournament has been launched, no player will be able to register for it.')" name="close_tournament"/>
+          </form>
+        </div>
+      </div>
+      {% endif %}
+
+
 		</div>
 	</div>
 </div>

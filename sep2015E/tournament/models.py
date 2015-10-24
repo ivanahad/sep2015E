@@ -1,4 +1,5 @@
 from django.db import models
+import players.models
 import math
 
 class Tournament(models.Model):
@@ -12,13 +13,19 @@ class Tournament(models.Model):
     is_open = models.BooleanField(default=True)
     season = models.CharField(max_length=32);
 
+    class Meta:
+        ordering = ['name', 'category']
+
     def close_registrations(self):
         if not self.is_open :
             raise Exception("Tournament is already closed.")
 
-        #list of players from database
-        pairs_key = TournamentParticipant.objects.filter(tournament=self)
-        pairs = [entry.participant for entry in pairs_key]
+        # pair all solo participants if possible
+        SoloParticipant.pairing(self)
+
+        # list of players from database
+        pairs = TournamentParticipant.objects.filter(tournament=self)
+        pairs = [entry.participant for entry in pairs]
 
         nb_pools = math.ceil(len(pairs) / self.pool_size)
         pools = [Pool() for _ in range(nb_pools)]
@@ -63,6 +70,36 @@ class TournamentParticipant(models.Model):
 
     def __str__(self):
         return "%s: %s" % (self.tournament, self.participant)
+
+class SoloParticipant(models.Model):
+    """Players registered without a pair for a tournament.
+    """
+    tournament = models.ForeignKey('Tournament')
+    player = models.ForeignKey('players.User')
+
+    def pairing(tournament):
+        #matching of solo registrations
+        solo = SoloParticipant.objects.filter(tournament=tournament)
+        solo = [entry.player for entry in solo]
+
+        i = 0
+        while i < len(solo)-1 :
+            new_pair = players.models.Pair( \
+                    player1 = solo[i], \
+                    player2 = solo[i+1], \
+                    season = tournament.season)
+            new_pair.save()
+
+            registration = TournamentParticipant( \
+                    tournament = tournament, \
+                    participant = new_pair)
+            registration.save()
+
+            i+=2
+            # solo[-1] is not matched with anyone
+
+    def __str__(self):
+        return "Solo %s registered for %s" % (self.player, self.tournament)
 
 class Pool(models.Model):
     """Defines a pool of players trying to qualify for the

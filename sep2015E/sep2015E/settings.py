@@ -119,4 +119,5 @@ EMAIL_HOST_PASSWORD = 'asmae2015'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-CURRENT_SEASON = "2015-dev"
+with open("current_season") as file_:
+    CURRENT_SEASON = file_.readline().strip()

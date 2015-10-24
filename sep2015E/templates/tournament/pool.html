@@ -1,0 +1,71 @@
+{% extends 'site_template.html' %}
+
+{% block css %}
+{% load staticfiles %}
+<link href="{% static "css/pool.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+<title> Tournament {{ trn.name }} - Pool {{ pool.0.number }}
+</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="box">
+    <div class="col-lg-12">
+      <hr>
+      <h2 class="intro-text text-center">
+        Tournament {{ trn.name }} - Pool {{ pool.0.number }}
+      </h2>
+      <hr>
+
+      <div class="panel">
+
+        <div class="panel-heading">
+          <h3 class="panel-title"> Pool {{ pool.0.number }} </h3>
+        </div>
+
+        <div class="panel-body">
+          <table>
+            <caption>Pool {{ pool.0.number }}</caption>
+            <tr>
+              <th>Id</th>
+              <th>Noms</th>
+              <th>Victoires</th>
+              <th>Défaites</th>
+            </tr>
+            {% for p in pool.1 %}
+            <tr>
+              <td>{{ p.participant.id }}</td>
+              <td>{{ p.participant }}</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+            {% endfor %}>
+          </table>
+
+          <p> Fixtures </p>
+          {% for pool_match in pool_matches %}
+          <p> {{ pool_match.match }}  <a href="#matchModal">Edit</a></p>
+          <div id="matchModal" class="modalDialog">
+            <div>
+              <a href="#close" title="Close" class="close">X</a>
+              <form action="{% url "tournament.views.pool" trn.id 5 %}" method="post">
+                {% csrf_token %}  
+                {{ form.as_p }}
+                <input type="submit" value="Enregistrer" />
+              </form>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
