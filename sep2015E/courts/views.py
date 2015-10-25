@@ -15,7 +15,7 @@ def register(request):
             zipcode = form.cleaned_data['zipcode'], email = form.cleaned_data['email'], phone = form.cleaned_data['phone'],
             ground = form.cleaned_data['ground'], cover = form.cleaned_data['cover'], image = form.cleaned_data['image'],
             comment_access = form.cleaned_data['comment_access'], comment_desiderata = form.cleaned_data['comment_desiderata'],
-            available = form.cleaned_data['available'])
+            available = True)
             new_court.save()
 
             send_mail('Your owner page', 'You will find informations about your court here : http://'+request.META['HTTP_HOST']+ \
