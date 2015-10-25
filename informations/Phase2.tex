@@ -1,3 +1,4 @@
+
 \documentclass[a4paper, 12pt]{article}
 
 \usepackage[french]{babel} 
@@ -53,7 +54,7 @@ We will start the phase 2 report by explaining how the implementation of the req
 
 \section{Requirements developed in this phase}
 
-The requirements blow are the ones we planned to develop for the second phase. This time, every requirement has been implemented.\\
+The requirements blow are the ones we planned to develop for the second phase. This time, every requirement has been implemented. \\
 
 During the previous phase, we decided not to implement one requirement (\textit{After a pool has been generated, a staff member can manually reorganize it}). As we had had a very busy phase, we came to the conclusion that it was not necessary to implement it because the benefits of it was not worth it compared to the time it would take us to do it. In this phase however, we made sure to implement it and all the requirements we had intended to develop. Here is the list of them : \\
 	
@@ -72,7 +73,7 @@ During the previous phase, we decided not to implement one requirement (\textit{
 
 It is important to note that the requirements haven't been implemented in this particular order.\\
 
-Many other features have also been implemented of course, to improve quality of the current website, such as the creation of a sponsor page, a contact page, a feature that allows a staff member to see and edit all the user information, etc. Moreover, we made sure that the website is mobile-friendly, and some other improvements have been brought to the design.\\
+Many other features have also been implemented of course, to improve quality of the current website, such as the creation of a sponsor page, a contact page, a feature that allows a staff member to see and edit all the user information, etc. Moreover, we made sure that the website is \textit{mobile-friendly}, and some other improvements have been brought to the design.\\
 
 You can see in the list above who implemented which requirement for this phase. The other features were implemented by Ludovic, Aurian, Jonathan, Anthony, and Anruad. Ivan took care of the report and made sure it respected all the criteria listed in the Criteria file. The team in general corrected the ORM diagram and updated the UML one for this phase. \\
 
@@ -85,20 +86,16 @@ In the previous ORM, we had some inconsistencies, especially with some relations
 
 \section{Architecture discussion \& UML Diagram}
 
-Here is the live version of our website : http://sep2015e.herokuapp.com.  To get admin accesses you should add "/admin" in the url. The username and the password are both \textbf{admin}.\\
+Here is the live version of our website : http://sep2015e.herokuapp.com.  To get admin accesses you should add "/admin" in the url. The username and the password are both \textbf{admin}. In the last phase our website only worked on our host. For this sprint, we made sure that it works even on the live version.\\
 
-Our software follows Django's architecture. We gathered all the \textit{html and css} files for the whole website. Before doing so, we had all the HTML files in the repositories of every application of the software. Now, the HTML file of each page extends the file \textit{site\_template} so that we avoid having redundancy. Moreover, this technique is more generic as well. 
+To get access to the data of our project, here is the link to our \textit{Github} repository : https://github.com/ivanahad/sep2015E\\ 
 
-
-Ajouter que le site est mobile-friendly 
-
-
-Link to github
+Our software follows Django's architecture. We gathered all the \textit{html and css} files for the whole website. Before doing so, we had all the HTML files in the repositories of every application of the software. Now, the HTML file of each page extends the file \textit{site\_template} so that we avoid having redundancy. Moreover, this technique is more generic as well. \\
 
 \section{Communication with the client \& Feedback}
-Days before the deadline, we contacted the clients to get some feedback on our website. We asked them to tell us what they felt were in need of a change in our software. However, they were actually not able to give us their opinion about it just yet. In this case, we will make sure to take into account the feedback received for the next sprint. \\
+Days before the deadline, we contacted the clients to get some feedback on our website. We asked them to tell us what they felt were in need of a change in our software. However, they were actually not able to give us their opinion about it just yet. We will make sure to take into account the feedback received for the next sprint. \\
 
 \section{Conclusion}
-
+After phase 2, the website is starting to reach its final form, as more and more requirements and features start to be implemented into the website. We made sure to correct the mistakes in the ORM diagram, and correct some small details that were not working. 
 
 \end{document}
