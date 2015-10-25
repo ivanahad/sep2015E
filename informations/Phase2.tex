@@ -78,23 +78,27 @@ You can see in the list above who implemented which requirement for this phase. 
 
 \section{ORM diagram CORRECTED}
 
-We will only explain the differences between the old version of the ORM and the new one, you can always check in the report of Phase 1 to see any further explanation of the diagram. \\
+In this section will only explain the differences between the old version of the ORM and the new one, you can always check in the report of Phase 1 to see any further explanation of the diagram. \\
 
 In the previous ORM, we had some inconsistencies, especially with some relations that we put as being unique whereas no unicity was needed. For example, we put that an address can only be used by one user, meaning that a couple living in the same house cannot register to the same address, we also made a mistake putting that a player can only be assigned to one team, while a player should actually be able to register to several, hence participating to several tournaments during the event.
  
 
 \section{Architecture discussion \& UML Diagram}
 
-Our software follows Django's architecture. We gathered all the \textit{html and css} files for the whole website. Before doing so, we had all the HTML files in the repositories of every application of the software. Now, the HTML file of each page extends the file \textit{site\_template} so that we avoid having redundancy. Moreover, this technique is more generic as well. 
+Here is the live version of our website : http://sep2015e.herokuapp.com.  To get admin accesses you should add "/admin" in the url. The username and the password are both \textbf{admin}.\\
 
+Our software follows Django's architecture. We gathered all the \textit{html and css} files for the whole website. Before doing so, we had all the HTML files in the repositories of every application of the software. Now, the HTML file of each page extends the file \textit{site\_template} so that we avoid having redundancy. Moreover, this technique is more generic as well. 
 
 
 Ajouter que le site est mobile-friendly 
 
 
-Link to site, Link to github
+Link to github
 
-\section{Communication with the client}
+\section{Communication with the client \& Feedback}
+Days before the deadline, we contacted the clients to get some feedback on our website. We asked them to tell us what they felt were in need of a change in our software. However, they were actually not able to give us their opinion about it just yet. In this case, we will make sure to take into account the feedback received for the next sprint. \\
+
 \section{Conclusion}
+
 
 \end{document}
