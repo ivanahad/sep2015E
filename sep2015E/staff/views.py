@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, render_to_response
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from datetime import datetime
@@ -29,8 +29,14 @@ def login_staff(request):
     else:
         return render_to_response('staff/login.html', {}, context)
 
+def logout_staff(request):
+    logout(request)
+    return redirect('home.views.index')
+
 def home(request):
     """Home page for staff members."""
+    if not request.user.is_authenticated():
+        return redirect('staff.views.login_staff')
 
     if request.method == 'POST':
 
@@ -51,17 +57,26 @@ def home(request):
             })
 
 def courts(request):
+    if not request.user.is_authenticated():
+        return redirect('staff.views.login_staff')
+
     courts = Court.objects.all()
 
     return render(request, 'staff/courts.html', locals())
 
 def players(request):
+    if not request.user.is_authenticated():
+        return redirect('staff.views.login_staff')
+
     players = User.objects.all()
     return render(request, 'staff/players.html', { \
         'players':players ,
         })
 
 def particular_player(request, player_id):
+    if not request.user.is_authenticated():
+        return redirect('staff.views.login_staff')
+        
     if request.method == 'POST':
         form=EditPlayerForm(request.POST, player_id=player_id)
         if form.is_valid():
