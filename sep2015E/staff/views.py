@@ -1,4 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect, HttpResponse
+from django.template import RequestContext
 from datetime import datetime
 from staff.models import Messages
 from staff.forms import MessageForm, EditPlayerForm
@@ -8,6 +11,23 @@ from players.models import User
 
 name = "Eric Duvoie" #replace by a call to database
 
+
+def login_staff(request):
+    context = RequestContext(request)
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                login(request, user)
+                return redirect('staff.views.home')
+            else:
+                return HttpResponse("Your Rango account is disabled.")
+        else:
+            return HttpResponse("Invalid login details supplied.")
+    else:
+        return render_to_response('staff/login.html', {}, context)
 
 def home(request):
     """Home page for staff members."""

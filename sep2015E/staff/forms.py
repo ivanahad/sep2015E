@@ -2,6 +2,7 @@ from django import forms
 from staff.models import Messages
 from players.models import User
 
+
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Messages
