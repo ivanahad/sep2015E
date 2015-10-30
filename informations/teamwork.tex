@@ -1,0 +1,68 @@
+
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[french]{babel} 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} 
+\usepackage{amsmath}
+\usepackage[toc,page]{appendix}
+\usepackage{amssymb}
+\usepackage{listings}  
+\usepackage{graphicx}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{hyperref}
+\lstset{
+language=Java,
+breaklines=true
+}
+
+
+
+\newcommand*{\plogo}{\fbox{$\mathcal{PL}$}} % Generic publisher logo
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\newcommand*{\titleGM}{\begingroup % Create the command for including the title page in the document
+\hbox{ % Horizontal box
+\hspace*{0.2\textwidth} % Whitespace to the left of the title page
+\rule{2pt}{\textheight} % Vertical line
+\hspace*{0.05\textwidth} % Whitespace between the vertical line and title page text
+\parbox[b]{0.75\textwidth}{ % Paragraph box which restricts text to less than the width of the page
+
+{\noindent\Huge\bfseries Software Project\\ Engineering }\\[2\baselineskip] % Title
+{\Large \textit{Teamwork}}\\[4\baselineskip] % Tagline or further description
+{\Large \textbf{Project leader} : Hélène Verhaeghe}
+\\
+{\Large \textsc{\textbf{Group E}}\\\textsc{Aurian De Potter(Group leader)},\\ \textsc{Eddy Ndizera},\\ \textsc{Ivan Ahad},\\ \textsc{Arnaud Dethise},\\ \textsc{Ludovic Fastré},\\ \textsc{Anthony Dechamps},\\ \textsc{Geoffroy Husson},\\ \textsc{Jonathan Legat}} % Author name
+
+\vspace{0.5\textheight} % Whitespace between the title block and the publisher
+{\noindent \Large \textbf{INGI2255}}\\[\baselineskip] % Publisher and logo
+}\\
+
+}
+\endgroup}
+
+
+\clearpage
+\setcounter{page}{0}
+\begin{document}
+\titleGM
+\subsection*{Teamwork}
+We will briefly describe the teamwork in our group and how we feel about the organisation in general. 
+\\
+
+We started off the project by deciding how we would work together. We were all aware that we had different courses and that having a good organisation and communication was going to be challenging. At the end of the first assignment, we noticed that the communication was very bad, leading to us not knowing what were some of the criterion for example, or not knowing what still has to be done (other than the implementation of requirements). Towards this situation, Eddy stated : \textit{"For my part, the cohesion in the group is good. I’m in good terms with each member. But I notice that some members don’t do the same level of work. I think the reason behind that is we don’t have the same courses leading to the fact that some members have a higher workload when taking all the courses into account. Also, some members arrived late in the group and it’s not easy to dig into the code with lot of files like this one."}. The whole group seems to agree with this. Of course, some members are more comfortable with all the programming part of the project, others are more aware of how the dynamic of a group has to be, etc. This is one of the reasons why some people accomplish more work than others. \\
+
+However, it is important to state that the communication is in jeopardy since some of us don't have facebook, others were not very comfortable with GitHub in the first place, and some were not familiar with trello, meaning we don't necessarly check our kanban regularly. By taking all these factors into consideration, we quickly understand why sometimes the organisation might be sloppy. \\
+
+Thanks to the Agile method, the implementation has actually not been a problem, as the work is distributed thanks to Trello, which is in our opinion a good point. We feel that the organisation problems rather had an impact on some details, as we specified earlier (criterion for example). Ludovic stated on the subject : \textit{"In the case of our group, we found that having a project leader is not an obligation. We divide the tasks between us and each of us makes decisions for the group. It's probably not the best method, but we have operated this way for now and we have always ended our goals on time. Some of us are less familiar with Python and Django and have therefore decided to focus more on the project structure, modeling and report at the end of sprint. We divided the work like that and everyone finds his part of the job."}.\\
+
+Finally, as we discussed in our last meeting, we all had some different (and also in common) projects, making the organisation and the communication more and more difficult, especially when it comes to being aware of what has to be done for the next assignment. Indeed, we have never been able to finish our reports in advance so that we can focus on checking if we respected all the criterion. \\
+
+We think such software developments are a very good experience team wise, as it shows us how tough it is to all be on the same page. Having thought about the teamwork, we will try to take into account all the elements we talked about and make sure some of these don't occur anymore.
+
+
+\end{document}
