@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block title %}
-<title> Tournament {{ trn.name }} - Pool {{ pool.0.number }}
+<title> {{ trn.name }} - Pool {{ pool.0.number }}
 </title>
 {% endblock %}
 
@@ -27,24 +27,27 @@
           <h3 class="panel-title"> Pool {{ pool.0.number }} </h3>
         </div>
 
+        <div class="CSSTableGenerator">
+                <table>
+                  <tr>
+                    <td>Id</td>
+                    <td>Noms</td>
+                    <td>Victoires</td>
+                    <td>Défaites</td>
+                  </tr>
+                  {% for p in pool.1 %}
+                  <tr>
+                    <td>{{ p.participant.id }}</td>
+                    <td>{{ p.participant }}</td>
+                    <td>0</td>
+                    <td>0</td>
+                  </tr>
+                  {% endfor %}
+                </table>
+            </div>
+
         <div class="panel-body">
-          <table>
-            <caption>Pool {{ pool.0.number }}</caption>
-            <tr>
-              <th>Id</th>
-              <th>Noms</th>
-              <th>Victoires</th>
-              <th>Défaites</th>
-            </tr>
-            {% for p in pool.1 %}
-            <tr>
-              <td>{{ p.participant.id }}</td>
-              <td>{{ p.participant }}</td>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            {% endfor %}>
-          </table>
+
 
           <p> Fixtures </p>
           {% for pool_match in pool_matches %}
@@ -53,7 +56,7 @@
             <div>
               <a href="#close" title="Close" class="close">X</a>
               <form action="{% url "tournament.views.pool" trn.id 5 %}" method="post">
-                {% csrf_token %}  
+                {% csrf_token %}
                 {{ form.as_p }}
                 <input type="submit" value="Enregistrer" />
               </form>
