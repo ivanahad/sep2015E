@@ -17,15 +17,4 @@ class CreateTournamentForm(forms.ModelForm):
 class MatchEditForm(forms.ModelForm):
     class Meta:
         model = Match
-        fields='__all__'
-
-    def __init__(self, *args, **kwargs):
-        super(MatchEditForm, self).__init__(*args, **kwargs)
-        self.fields['team1'].widget.attrs['readonly'] = True
-        self.fields['team2'].widget.attrs['readonly'] = True
-
-    def clean_team1(self):
-        return self.cleaned_data['team1']
-
-    def clean_team2(self):
-        return self.cleaned_data['team2']
+        fields=["score1", "score2", "court"]

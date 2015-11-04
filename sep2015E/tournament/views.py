@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse
 from tournament.models import *
@@ -93,7 +93,6 @@ def pool(request, id_tournament, id_pool):
             match.court = court
             match.save()
     else:
-        id_match = 0
         form = MatchEditForm()
     return render(request, 'tournament/pool.html', { \
             'trn': tournament, \
@@ -101,3 +100,19 @@ def pool(request, id_tournament, id_pool):
             'pool_matches': pool_matches, \
             'form' : form \
             })
+
+def save_match_changes(request, id_tournament, id_pool, id_match):
+    """Save the changes when editing the match and redirect to the pool where the match has been edited."""
+    if request.method == 'POST':
+        form = MatchEditForm(request.POST)
+        if form.is_valid():
+            score1 = form.cleaned_data['score1']
+            score2 = form.cleaned_data['score2']
+            court = form.cleaned_data['court']
+            match = Match.objects.filter(id=id_match)
+            match = match.get()
+            match.score1 = score1
+            match.score2 = score2
+            match.court = court
+            match.save()
+    return redirect('tournament.views.pool', id_tournament=id_tournament,id_pool=id_pool)
