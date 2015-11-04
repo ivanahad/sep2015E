@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.conf import settings
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from tournament.models import *
 from tournament.forms import OpenTournamentChoiceForm, CreateTournamentForm, \
         MatchEditForm

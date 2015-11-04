@@ -1,4 +1,9 @@
 from django.db import models
+from io import BytesIO
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4, inch, landscape
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
 import players.models
 import math
 
@@ -40,6 +45,7 @@ class Tournament(models.Model):
 
         self.is_open = False
         self.save()
+        self.generate_pdf()
 
     def assign_players(pools, players, size):
         """Assign all the players in the pools, trying to match size
@@ -58,6 +64,49 @@ class Tournament(models.Model):
                 pp.pool = pools[i]
                 pp.participant = players.pop()
                 pp.save()
+
+    def generate_pdf(self):
+        """Generate the pdf showing the pools for a particular tournament (id_)"""
+        doc = SimpleDocTemplate("pools.pdf", pagesize=A4, rightMargin=30,leftMargin=30, topMargin=30,bottomMargin=18)
+        doc.pagesize = landscape(A4)
+        elements = []
+
+        style = TableStyle([('ALIGN',(1,1),(-2,-2),'RIGHT'),
+                               ('TEXTCOLOR',(1,1),(-2,-2),colors.red),
+                               ('VALIGN',(0,0),(0,-1),'TOP'),
+                               ('TEXTCOLOR',(0,0),(0,-1),colors.blue),
+                               ('ALIGN',(0,-1),(-1,-1),'CENTER'),
+                               ('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
+                               ('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
+                               ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+                               ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+                               ])
+
+        #Configure style and word wrap
+        s = getSampleStyleSheet()
+        s = s["BodyText"]
+        s.wordWrap = 'CJK'
+
+        pools = Pool.objects.filter(tournament=self);
+
+         #Generate a table in the pdf for all pools
+        for pool in pools:
+            participants = PoolParticipant.objects.filter(pool=pool) #List of participants
+            data = [
+            ["Id", "Noms", "Victoires", "Défaites"],
+            ]
+            for p in participants:
+                row = [str(p.id), str(p), str(0), str(0)]
+                data.append(row)
+            data2 = [[Paragraph(cell, s) for cell in row] for row in data]
+            t=Table(data2)
+            t.setStyle(style)
+            #Send the data
+            elements.append(t)
+
+        #Append the file
+        p = doc.build(elements)
+
 
     def __str__(self):
         return "%s %s" % (self.name, self.category)
@@ -167,4 +216,3 @@ class TournamentNode(models.Model):
     parent = models.ForeignKey('self', related_name='parent_', blank=True, null=True)
     child1 = models.ForeignKey('self', related_name='child1_', blank=True, null=True)
     child2 = models.ForeignKey('self', related_name='child2_', blank=True, null=True)
-
