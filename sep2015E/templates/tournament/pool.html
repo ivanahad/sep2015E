@@ -57,7 +57,27 @@
               <a href="#close" title="Close" class="close">X</a>
               <form action="{% url "tournament.views.save_match_changes" trn.id 0 pool_match.match.id %}" method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
+                      <div class="fieldWrapper">
+                          {{ form.score1.errors }}
+                          {{ form.score1.label_tag }} {{ form.score1 }} {{ pool_match.match.score1 }}
+                          {% if form.score1.help_text %}
+                          <p class="help">{{ form.score1.help_text|safe }}</p>
+                          {% endif %}
+                      </div>
+                      <div class="fieldWrapper">
+                          {{ form.score2.errors }}
+                          {{ form.score2.label_tag }} {{ form.score2 }} {{ pool_match.match.score2 }}
+                          {% if form.score2.help_text %}
+                          <p class="help">{{ form.score2.help_text|safe }}</p>
+                          {% endif %}
+                      </div>
+                      <div class="fieldWrapper">
+                          {{ form.court.errors }}
+                          {{ form.court.label_tag }} {{ form.court }} {{ pool_match.match.court }}
+                          {% if form.court.help_text %}
+                          <p class="help">{{ form.court.help_text|safe }}</p>
+                          {% endif %}
+                      </div>
                 <input type="submit" value="Enregistrer" />
               </form>
             </div>
