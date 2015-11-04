@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Staff(models.Model):
-    """This class contains the record on a staff member."""
+    """This class contains the record on a staff member. Use the user
+        model defined by django."""
     user = models.OneToOneField(User)
     address = models.CharField(max_length=128)
     city = models.CharField(max_length=64)

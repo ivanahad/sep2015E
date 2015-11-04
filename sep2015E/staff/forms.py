@@ -2,15 +2,17 @@ from django import forms
 from staff.models import Messages
 from players.models import User
 
-
 class MessageForm(forms.ModelForm):
+    """Form when composing a message to send to other staff memebers."""
     class Meta:
         model = Messages
         fields = '__all__'
         prefix = 'message_form'
 
+
 class EditPlayerForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    """Form when editing player informations."""
+    def __init__(self, *args, **kwargs):    #Fill the fields.
        player_id = kwargs.pop('player_id')
        player = User.objects.filter(id=player_id).get()
        super(EditPlayerForm, self).__init__(*args, **kwargs)

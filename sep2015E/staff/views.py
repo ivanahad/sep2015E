@@ -9,10 +9,8 @@ from courts.models import Court
 from players.models import User
 
 
-name = "Eric Duvoie" #replace by a call to database
-
-
 def login_staff(request):
+    """Login page for staff."""
     context = RequestContext(request)
     if request.method == 'POST':
         username = request.POST['username']
@@ -23,13 +21,14 @@ def login_staff(request):
                 login(request, user)
                 return redirect('staff.views.home')
             else:
-                return HttpResponse("Your Rango account is disabled.")
+                return HttpResponse("Your staff account is disabled.")
         else:
             return HttpResponse("Invalid login details supplied.")
     else:
         return render_to_response('staff/login.html', {}, context)
 
 def logout_staff(request):
+    """Logout for staff."""
     logout(request)
     return redirect('home.views.index')
 
@@ -37,9 +36,7 @@ def home(request):
     """Home page for staff members."""
     if not request.user.is_authenticated():
         return redirect('staff.views.login_staff')
-
     if request.method == 'POST':
-
         form_msg = MessageForm(request.POST, prefix="msg")
         if form_msg.is_valid():
             Messages(author = name, \
@@ -48,7 +45,7 @@ def home(request):
                     message = form_msg.cleaned_data['message']).save()
     form_msg = MessageForm(prefix="msg")
     messages = Messages.objects.all() #replace by a call destined to the current staff member
-
+    name=request.user.username
     return render(request, 'staff/home.html', {\
             'name': name, \
             'date':datetime.now(), \
@@ -65,6 +62,7 @@ def courts(request):
     return render(request, 'staff/courts.html', locals())
 
 def players(request):
+    """Page listing the players registered in the event."""
     if not request.user.is_authenticated():
         return redirect('staff.views.login_staff')
 
@@ -74,9 +72,10 @@ def players(request):
         })
 
 def particular_player(request, player_id):
+    """Page showing information on a particular player."""
     if not request.user.is_authenticated():
         return redirect('staff.views.login_staff')
-        
+
     if request.method == 'POST':
         form=EditPlayerForm(request.POST, player_id=player_id)
         if form.is_valid():
