@@ -4,9 +4,11 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from datetime import datetime
 from staff.models import Messages
-from staff.forms import MessageForm, EditPlayerForm
+from staff.forms import MessageForm
 from courts.models import Court
 from players.models import User
+from players.forms import PlayerForm
+
 
 
 def login_staff(request):
@@ -77,7 +79,7 @@ def particular_player(request, player_id):
         return redirect('staff.views.login_staff')
 
     if request.method == 'POST':
-        form=EditPlayerForm(request.POST, player_id=player_id)
+        form=PlayerForm(request.POST, player_id=player_id)
         if form.is_valid():
             player = User.objects.filter(id=player_id).get()
             player.firstname=form.cleaned_data['firstname']
@@ -92,7 +94,7 @@ def particular_player(request, player_id):
             return redirect('staff.views.players')
     else:
         player = User.objects.filter(id=player_id).get()
-        form = EditPlayerForm(player_id=player.id)
+        form = PlayerForm(player_id=player.id)
         return render(request, 'staff/particular_player.html', { \
             'player':player, \
             'form':form,

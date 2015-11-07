@@ -1,61 +1,80 @@
 {% extends 'site_template.html' %}
 
+{% block css %}
+{% load staticfiles %}
+<link href="{% static "css/modal.css" %}" rel="stylesheet">
+{% endblock %}
+
 {% block title %}
 <title>Players registration</title>
 {% endblock %}
 
 {% block content %}
-	<div class="row">
-		<div class="box">
-			<div class="col-lg-12">
-				<hr>
+<div class="row">
+	<div class="box">
+		<div class="col-lg-12">
+			<hr>
 
-				<h2 class="intro-text text-center">Register
-					<strong>a player</strong>
-				</h2>
+			<h2 class="intro-text text-center">Register
+				<strong>a player</strong>
+			</h2>
 
-				<hr>
-				<div class="panel-body">
-					<form action="{% url "players.views.register" %}" method="post">
-						{% csrf_token %}
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">Player 1</h4>
-							</div>
+			<hr>
+			<div class="panel-body">
 
-							<div class="panel-body">
-                {{ usr1.as_p }}
-                <br/>
-                {{ reg1.as_p }}
-							</div>
-						</div>
-
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">Player 2</h4>
-							</div>
-
-							<div class="panel-body">
-                {{ usr2.as_p }}
-                <br/>
-                {{ reg2.as_p }}
-							</div>
-						</div>
-
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">Tournament</h4>
-							</div>
-							<div class="panel-body">
-								{{ trn.as_p }}
-							</div>
-						</div>
-
-						<input type="submit" value="Register" />
-						<input type="submit" value="Register solo" name="solo_registration" onclick="return confirm('If you want to register in solo, we will try to match you in a pair with another user that is in the same situation.\nIf you are OK with that, please make sure you filled the form as Player 1 and chose the correct tournament before confirming this message.')"/>
-					</form>
+				<a href="#emailModal">Déjà participé</a></p>
+				<div id="emailModal" class="modalDialog">
+					<div>
+						<a href="#close" title="Close" class="close">X</a>
+						<form action="{% url "players.views.filled_registration"  %}" method="post">
+							{% csrf_token %}
+							{{ email1.as_p }}
+							{{ email2.as_p }}
+							<input type="submit" value="Envoyer" />
+						</form>
+					</div>
 				</div>
+
+				<form action="{% url "players.views.register" %}" method="post">
+					{% csrf_token %}
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Player 1</h4>
+						</div>
+
+						<div class="panel-body">
+							{{ usr1.as_p }}
+							<br/>
+							{{ reg1.as_p }}
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Player 2</h4>
+						</div>
+
+						<div class="panel-body">
+							{{ usr2.as_p }}
+							<br/>
+							{{ reg2.as_p }}
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Tournament</h4>
+						</div>
+						<div class="panel-body">
+							{{ trn.as_p }}
+						</div>
+					</div>
+
+					<input type="submit" value="Register" />
+					<input type="submit" value="Register solo" name="solo_registration" onclick="return confirm('If you want to register in solo, we will try to match you in a pair with another user that is in the same situation.\nIf you are OK with that, please make sure you filled the form as Player 1 and chose the correct tournament before confirming this message.')"/>
+				</form>
 			</div>
 		</div>
 	</div>
+</div>
 {% endblock %}

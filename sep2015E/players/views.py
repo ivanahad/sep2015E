@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.conf import settings
-from players.forms import PlayerForm, RegistrationForm
+from players.forms import PlayerForm, RegistrationForm, EmailOldUserForm
 from players.models import User, Pair, UserRegistration
 from tournament.forms import OpenTournamentChoiceForm
 from tournament.models import TournamentParticipant, SoloParticipant
@@ -13,11 +13,9 @@ def register(request):
         usr2 = PlayerForm(request.POST, prefix="usr2")
         reg2 = RegistrationForm(request.POST, prefix="reg2")
         trn = OpenTournamentChoiceForm(request.POST)
-
         if 'solo_registration' in request.POST \
                 and usr1.is_valid() and reg1.is_valid() \
                 and trn.is_valid():
-
             new_user1 = User( \
                     firstname = usr1.cleaned_data['firstname'], \
                     lastname = usr1.cleaned_data['lastname'], \
@@ -49,7 +47,6 @@ def register(request):
         elif usr1.is_valid() and usr2.is_valid() \
                 and reg1.is_valid() and reg2.is_valid() \
                 and trn.is_valid():
-
             new_user1 = User( \
                     firstname = usr1.cleaned_data['firstname'], \
                     lastname = usr1.cleaned_data['lastname'], \
@@ -117,11 +114,45 @@ def register(request):
         usr2 = PlayerForm(prefix="usr2")
         reg2 = RegistrationForm(prefix="reg2")
         trn = OpenTournamentChoiceForm()
+        emailForm1 = EmailOldUserForm(prefix="email1")
+        emailForm2 = EmailOldUserForm(prefix="email2")
 
         return render(request, 'players/register.html', {
             "usr1": usr1,
             "reg1": reg1,
             "usr2": usr2,
             "reg2": reg2,
-            "trn": trn
+            "trn": trn,
+            "email1": emailForm1,
+            "email2": emailForm2
         })
+
+def filled_registration(request):
+    if request.method == 'POST':
+        emailForm1 = EmailOldUserForm(request.POST, prefix="email1")
+        emailForm2 = EmailOldUserForm(request.POST, prefix="email2")
+        usr1 = PlayerForm(prefix="usr1")
+        reg1 = RegistrationForm(prefix="reg1")
+        usr2 = PlayerForm(prefix="usr2")
+        reg2 = RegistrationForm(prefix="reg2")
+        trn = OpenTournamentChoiceForm()
+
+        if emailForm1.is_valid():
+            email1 = emailForm1.cleaned_data['email']
+            usr1 = PlayerForm(player_email=email1, prefix="usr1")
+        if emailForm2.is_valid():
+            email2 = emailForm2.cleaned_data['email']
+            usr2 = PlayerForm(player_email=email2, prefix="usr2")
+        emailForm1 = EmailOldUserForm(prefix="email1")
+        emailForm2 = EmailOldUserForm(prefix="email2")
+        return render(request, 'players/register.html', {
+            "usr1": usr1,
+            "reg1": reg1,
+            "usr2": usr2,
+            "reg2": reg2,
+            "trn": trn,
+            "email1": emailForm1,
+            "email2": emailForm2
+            })
+
+    return redirect('players.views.register')
