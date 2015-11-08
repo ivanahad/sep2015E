@@ -14,7 +14,128 @@
 				<div class="panel-body">
 					<form enctype="multipart/form-data" action="{% url "courts.views.register" %}" method="post">
 						{% csrf_token %}
-						{{ form.as_p }}
+						{{ form.non_field_errors }}
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_owner">Owner:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.owner }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.owner.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_address">Address:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.address }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.address.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_city">City:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.city }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.city.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_zipcode">Zip code:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.zipcode }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.zipcode.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_email">Email:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.email }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.email.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_phone">Phone:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.phone }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.phone.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_ground">Ground:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.ground }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.ground.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_cover">Cover:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.cover }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.cover.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_image">Image:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.image }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.image.errors }}
+							</div>
+						</div>
+						<div class="row big-field">
+							<div class="col-sm-3">
+								<label for="id_comment_access">Comment access:</label>
+							</div>
+							<div class="col-sm-6">
+								{{ form.comment_access }}
+							</div>
+							<div class="col-sm-3 required">
+								{{ form.comment_access.errors }}
+							</div>
+						</div>
+						<div class="row big-field">
+							<div class="col-sm-3">
+								<label for="id_comment_desiderata">Comment Desiderata:</label>
+							</div>
+							<div class="col-sm-6">
+								{{ form.comment_desiderata }}
+							</div>
+							<div class="col-sm-3 required">
+								{{ form.comment_desiderata.errors }}
+							</div>
+						</div>
 						<input type="submit" value="Submit" />
 					</form>
 				</div>

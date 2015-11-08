@@ -43,9 +43,152 @@
 						</div>
 
 						<div class="panel-body">
-							{{ usr1.as_p }}
+							{{ usr1.non_field_errors }}
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_firstname">Firstname:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr1.firstname }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr1.firstname.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_lastname">Lastname:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr1.lastname }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr1.lastname.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_address">Address:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr1.address }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr1.address.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_city">City:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr1.city }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr1.city.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_country">Country:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr1.country }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr1.country.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_zipcode">Zip code:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr1.zipcode }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr1.zipcode.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_email">Email:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr1.email }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr1.email.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_phone">Phone:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr1.phone }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr1.phone.errors }}
+								</div>
+							</div>
 							<br/>
-							{{ reg1.as_p }}
+							{{ reg1.non_field_errors }}
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_level">Level:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ reg1.level }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ reg1.level.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_payment_method">Payment Method:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ reg1.payment_method }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ reg1.payment_method.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_bbq">BBQ:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ reg1.bbq }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ reg1.bbq.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_activities">Activities:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ reg1.activities }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ reg1.activities.errors }}
+								</div>
+							</div>
+							<div class="row big-field">
+								<div class="col-sm-3">
+									<label for="id_comment">Comment:</label>
+								</div>
+								<div class="col-sm-6">
+									{{ reg1.comment }}
+								</div>
+								<div class="col-sm-3 required">
+									{{ reg1.comment.errors }}
+								</div>
+							</div>
 						</div>
 					</div>
 
@@ -55,9 +198,152 @@
 						</div>
 
 						<div class="panel-body">
-							{{ usr2.as_p }}
+							{{ usr2.non_field_errors }}
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_firstname">Firstname:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr2.firstname }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr2.firstname.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_lastname">Lastname:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr2.lastname }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr2.lastname.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_address">Address:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr2.address }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr2.address.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_city">City:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr2.city }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr2.city.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_country">Country:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr2.country }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr2.country.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_zipcode">Zip code:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr2.zipcode }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr2.zipcode.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_email">Email:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr2.email }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr2.email.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_phone">Phone:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr2.phone }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr2.phone.errors }}
+								</div>
+							</div>
 							<br/>
-							{{ reg2.as_p }}
+							{{ reg2.non_field_errors }}
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_level">Level:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ reg2.level }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ reg2.level.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_payment_method">Payment Method:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ reg2.payment_method }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ reg2.payment_method.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_bbq">BBQ:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ reg2.bbq }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ reg2.bbq.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_activities">Activities:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ reg2.activities }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ reg2.activities.errors }}
+								</div>
+							</div>
+							<div class="row big-field">
+								<div class="col-sm-3">
+									<label for="id_comment">Comment:</label>
+								</div>
+								<div class="col-sm-6">
+									{{ reg2.comment }}
+								</div>
+								<div class="col-sm-3 required">
+									{{ reg2.comment.errors }}
+								</div>
+							</div>
 						</div>
 					</div>
 

@@ -197,3 +197,16 @@ footer p {
 	text-decoration: none;
 	background-color: #DDD;
 }
+
+.field {
+    width: 500px;
+    margin-bottom: 10px;
+}
+.big-field {
+    width: 700px;
+    margin-bottom: 10px;
+}
+
+.required {
+    color: red;
+}
