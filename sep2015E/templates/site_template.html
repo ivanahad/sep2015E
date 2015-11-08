@@ -96,6 +96,8 @@
         </div>
     </footer>
 
+	{% block script %}
+
     <!-- jQuery -->
     <script src="{% static "js/jquery.js" %}"></script>
 
@@ -108,6 +110,8 @@
         interval: 5000 //changes the speed
     })
     </script>
+
+	{% endblock %}
 </body>
 
 </html>

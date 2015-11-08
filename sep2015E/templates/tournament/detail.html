@@ -1,4 +1,11 @@
 {% extends 'site_template.html' %}
+{% load static from staticfiles %}
+
+{% block css %}
+<script type="text/javascript" src="{% static "js/jquery-1.11.3.min.js" %}"></script>
+<script type="text/javascript" src="{% static "js/jquery.bracket.min.js" %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static "css/jquery.bracket.min.css" %}" />
+{% endblock %}
 
 {% block title %}
 <title>Charles de Lorraine - Details of
@@ -61,6 +68,17 @@
       </div>
       {% endif %}
 
+	  <!-- Bracket -->
+	  <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title"> Bracket </h3>
+        </div>
+
+        <div class="panel-body">
+          	<div id="bracket"></div>
+        </div>
+      </div>
+
       <!-- Pools -->
       {% if not trn.is_open %}
       <div class="panel">
@@ -101,5 +119,35 @@
 		</div>
 	</div>
 </div>
+
+{% endblock %}
+
+{% block script %}
+
+	<script>
+	var eightTeams = {
+	  teams : [
+	    ["Team 1",  "Team 2" ],
+	    ["Team 3",  "Team 4" ],
+	    ["Team 5",  "Team 6" ],
+	    ["Team 7",  "Team 8" ]
+	  ],
+	  results : [[ /* WINNER BRACKET */
+	    [[1,2], [3,4], [5,6], [7,8]],
+	    [[9,1], [8,2]],
+	    [[1,3]]
+	  ], [         /* LOSER BRACKET */
+	    [[5,1], [1,2], [3,2], [6,9]],
+	    [[1,2], [3,1]],
+	    [[4,2]]
+	  ]]
+	}
+
+	$(function() {
+	  $('#bracket').bracket({
+	    skipGrandFinalComeback: true,
+	    init: eightTeams})
+	})
+	</script>
 
 {% endblock %}
