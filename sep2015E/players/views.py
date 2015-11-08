@@ -94,13 +94,7 @@ def register(request):
                     level = reg2.cleaned_data['level'])
             registration2.save()
 
-
-            new_pair = Pair( \
-                    player1 = new_user1, \
-                    player2 = new_user2, \
-                    average = 0, \
-                    season = settings.CURRENT_SEASON)
-            new_pair.save()
+            Pair.create_pair(new_user1, new_user2)
 
             send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
                 +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname'], 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
