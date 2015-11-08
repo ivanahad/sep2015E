@@ -5,6 +5,7 @@ from players.forms import PlayerForm, RegistrationForm, EmailOldUserForm
 from players.models import User, Pair, UserRegistration
 from tournament.forms import OpenTournamentChoiceForm
 from tournament.models import TournamentParticipant, SoloParticipant
+from django.core.mail import send_mail
 
 def register(request):
     if request.method == 'POST':  # S'il s'agit d'une requête POST
@@ -41,6 +42,9 @@ def register(request):
                     player = new_user1, \
                     tournament = trn.cleaned_data['tournament'])
             solo_registration.save()
+
+            send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
+                +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category, 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
 
             return render(request, 'players/registration_success.html')
 
@@ -97,6 +101,12 @@ def register(request):
                     average = 0, \
                     season = settings.CURRENT_SEASON)
             new_pair.save()
+
+            send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
+                +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname'], 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
+
+            send_mail('Enregistrement à un tournoi', 'Bonjour '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
+                +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname'], 'info@sep2015e.com', [usr2.cleaned_data['email']], fail_silently=False)
 
             tp = TournamentParticipant( \
                     participant = new_pair,
