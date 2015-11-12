@@ -10,11 +10,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-	{% block title %}
+  {% block title %}
     <title>Le Charles de Lorraine</title>
-	{% endblock %}
+  {% endblock %}
 
-	<link rel="icon" type="image/png" href="{% static "img/ico.png" %}" />
+  <link rel="icon" type="image/png" href="{% static "img/ico.png" %}" />
     {% block css %}
     {% endblock %}
 
@@ -39,11 +39,11 @@
 
 <body>
 
-	<div class="brand">Le Charles de Lorraine</div>
+  <div class="brand">Le Charles de Lorraine</div>
     <div class="address-bar">41ème édition du tournoi de tennis Charles de Lorraine
-	12 et 13 septembre 2015</div>
+  12 et 13 septembre 2015</div>
 
-	<!-- Navigation -->
+  <!-- Navigation -->
     <nav class="navbar navbar-default" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -60,15 +60,15 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-					{% block nav %}
+          {% block nav %}
                     <li><a href="/">Home</a></li>
                     <li><a href="/players/register">Players</a></li>
-					<li><a href="/courts/register">Courts</a></li>
-					<li><a href="/tournament/all">Tournaments</a></li>
-					<li><a href="https://github.com/ivanahad/sep2015E/wiki">Wiki</a></li>
-					<li><a href="/sponsors">Sponsors</a></li>
-					<li><a href="/contact">Contact</a></li>
-					{% endblock %}
+          <li><a href="/courts/register">Courts</a></li>
+          <li><a href="/tournament/all">Tournaments</a></li>
+          <li><a href="https://github.com/ivanahad/sep2015E/wiki">Wiki</a></li>
+          <li><a href="/sponsors">Sponsors</a></li>
+          <li><a href="/contact">Contact</a></li>
+          {% endblock %}
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -76,27 +76,61 @@
         <!-- /.container -->
     </nav>
 
-	<div class="container">
-		<div class="content">
-		{% block content %}
+  <div class="container">
+    <div class="content">
+      {% block content %}
 
-			<!-- Contenu de la page -->
+      <!-- Contenu de la page -->
 
-		{% endblock %}
-			<div class="push"></div>
-		</div>
-	</div>
-	<footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; 2014 - <a href="/staff/home">Staff</a> - <a href="/admin">Admin</a></p>
-                </div>
-            </div>
+      {% endblock %}
+      <div class="push"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <!-- Sponsors section -->
+      <div class="sponsors">
+        <div class="sponsors-img">
+          <img class="img-responsive img-border img-center" src="{% static "img/sponsor_vw.jpg" %}" alt="VolksWagen">
         </div>
-    </footer>
+        <div class="sponsors-img">
+          <img class="img-responsive img-border img-center" src="{% static "img/sponsor_exki.jpg" %}" alt="Exki">
+        </div>
+        <div class="sponsors-img">
+          <img class="img-responsive img-border img-center" src="{% static "img/sponsor_hayez.jpg" %}" alt="Hayez">
+        </div>
+        <div class="sponsors-img">
+          <img class="img-responsive img-border img-center" src="{% static "img/sponsor_weplay.jpg" %}" alt="WePlay">
+        </div>
+        <div class="sponsors-img">
+          <img class="img-responsive img-border img-center" src="{% static "img/sponsor_lalibre.jpg" %}" alt="La Libre">
+        </div>
+        <div class="sponsors-img">
+          <img class="img-responsive img-border img-center" src="{% static "img/sponsor_mannes.jpg" %}" alt="Mannes">
+        </div>
+        <div class="sponsors-img">
+          <img class="img-responsive img-border img-center" src="{% static "img/sponsor_raidillon.jpg" %}" alt="Raidillon">
+        </div>
+        <div class="sponsors-img">
+          <img class="img-responsive img-border img-center" src="{% static "img/sponsor_eventail.jpg" %}" alt="L'éventail">
+        </div>
+        <div class="sponsors-img">
+          <img class="img-responsive img-border img-center" src="{% static "img/sponsor_deloitte.jpg" %}" alt="Deloitte">
+        </div>
+      </div>
+    </div>
 
-	{% block script %}
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <p>Copyright &copy; 2014 - <a href="/staff/home">Staff</a> - <a href="/admin">Admin</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  {% block script %}
 
     <!-- jQuery -->
     <script src="{% static "js/jquery.js" %}"></script>
@@ -111,7 +145,7 @@
     })
     </script>
 
-	{% endblock %}
+  {% endblock %}
 </body>
 
 </html>

@@ -2,10 +2,15 @@ from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
+from django.core.mail import send_mass_mail
+
 from datetime import datetime
+
 from staff.models import Messages
-from staff.forms import MessageForm
+from staff.forms import MessageForm, MailListForm
+
 from courts.models import Court
+
 from players.models import User
 from players.forms import PlayerForm
 
@@ -54,6 +59,27 @@ def home(request):
             'messages':messages, \
             'form_msg': form_msg,
             })
+
+def mail_list(request):
+    """Form to send a mass email to all users."""
+    if not request.user.is_authenticated():
+        return redirect('staff.views.login_staff')
+    if request.method == 'POST':
+        form = MailListForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['content']
+            emitter = 'info@sep2015e.com'
+
+            datatuples = [(subject, message, emitter, [u.email]) \
+                    for u in User.objects.all()]
+
+            send_mass_mail(datatuples)
+            return HttpResponse("Email envoyé.<br/><a href=\"home\">Retour à l'accueil</a>")
+    else:
+        form = MailListForm()
+
+    return render(request, 'staff/mail_list.html', {'form':form})
 
 def courts(request):
     if not request.user.is_authenticated():
