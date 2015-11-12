@@ -1,9 +1,12 @@
 from django.db import models
 from io import BytesIO
+import time
 from reportlab.lib import colors
+from reportlab.lib.enums import TA_JUSTIFY
 from reportlab.lib.pagesizes import A4, inch, landscape
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle, Frame, PageTemplate, NextPageTemplate, PageBreak
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import inch
 import players.models
 import math
 
@@ -66,46 +69,79 @@ class Tournament(models.Model):
                 pp.save()
 
     def generate_pdf(self):
-        """Generate the pdf showing the pools for a particular tournament (id_)"""
-        doc = SimpleDocTemplate("pools.pdf", pagesize=A4, rightMargin=30,leftMargin=30, topMargin=30,bottomMargin=18)
-        doc.pagesize = landscape(A4)
-        elements = []
+        doc = SimpleDocTemplate("pools.pdf", rightMargin=72, leftMargin=72,
+                                topMargin=72, bottomMargin=18, showBoundary=1)
+        doc.pagesize=landscape(A4)
+        Story=[]
 
-        style = TableStyle([('ALIGN',(1,1),(-2,-2),'RIGHT'),
-                               ('TEXTCOLOR',(1,1),(-2,-2),colors.red),
-                               ('VALIGN',(0,0),(0,-1),'TOP'),
-                               ('TEXTCOLOR',(0,0),(0,-1),colors.blue),
-                               ('ALIGN',(0,-1),(-1,-1),'CENTER'),
-                               ('VALIGN',(0,-1),(-1,-1),'MIDDLE'),
-                               ('TEXTCOLOR',(0,-1),(-1,-1),colors.green),
-                               ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
-                               ('BOX', (0,0), (-1,-1), 0.25, colors.black),
-                               ])
+        file_path="file_path"
+        date = time.ctime()
+        header_title="CDL - tableaux de poules"
+        number_pool="10"
+        field="Jc et Nath \n3080 Tervuren"
+        tournament="Double Mixte - Juniors - JUN"
 
-        #Configure style and word wrap
-        s = getSampleStyleSheet()
-        s = s["BodyText"]
-        s.wordWrap = 'CJK'
+        #frames
+        frameTable = Frame(doc.leftMargin, doc.height*0.20,
+                    doc.height-doc.rightMargin , 400,
+                    leftPadding=0, rightPadding=0, id='normal')
+
+        def footer_header(canvas,doc):
+            """Footer and header description"""
+            canvas.saveState()
+            canvas.setFont('Times-Roman',12)
+
+            #Header
+            header_y=doc.height + 72
+            canvas.drawString(20, header_y, date)
+            canvas.drawString(doc.width/2, header_y, header_title)
+            canvas.drawString(doc.leftMargin, header_y-20, "Numéro:")
+            canvas.drawString(doc.leftMargin+100, header_y-20, "Terrain:")
+            canvas.drawString(doc.leftMargin+5, header_y-45, number_pool)
+            canvas.drawString(doc.leftMargin+105, header_y-45, field)
+            canvas.drawString(doc.leftMargin+5, header_y-70, tournament)
+
+            #Footer
+            footer_y=10
+            canvas.drawString(25, footer_y, file_path)
+            canvas.drawString(doc.width , footer_y, "page %d" % doc.page)
+            canvas.restoreState()
+
+        #Table score
 
         pools = Pool.objects.filter(tournament=self);
-
-         #Generate a table in the pdf for all pools
+        templates=[]
         for pool in pools:
-            participants = PoolParticipant.objects.filter(pool=pool) #List of participants
-            data = [
-            ["Id", "Noms", "Victoires", "Défaites"],
-            ]
-            for p in participants:
-                row = [str(p.id), str(p), str(0), str(0)]
-                data.append(row)
-            data2 = [[Paragraph(cell, s) for cell in row] for row in data]
-            t=Table(data2)
-            t.setStyle(style)
-            #Send the data
-            elements.append(t)
+            Story.append(Spacer(1, 48))
+            Story.append(self.pdf_pool(pool))
+            Story.append(NextPageTemplate(str(pool)))
+            Story.append(PageBreak())
+            templates.append(PageTemplate(id=str(pool),frames=frameTable,onPage=footer_header))
 
-        #Append the file
-        p = doc.build(elements)
+        doc.addPageTemplates(templates)
+
+        doc.build(Story)
+
+
+    def pdf_pool(self, pool):
+        participants = PoolParticipant.objects.filter(pool=pool) #List of participants
+        styles=getSampleStyleSheet()
+        styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
+        #create header for table
+        header_table=['Joueurs']
+        for i in range(0,len(participants)):
+            header_table.append(i+1)
+        header_table.append('V/Pts')
+        #Add the rows
+        data = [header_table]
+        for p in participants:
+            ptext=Paragraph(str(p), styles["Normal"])
+            data.append([ptext])
+        t = Table(data)
+        t.setStyle(TableStyle([('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+                               ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+                                ('ALIGN',(0,0),(-1,-1),'CENTER'),]))
+        return t
 
 
     def __str__(self):
