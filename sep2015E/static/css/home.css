@@ -210,3 +210,14 @@ footer p {
 .required {
     color: red;
 }
+
+.sponsors {
+    width: 100%;
+    overflow: auto;
+    padding-top: 25px;
+}
+
+.sponsors-img {
+    float:left; 
+    padding:10px;
+}
