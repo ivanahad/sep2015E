@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^courts$', prefix+'courts'),
     url(r'^players$', prefix+'players'),
     url(r'^players/(?P<player_id>\d+)$', prefix+'particular_player'),
+    url(r'^mail_list$', prefix+'mail_list'),
 ]
