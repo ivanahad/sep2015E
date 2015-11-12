@@ -45,7 +45,7 @@
       <form class="form-signin" id="login_form" method="post" action="{% url "staff.views.login_staff" %}">
         {% csrf_token %}
         <h1 class="form-signin-heading text-muted">Sign In</h1>
-        <input type="text" class="form-control" placeholder="Email address" name="username" id="username" required="" autofocus="">
+        <input type="text" class="form-control" placeholder="User name" name="username" id="username" required="" autofocus="">
         <input type="password" class="form-control" placeholder="Password"  name="password" id="password" required="">
         <button class="btn btn-lg btn-primary btn-block" type="submit">
           Sign In
