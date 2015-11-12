@@ -4,7 +4,7 @@ from django.conf import settings
 from players.forms import PlayerForm, RegistrationForm, EmailOldUserForm
 from players.models import User, Pair, UserRegistration
 from tournament.forms import OpenTournamentChoiceForm
-from tournament.models import TournamentParticipant, SoloParticipant
+from tournament.models import TournamentParticipant, SoloParticipant, Tournament
 from django.core.mail import send_mail
 
 def register(request):
@@ -119,17 +119,23 @@ def register(request):
         reg2 = RegistrationForm(prefix="reg2")
         trn = OpenTournamentChoiceForm()
         emailForm1 = EmailOldUserForm(prefix="email1")
-        emailForm2 = EmailOldUserForm(prefix="email2")
+        emailForm2 = EmailOldUserForm(prefix="email2") 
 
-        return render(request, 'players/register.html', {
-            "usr1": usr1,
-            "reg1": reg1,
-            "usr2": usr2,
-            "reg2": reg2,
-            "trn": trn,
-            "email1": emailForm1,
-            "email2": emailForm2
-        })
+        trn_open = Tournament.objects.filter(is_open=True).count()
+
+        if trn_open == 0  :
+            return render(request, 'players/no_tournament_open.html')
+        else:
+
+            return render(request, 'players/register.html', {
+                "usr1": usr1,
+                "reg1": reg1,
+                "usr2": usr2,
+                "reg2": reg2,
+                "trn": trn,
+                "email1": emailForm1,
+                "email2": emailForm2
+            })
 
 def filled_registration(request):
     if request.method == 'POST':
