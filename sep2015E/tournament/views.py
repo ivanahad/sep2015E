@@ -37,6 +37,24 @@ def all(request):
                 'new_tournament': new_trn, \
                 })
 
+def allUser(request):
+    tournaments = Tournament.objects\
+            .filter(season=settings.CURRENT_SEASON)
+    tournaments = [{ \
+            "tournament": tournament, \
+            "pair_count": TournamentParticipant.objects\
+                    .filter(tournament=tournament).count(), \
+            "solo_count": SoloParticipant.objects\
+                    .filter(tournament=tournament).count(), \
+            "status": "open" if tournament.is_open else "closed" \
+            } for tournament in tournaments]
+    new_trn = CreateTournamentForm()
+
+    return render(request, 'tournament/allUser.html', { \
+            'tournaments': tournaments, \
+            'new_tournament': new_trn, \
+            })
+
 def tournament(request, id_):
     id_ = int(id_)
     try:

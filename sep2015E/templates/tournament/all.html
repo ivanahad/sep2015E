@@ -1,7 +1,16 @@
 {% extends 'site_template.html' %}
 
 {% block title %}
-<title>Charles de Lorraine - Tournaments page</title>
+<title>Charles de Lorraine - Staff page</title>
+{% endblock %}
+
+{% block nav %}
+	<li><a href="{% url "staff.views.home" %}">Home</a></li>
+	<li><a href="{% url "staff.views.players" %}">Players</a></li>
+	<li><a href="{% url "staff.views.courts" %}">Courts</a></li>
+	<li><a href="{% url "tournament.views.all" %}">Tournaments</a></li>
+	<li><a href="https://github.com/ivanahad/sep2015E/wiki">Wiki</a></li>
+	<li><a href="{% url "staff.views.logout_staff" %}">Logout</a></li>
 {% endblock %}
 
 {% block content %}
