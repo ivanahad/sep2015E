@@ -1,5 +1,5 @@
 from django import forms
-from players.models import User, UserRegistration, PAYMENT_METHODS
+from players.models import User, UserRegistration, Pair
 
 class PlayerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):    #"""When editing player informations."""
@@ -14,7 +14,11 @@ class PlayerForm(forms.ModelForm):
        if player != None:
            self.fields['firstname'].initial = player.firstname
            self.fields['lastname'].initial = player.lastname
-           self.fields['address'].initial = player.address
+           self.fields['gender'].initial = player.gender
+           self.fields['birthdate'].initial = player.birthdate
+           self.fields['address_street'].initial = player.address_street
+           self.fields['address_number'].initial = player.address_number
+           self.fields['address_box'].initial = player.address_box
            self.fields['city'].initial = player.city
            self.fields['country'].initial = player.country
            self.fields['zipcode'].initial = player.zipcode
@@ -30,14 +34,18 @@ class RegistrationForm(forms.ModelForm):
         model = UserRegistration
         fields = [
                 'level',
-                'payment_method',
                 'bbq',
-                'activities',
+            ]
+
+class PairRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = Pair
+        fields = [
+                'payment_method',
                 'comment'
             ]
         widgets = {
                 'comment': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
-                'activities': forms.Textarea(attrs={'cols':40, 'rows': 3})
             }
 
 class EmailOldUserForm(forms.Form):

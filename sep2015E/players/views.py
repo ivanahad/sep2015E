@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.conf import settings
-from players.forms import PlayerForm, RegistrationForm, EmailOldUserForm
+from players.forms import PlayerForm, RegistrationForm, PairRegistrationForm, EmailOldUserForm
 from players.models import User, Pair, UserRegistration
 from tournament.forms import OpenTournamentChoiceForm
 from tournament.models import TournamentParticipant, SoloParticipant, Tournament
@@ -13,14 +13,23 @@ def register(request):
         reg1 = RegistrationForm(request.POST, prefix="reg1")
         usr2 = PlayerForm(request.POST, prefix="usr2")
         reg2 = RegistrationForm(request.POST, prefix="reg2")
+        pair = PairRegistrationForm(request.POST)
         trn = OpenTournamentChoiceForm(request.POST)
+
+        emailForm1 = EmailOldUserForm(prefix="email1")
+        emailForm2 = EmailOldUserForm(prefix="email2") 
+
         if 'solo_registration' in request.POST \
                 and usr1.is_valid() and reg1.is_valid() \
                 and trn.is_valid():
             new_user1 = User( \
                     firstname = usr1.cleaned_data['firstname'], \
                     lastname = usr1.cleaned_data['lastname'], \
-                    address = usr1.cleaned_data['address'], \
+                    gender = usr1.cleaned_data['gender'], \
+                    birthdate = usr1.cleaned_data['birthdate'], \
+                    address_street = usr1.cleaned_data['address_street'], \
+                    address_number = usr1.cleaned_data['address_number'], \
+                    address_box = usr1.cleaned_data['address_box'], \
                     city = usr1.cleaned_data['city'], \
                     country = usr1.cleaned_data['country'], \
                     zipcode = usr1.cleaned_data['zipcode'], \
@@ -31,10 +40,7 @@ def register(request):
             registration1 = UserRegistration( \
                     user = new_user1, \
                     season = settings.CURRENT_SEASON, \
-                    payment_method = reg1.cleaned_data['payment_method'], \
                     bbq = reg1.cleaned_data['bbq'], \
-                    activities = reg1.cleaned_data['activities'], \
-                    comment = reg1.cleaned_data['comment'], \
                     level = reg1.cleaned_data['level'])
             registration1.save()
 
@@ -50,11 +56,15 @@ def register(request):
 
         elif usr1.is_valid() and usr2.is_valid() \
                 and reg1.is_valid() and reg2.is_valid() \
-                and trn.is_valid():
+                and pair.is_valid() and trn.is_valid():
             new_user1 = User( \
                     firstname = usr1.cleaned_data['firstname'], \
                     lastname = usr1.cleaned_data['lastname'], \
-                    address = usr1.cleaned_data['address'], \
+                    gender = usr1.cleaned_data['gender'], \
+                    birthdate = usr1.cleaned_data['birthdate'], \
+                    address_street = usr1.cleaned_data['address_street'], \
+                    address_number = usr1.cleaned_data['address_number'], \
+                    address_box = usr1.cleaned_data['address_box'], \
                     city = usr1.cleaned_data['city'], \
                     country = usr1.cleaned_data['country'], \
                     zipcode = usr1.cleaned_data['zipcode'], \
@@ -65,10 +75,7 @@ def register(request):
             registration1 = UserRegistration( \
                     user = new_user1, \
                     season = settings.CURRENT_SEASON, \
-                    payment_method = reg1.cleaned_data['payment_method'], \
                     bbq = reg1.cleaned_data['bbq'], \
-                    activities = reg1.cleaned_data['activities'], \
-                    comment = reg1.cleaned_data['comment'], \
                     level = reg1.cleaned_data['level'])
             registration1.save()
 
@@ -76,7 +83,11 @@ def register(request):
             new_user2 = User( \
                     firstname = usr2.cleaned_data['firstname'], \
                     lastname = usr2.cleaned_data['lastname'], \
-                    address = usr2.cleaned_data['address'], \
+                    gender = usr2.cleaned_data['gender'], \
+                    birthdate = usr2.cleaned_data['birthdate'], \
+                    address_street = usr2.cleaned_data['address_street'], \
+                    address_number = usr2.cleaned_data['address_number'], \
+                    address_box = usr2.cleaned_data['address_box'], \
                     city = usr2.cleaned_data['city'], \
                     country = usr2.cleaned_data['country'], \
                     zipcode = usr2.cleaned_data['zipcode'], \
@@ -87,14 +98,21 @@ def register(request):
             registration2 = UserRegistration( \
                     user = new_user2, \
                     season = settings.CURRENT_SEASON, \
-                    payment_method = reg2.cleaned_data['payment_method'], \
                     bbq = reg2.cleaned_data['bbq'], \
-                    activities = reg2.cleaned_data['activities'], \
-                    comment = reg2.cleaned_data['comment'], \
                     level = reg2.cleaned_data['level'])
             registration2.save()
 
-            Pair.create_pair(new_user1, new_user2)
+            pair = Pair(player1 = new_user1, player2 = new_user2, \
+                    average = reg1.cleaned_data['level'] + reg2.cleaned_data['level'], \
+                    season = settings.CURRENT_SEASON, \
+                    payment_method = pair.cleaned_data['payment_method'], \
+                    comment = pair.cleaned_data['comment'])
+            pair.save()
+
+            tp = TournamentParticipant( \
+                    participant = pair, \
+                    tournament = trn.cleaned_data['tournament'])
+            tp.save()
 
             send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
                 +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname'], 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
@@ -102,21 +120,14 @@ def register(request):
             send_mail('Enregistrement à un tournoi', 'Bonjour '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
                 +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname'], 'info@sep2015e.com', [usr2.cleaned_data['email']], fail_silently=False)
 
-            tp = TournamentParticipant( \
-                    participant = new_pair,
-                    tournament = trn.cleaned_data['tournament'])
-            tp.save()
-
             return render(request, 'players/registration_success.html')
-
-        else:
-            return render(request, 'players/registration_failure.html')
 
     else: # Si ce n'est pas du POST, c'est probablement une requête GET
         usr1 = PlayerForm(prefix="usr1")
         reg1 = RegistrationForm(prefix="reg1")
         usr2 = PlayerForm(prefix="usr2")
         reg2 = RegistrationForm(prefix="reg2")
+        pair = PairRegistrationForm()
         trn = OpenTournamentChoiceForm()
         emailForm1 = EmailOldUserForm(prefix="email1")
         emailForm2 = EmailOldUserForm(prefix="email2") 
@@ -125,16 +136,16 @@ def register(request):
 
         if trn_open == 0  :
             return render(request, 'players/no_tournament_open.html')
-        else:
 
-            return render(request, 'players/register.html', {
-                "usr1": usr1,
-                "reg1": reg1,
-                "usr2": usr2,
-                "reg2": reg2,
-                "trn": trn,
-                "email1": emailForm1,
-                "email2": emailForm2
+    return render(request, 'players/register.html', {
+        "usr1": usr1,
+        "reg1": reg1,
+        "usr2": usr2,
+        "reg2": reg2,
+        "pair": pair,
+        "trn": trn,
+        "email1": emailForm1,
+        "email2": emailForm2
             })
 
 def filled_registration(request):

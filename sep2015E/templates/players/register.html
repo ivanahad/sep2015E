@@ -55,6 +55,7 @@
 									{{ usr1.firstname.errors }}
 								</div>
 							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_lastname">Lastname:</label>
@@ -66,17 +67,67 @@
 									{{ usr1.lastname.errors }}
 								</div>
 							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
-									<label for="id_address">Address:</label>
+									<label for="id_lastname">Gender:</label>
 								</div>
 								<div class="col-sm-4">
-									{{ usr1.address }}
+									{{ usr1.gender }}
 								</div>
 								<div class="col-sm-4 required">
-									{{ usr1.address.errors }}
+									{{ usr1.gender.errors }}
 								</div>
 							</div>
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_lastname">Birthdate:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr1.birthdate }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr1.birthdate.errors }}
+								</div>
+							</div>
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_address">Street:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr1.address_street }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr1.address_street.errors }}
+								</div>
+							</div>
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_address">Number:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr1.address_number }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr1.address_number.errors }}
+								</div>
+              </div>
+
+              <div class="row field">
+								<div class="col-sm-4">
+									<label for="id_address">Box:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr1.address_box }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr1.address_box.errors }}
+								</div>
+							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_city">City:</label>
@@ -88,6 +139,7 @@
 									{{ usr1.city.errors }}
 								</div>
 							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_country">Country:</label>
@@ -99,6 +151,7 @@
 									{{ usr1.country.errors }}
 								</div>
 							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_zipcode">Zip code:</label>
@@ -110,6 +163,7 @@
 									{{ usr1.zipcode.errors }}
 								</div>
 							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_email">Email:</label>
@@ -121,6 +175,7 @@
 									{{ usr1.email.errors }}
 								</div>
 							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_phone">Phone:</label>
@@ -132,8 +187,10 @@
 									{{ usr1.phone.errors }}
 								</div>
 							</div>
+
 							<br/>
 							{{ reg1.non_field_errors }}
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_level">Level:</label>
@@ -145,17 +202,7 @@
 									{{ reg1.level.errors }}
 								</div>
 							</div>
-							<div class="row field">
-								<div class="col-sm-4">
-									<label for="id_payment_method">Payment Method:</label>
-								</div>
-								<div class="col-sm-4">
-									{{ reg1.payment_method }}
-								</div>
-								<div class="col-sm-4 required">
-									{{ reg1.payment_method.errors }}
-								</div>
-							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_bbq">BBQ:</label>
@@ -167,30 +214,9 @@
 									{{ reg1.bbq.errors }}
 								</div>
 							</div>
-							<div class="row field">
-								<div class="col-sm-4">
-									<label for="id_activities">Activities:</label>
-								</div>
-								<div class="col-sm-4">
-									{{ reg1.activities }}
-								</div>
-								<div class="col-sm-4 required">
-									{{ reg1.activities.errors }}
-								</div>
-							</div>
-							<div class="row field">
-								<div class="col-sm-4">
-									<label for="id_comment">Comment:</label>
-								</div>
-								<div class="col-sm-4">
-									{{ reg1.comment }}
-								</div>
-								<div class="col-sm-4 required">
-									{{ reg1.comment.errors }}
-								</div>
-							</div>
-						</div>
-					</div>
+
+            </div>
+          </div>
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
@@ -210,6 +236,7 @@
 									{{ usr2.firstname.errors }}
 								</div>
 							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_lastname">Lastname:</label>
@@ -221,17 +248,67 @@
 									{{ usr2.lastname.errors }}
 								</div>
 							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
-									<label for="id_address">Address:</label>
+									<label for="id_lastname">Gender:</label>
 								</div>
 								<div class="col-sm-4">
-									{{ usr2.address }}
+									{{ usr2.gender }}
 								</div>
 								<div class="col-sm-4 required">
-									{{ usr2.address.errors }}
+									{{ usr2.gender.errors }}
 								</div>
 							</div>
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_lastname">Birthdate:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr2.birthdate }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr2.birthdate.errors }}
+								</div>
+							</div>
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_address">Street:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr2.address_street }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr2.address_street.errors }}
+								</div>
+							</div>
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_address">Number:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr2.address_number }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr2.address_number.errors }}
+								</div>
+              </div>
+
+              <div class="row field">
+								<div class="col-sm-4">
+									<label for="id_address">Box:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr2.address_box }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr2.address_box.errors }}
+								</div>
+							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_city">City:</label>
@@ -243,17 +320,7 @@
 									{{ usr2.city.errors }}
 								</div>
 							</div>
-							<div class="row field">
-								<div class="col-sm-4">
-									<label for="id_country">Country:</label>
-								</div>
-								<div class="col-sm-4">
-									{{ usr2.country }}
-								</div>
-								<div class="col-sm-4 required">
-									{{ usr2.country.errors }}
-								</div>
-							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_zipcode">Zip code:</label>
@@ -265,6 +332,19 @@
 									{{ usr2.zipcode.errors }}
 								</div>
 							</div>
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_country">Country:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ usr2.country }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ usr2.country.errors }}
+								</div>
+							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_email">Email:</label>
@@ -276,6 +356,7 @@
 									{{ usr2.email.errors }}
 								</div>
 							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_phone">Phone:</label>
@@ -287,8 +368,10 @@
 									{{ usr2.phone.errors }}
 								</div>
 							</div>
+
 							<br/>
 							{{ reg2.non_field_errors }}
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_level">Level:</label>
@@ -300,17 +383,7 @@
 									{{ reg2.level.errors }}
 								</div>
 							</div>
-							<div class="row field">
-								<div class="col-sm-4">
-									<label for="id_payment_method">Payment Method:</label>
-								</div>
-								<div class="col-sm-4">
-									{{ reg2.payment_method }}
-								</div>
-								<div class="col-sm-4 required">
-									{{ reg2.payment_method.errors }}
-								</div>
-							</div>
+
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_bbq">BBQ:</label>
@@ -322,37 +395,52 @@
 									{{ reg2.bbq.errors }}
 								</div>
 							</div>
-							<div class="row field">
-								<div class="col-sm-4">
-									<label for="id_activities">Activities:</label>
-								</div>
-								<div class="col-sm-4">
-									{{ reg2.activities }}
-								</div>
-								<div class="col-sm-4 required">
-									{{ reg2.activities.errors }}
-								</div>
-							</div>
-							<div class="row field">
-								<div class="col-sm-4">
-									<label for="id_comment">Comment:</label>
-								</div>
-								<div class="col-sm-4">
-									{{ reg2.comment }}
-								</div>
-								<div class="col-sm-4 required">
-									{{ reg2.comment.errors }}
-								</div>
-							</div>
 						</div>
+
 					</div>
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h4 class="panel-title">Tournament</h4>
+							<h4 class="panel-title">Détails</h4>
 						</div>
 						<div class="panel-body">
-							{{ trn.as_p }}
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_bbq">Tournament:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ trn.tournament }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ trn.tournament.errors }}
+								</div>
+							</div>
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_bbq">Payment:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ pair.payment_method }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ pair.payment_method.errors }}
+								</div>
+							</div>
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_bbq">Comment:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ pair.comment }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ pair.comment.errors }}
+								</div>
+							</div>
+
 						</div>
 					</div>
 
