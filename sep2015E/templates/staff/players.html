@@ -1,10 +1,10 @@
 {% extends 'staff_template.html' %}
 
 {% block nav %}
-	<li><a href="{% url "staff.views.home" %}">Home</a></li>
-	<li><a href="{% url "staff.views.players" %}">Players</a></li>
-	<li><a href="{% url "staff.views.courts" %}">Courts</a></li>
-	<li><a href="{% url "tournament.views.all" %}">Tournaments</a></li>
+	<li><a href="{% url "staff.views.home" %}" class="active">Accueil</a><span class="sr-only">current</span></li>
+	<li><a href="{% url "staff.views.players" %}">Joueurs</a></li>
+	<li><a href="{% url "staff.views.courts" %}">Terrains</a></li>
+	<li><a href="{% url "tournament.views.all" %}">Tournois</a></li>
 	<li><a href="https://github.com/ivanahad/sep2015E/wiki">Wiki</a></li>
 	<li><a href="{% url "staff.views.logout_staff" %}">Logout</a></li>
 {% endblock %}

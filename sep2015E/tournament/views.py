@@ -89,6 +89,40 @@ def tournament(request, id_):
     except Tournament.DoesNotExist:
         return HttpResponseRedirect('/tournament/all')
 
+def tournamentStaff(request, id_):
+    id_ = int(id_)
+    try:
+        tournament = Tournament.objects.get(pk=id_)
+        if request.method == 'POST':
+            if 'close_tournament' in request.POST:
+                tournament.close_registrations()
+
+            return HttpResponseRedirect('/tournament/all')
+            #return HttpResponseRedirect( \
+            #        '/tournament/detail?id=' + tournament.pk)
+
+        else:
+            parts = [p.participant for p in \
+                    TournamentParticipant.objects\
+                    .filter(tournament=tournament)]
+            solos = [entry.player for entry in \
+                    SoloParticipant.objects\
+                    .filter(tournament=tournament)]
+            pools = Pool.objects.filter(tournament=tournament)
+            pools = [(p, PoolParticipant.objects.filter(pool=p)) \
+                    for p in pools]
+            return render(request, 'tournament/detailStaff.html', { \
+                    'trn': tournament, \
+                    'parts': parts, \
+                    'nbr_p': len(parts), \
+                    'solos': solos, \
+                    'nbr_s': len(solos), \
+                    'pools': pools, \
+                    })
+
+    except Tournament.DoesNotExist:
+        return HttpResponseRedirect('/tournament/all')
+
 def pool(request, id_tournament, id_pool):
     tournament = Tournament.objects.get(pk=id_tournament)
     pool = Pool.objects.filter(tournament=tournament, number=id_pool)

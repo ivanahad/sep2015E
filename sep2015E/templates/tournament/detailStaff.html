@@ -7,6 +7,15 @@
 <link rel="stylesheet" type="text/css" href="{% static "css/jquery.bracket.min.css" %}" />
 {% endblock %}
 
+{% block nav %}
+	<li><a href="{% url "staff.views.home" %}">Acceuil</a></li>
+	<li><a href="{% url "staff.views.players" %}">Joueurs</a></li>
+	<li><a href="{% url "staff.views.courts" %}">Terrains</a></li>
+	<li><a href="{% url "tournament.views.all" %}">Tournois</a></li>
+	<li><a href="https://github.com/ivanahad/sep2015E/wiki">Wiki</a></li>
+	<li><a href="{% url "staff.views.logout_staff" %}">Logout</a></li>
+{% endblock %}
+
 {% block title %}
 <title>Charles de Lorraine - Details of
   {{ trn.name }} {{ trn.category }}
@@ -99,7 +108,7 @@
 			</div>
       {% endif %}
 
-      {% if user.is_staff and trn.is_open %}
+      {% if True and trn.is_open %}
       <!-- enable this section only if user is staff -->
       <div class="panel">
         <div class="panel-heading">
@@ -114,6 +123,7 @@
         </div>
       </div>
       {% endif %}
+
 
 		</div>
 	</div>
