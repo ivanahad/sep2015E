@@ -51,42 +51,33 @@ breaklines=true
 \begin{document}
 \titleGM
 \section{Introduction}
-We will start the \textit{Phase 3} report by explaining how the implementation of the requirements planned for this phase is going. 
+We will start the \textit{Phase 3} report by listing all the important elements that you wanted us to modify. We will then explain how the implementation of the requirements planned for this phase is going, and give information about the evolution of the architecture of our program.
 
 \section{Client's feedback}
 
-In this section, we will briefly remind what were the change requests made from the client.\\
+In this section, we will briefly list what were the change requests that you made.\\
 
+The players and owner pages were said to fit correctly, with some details that were missing.
 \subsection*{PLAYERS page}
 
+The type of tournament in which the players play can be determined by their age and their situation/genre, those two fields are to be added to the form. You thought it might be a better approach to break down the address into the street name, the number, and the mailbox number. You also asked if we could make it possible to add/delete some options such as the barbecue, to combine the checkout if two players register together, and to add a verification system to check if all the required fields have been filled by the mean of a confirmation email.\\
 
- Pour les joueurs et les propriétaires de terrains cette partie du site semble très bien. Il manque cependant quelques éléments.
-
-Page PLAYERS
-Le type de tournoi dans lequel les joueurs jouent peut-être déterminé par leurs ages et leurs titres/sexes (deux champs à ajouter dans le formulaire d'inscription).
-Je pense qu'il est plus judicieux de décomposer l'adresse en rue, numéro et boîte pour faciliter l'envoi du courrier par après.
-Est-il possible d'ajouter ou supprimer des options comme le BBQ?
-Je ne vois pas très bien à quoi correspond le champ "Activities".
-Si l'inscription s’effectue ensemble, il est plus judicieux de faire le paiement pour la paire ensemble donc ne laisser qu'une seule case pour le choix du payement.
-Il faudrait ajouter une vérification de la cohérence des champs avant l'envoi dans la base de donnée (Vérifier la forme du numéro de téléphone, que tous les champs soit complétés, envoyer un e-mail de confirmation)
 \subsection*{OWNER page}
-Page OWNERS
-Tous les propriétaires sont des propriétaires privés donc il faudrait un formulaire avec leur adresse et l'adresse du terrain(pas toujours identique.
-Une drop-down liste avec un choix de terrain plutôt qu'un champ libre avec les différents types de terrains (détaillés dans les slides je pense) serait mieux.
-La possibilité de mettre une photo du terrain est une très bonne idée.
-Nous ne souhaitons pas diffuser l'adresse des personnes participants au tournoi (qu'il soit propriétaire ou joueur), il n'est donc pas judicieux de proposer au public une recherche dans la base de donnée des propriétaires au bas de la page. Pour faire gagner du temps au propriétaire, un lien personnalisé pourrait leur être envoyé avec un formulaire pré-complété avec les informations fournies durant les années précédentes.
+
+Since the owners are private owners, there should be a form with their address and the court's address which isn't always the same. The courts list should be presented as a drop-down list instead of an empty field.\\
+
+The possibility of putting a picture of the court was said to be a good idea.\\
+
+As you were not willing to diffuse the participants' addresses, it wouldn't be a good idea to allow users to make a search in the database of owners. Morever, a customed linked could be used with a pre-completed form with all the information from previous years to make it quicker for owners to re-register their court.
 
 \subsection*{TOURNAMENTS page}
-Page TOURNAMENTS
-Il est possible pour n'importe qui de créer un tournoi sur votre site mais en réalité seul les membres du staff sont habilité à le faire. J'ai l'impression d'être tombé sur plusieurs versions de cette page, est-ce possible? (une version admin et une version pour le public)
+It shouldn't be possible for anybody to create a tournament, this feature should be only allowed for staff members. This page also seems to have several versions.
 
 \subsection*{SPONSORS page}
-Page SPONSORS
-Si possible pouvez vous faire une bannière identique sur chacune des pages destinées au public avec les sponsors?
 
-La plupart des personnes qui participe au tournoi (joueur et propriétaire) sont francophone donc si vous avez le temps vous pouvez faire une version française de la partie destinée au public.
+You asked us to make an identical banner for every public page with the sponsors. Also, as the website is mostly used by french users, the public part should rather be in french.
 
-Courage pour la suite du travail, vous avez l'air sur la bonne voie. 
+ 
 \section{Requirements, software description, Changes according to feedback}
 
 The requirements below are the ones we planned to develop for the second phase. This time, every requirement has been implemented. \\
