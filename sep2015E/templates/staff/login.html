@@ -10,7 +10,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Login</title>
+  <title>Connexion</title>
   <style>
      body {
        padding-top: 100px;
@@ -44,11 +44,11 @@
     <div class='col-md-6 col-md-offset-3'>
       <form class="form-signin" id="login_form" method="post" action="{% url "staff.views.login_staff" %}">
         {% csrf_token %}
-        <h1 class="form-signin-heading text-muted">Sign In</h1>
-        <input type="text" class="form-control" placeholder="User name" name="username" id="username" required="" autofocus="">
-        <input type="password" class="form-control" placeholder="Password"  name="password" id="password" required="">
+        <h1 class="form-signin-heading text-muted">Se connecter</h1>
+        <input type="text" class="form-control" placeholder="Identifiant" name="username" id="username" required="" autofocus="">
+        <input type="password" class="form-control" placeholder="Mot de passe"  name="password" id="password" required="">
         <button class="btn btn-lg btn-primary btn-block" type="submit">
-          Sign In
+          Connexion
         </button>
       </form>
     </div>

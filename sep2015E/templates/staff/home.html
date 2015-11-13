@@ -39,6 +39,7 @@
 				<p> Text: {{ message.message }} </p>
 				{% endfor %}
 
+				<a href="{% url "staff.views.mail_list" %}">Envoyer un message aux joueurs.</a>
 				<form action="{% url "staff.views.home" %}" method="post">  <!-- Form to create message -->
 					{% csrf_token %}
 					<div class="panel panel-default">
