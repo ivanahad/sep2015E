@@ -60,18 +60,23 @@ In this section, we will briefly list what were the change requests that you mad
 The players and owner pages were said to fit correctly, with some details that were missing.
 \subsection*{PLAYERS page}
 
-The type of tournament in which the players play can be determined by their age and their situation/genre, those two fields are to be added to the form. You thought it might be a better approach to break down the address into the street name, the number, and the mailbox number. You also asked if we could make it possible to add/delete some options such as the barbecue, to combine the checkout if two players register together, and to add a verification system to check if all the required fields have been filled by the mean of a confirmation email.\\
+The type of tournament in which the players play can be determined by their age and their situation/genre, those two fields are to be added to the form. \textit{We added those two fields in the model, but we don't automatically compute the tournament. It is only possible if we precisely know what the categories are and what the limit of age is.}\\
+
+You thought it might be a better approach to break down the address into the street name, the number, and the mailbox number. \textit{It has been added this phase}\\
+
+You also asked if we could make it possible to add/delete some options such as the barbecue, to combine the checkout if two players register together, and to add a verification system to check if all the required fields have been filled by the mean of a confirmation email. \textit{This hasn't been done this iteration because it is rather complex. We were actually wondering if it would be important for you to modify it manually or if we would do it in advance according to your saying.}\\
+
 
 \subsection*{OWNER page}
 
-Since the owners are private owners, there should be a form with their address and the court's address which isn't always the same. The courts list should be presented as a drop-down list instead of an empty field.\\
+Since the owners are private owners, there should be a form with their address and the court's address which isn't always the same. The courts list should be presented as a drop-down list instead of an empty field. \textit{This has been implemented this phase}\\
 
-The possibility of putting a picture of the court was said to be a good idea.\\
+The possibility of putting a picture of the court was said to be a good idea. \textit{This has been implemented this phase}\\
 
-As you were not willing to diffuse the participants' addresses, it wouldn't be a good idea to allow users to make a search in the database of owners. Morever, a customed linked could be used with a pre-completed form with all the information from previous years to make it quicker for owners to re-register their court.
+As you were not willing to diffuse the participants' addresses, it wouldn't be a good idea to allow users to make a search in the database of owners. Morever, a customed linked could be used with a pre-completed form with all the information from previous years to make it quicker for owners to re-register their court. \textit{This has been implemented this phase}
 
 \subsection*{TOURNAMENTS page}
-It shouldn't be possible for anybody to create a tournament, this feature should be only allowed for staff members. This page also seems to have several versions.
+It shouldn't be possible for anybody to create a tournament, this feature should be only allowed for staff members. This page also seems to have several versions. \textit{For the tournament page, we removed the link on the visitor page and we added like the other staff page a restriction so that the visitors cannot access those pages. In the future, we would like to have a tournament page for the visitors that would show the pools and the knock-off tournament so that the participants can see how the tournament is going.}
 
 \subsection*{SPONSORS page}
 
@@ -85,40 +90,77 @@ The requirements below are the ones we planned to develop for the second phase. 
 	
 \begin{itemize}
  
-\item A staff member can visualize and print the evolution of the tour- nament in a fashionable and displayable form (both graphic and text), step by step, using the knockoff, and print the pool matchup sheet
-\item An admin can create an admin account
-\item An admin can modify his credentials
-\item An admin can create a staff account
-\item An admin can delete an account
-\item The user can re-use old data linked to his email address to auto- matically fill a registration form
-\item The system must confirm via email addresses
-\item A staff member can use a mail list / newsletter functionality
+\item A staff member can visualize and print the evolution of the tournament in a fashionable and displayable form (both graphic and text), step by step, using the knockoff, and print the pool matchup sheet(Ludovic, Eddy)
+\item An admin can create an admin account(done in previous phase)
+\item An admin can modify his credentials(done in previous phase)
+\item An admin can create a staff account (by default with Django tool)
+\item An admin can delete an account (same as previous requirement)
+\item The user can re-use old data linked to his email address to auto- matically fill a registration form(Eddy)
+\item The system must confirm via email addresses(Ludovic)
+\item A staff member can use a mail list / newsletter functionality(Arnaud)
 \\
 \end{itemize}
+
 It is important to note that the requirements haven't been implemented in this particular order.\\
 
-Many other features have also been implemented of course, to improve quality of the current website, such as the creation of a sponsor page, a contact page, a feature that allows a staff member to see and edit all the users information, etc. Moreover, we made sure that the website is \textit{mobile-friendly}, and some other improvements have been brought to the design.\\
+You can see in the list above who implemented which requirement(s) for this phase. Other features have also been implemented of course, mostly to improve quality of the current website, such as overhauling the forms to make it more pleasant to read and change the required field message(Ludovic), making it possible for a staff to have a login to connect to his account (Eddy), Ivan took care of the report and made sure it respected all the criterion listed in the Criterion file. Aurian, Anthony and Jonathan made the sequence diagrams and updated the UML diagram, and finally Geoffroy made sure to make the design look more appealing.\\
 
-You can see in the list above who implemented which requirement(s) for this phase. The other features were implemented by Ludovic, Aurian, Jonathan, Anthony, and Arnaud. Ivan took care of the report and made sure it respected all the criterion listed in the Criterion file. The team in general corrected the ORM diagram and updated the UML one for this phase. \\
+Some bugs have also been fixed, such as the problem with the links in the navigation bar, and the problem with the courts. When a user accessed the courts page, an error could be raised because of a missing image. 
 
-Last sprint, the form for player registration was not working. This issue has now been fixed. Note that the players must choose a tournament to register for, otherwise the registration would be invalid. When this is done, the player will be redirected to the home page. The same mechanism goes for the court registration.  For future phases we planned on making it not possible for a player to register if there isn't any available tournament to register for. We also planned on adding a page showing that a registration has successfully been added.\\
+\subsection*{Implementation choices}
+\textit{A staff member can visualize and print the evolution of the tournament in a fashionable and displayable form (both graphic and text), step by step, using the knockoff, and print the pool matchup sheet(Ludovic, Eddy)}. When closing the registration for a tournament, a pdf is generated with all the pools. It was done this way so that the visitors can print the pdf themselves. Plus, the pdf is only generated once. The staff members can see on the website the pools and the corresponding fixtures, they can also edit the matches, as they have a global view of the pools. \\
 
+\textit{An admin can create an admin account(done in previous phase), an admin can modify his credentials(done in previous phase), an admin can create a staff account (by default with Django tool), An admin can delete an account (same as previous requirement)}. Those three requirements are done by default by Django. But if the client wants some things to be modified, then we could take them into account. \\
+
+\textit{The user can re-use old data linked to his email address to automatically fill a registration form(Eddy)}. To implement this, we added a link on the registration forms so that previous participants can use their old information for new registration. All they have to do is give us their previously used address.\\
+
+\textit{A staff member can use a mail list / newsletter functionality(Arnaud)}. We added a possibility for the staff members to  broadcast a message to all participants so that they can send new information and reminders about the tournaments.\\
+
+\textit{The system must confirm via email addresses(Ludovic)}. When a participant submits his registration form, the software sends an automatic email to confirm that the player has a valid email address. We thought it was an obvious feature to have for the website. \\
+
+For the brackets, the feature isn't completely done yet because we still need think further about the score systems, but for now it displays the beginning of the tournament after the pool phase. After the pools are finished (one winner per pool), each winner will be in the tree of the tournament for the next phase. \\
+
+Let's now discuss about the features that were not requirements. We still implemented them because they were necessary functionalities to make the software work. We implemented a login page for the staff members, and we also added to the staff pages so that a visitor cannot access them. The visitor website was also updated to be more user-friendly and to have a more consistent design. For example, the forms are all implemented in bootstrap, making them more appealing. All the texts are now in French for visitors. However, for the staff page, there is still some progress to make because we have been more focused on the functionalities than the design for now but it will get better for the last phase, as it will become our main concern. \\
+
+For the staff pages, we made some modification to differenciate them from visitors pages. To do so, we changed the background used and we added some information on the navigation bar that are only avaialble on the staff pages.\\
+
+For the next phase, we will search and correct all the remaining bugs if there are any. We will also optimize the staff design as a whose so that it is even more user-friendly and intuitive. 
 \subsection{The software}
 
-Here is the live version of our website : http://sep2015e.herokuapp.com.  To get admin access you should add "/admin" in the url. The username and the password are both \textbf{admin}. In the last phase our website only worked on our host. For this sprint, we made sure that it works even on the live version.\\
 
-To get access to the data of our project, you can click on the link to our \textit{Github} repository : https://github.com/ivanahad/sep2015E\\ 
-\section{Architecture discussion \& UML Diagram}
+Here is the live version of our website : http://sep2015e.herokuapp.com.  To get admin access you should add "/admin" in the url.\\
 
-You can see our UML diagram in Figure\ref{uml}. Since the last phase, we changed : expliquer tout ce qu'on a changé depuis la phase précédente, expliquer pourquoi on l'a fait comme ça.
+To get access to the data of our project, you can click on the link to our \textit{Github} repository : https://github.com/ivanahad/sep2015E\\
+\subsubsection*{How to create a staff account}
+A staff is a user(as a Django default user model) for which we added some fields such as his address, contacts, etc. The administrator can create a staff account by adding a new user and then creating the staff account. We thought that it was an easier and elegant way to create one, so that we can use the power of Django default user model that have already group authorization for the user. This way, we can create a group "staff" that can only edit player profiles and other courts information, and some other information. 
 
+\newpage
+\section{Architecture discussion, choices \& UML Diagram}
 
+You can see our UML diagram in Figure\ref{uml}. Since the last phase, we changed.\\
+
+In the architecture, in this phase, some models such as the player and the tournament have been modified to fit the client's feedback. As we mentioned before, we added for a tournament two fields(age, gender) to describe the participants more accurately. (Note that the ORM must be updated but we felt that the modifications were trivial, as only two relationships would have been added, otherwise the model stays pretty much the same). 
+
+%AJOUTER LUML ICI ET ENLEVER LES %
+%\begin{figure}[b]
+%\includegraphics[scale=0.7]{uml3.png}
+%\end{figure}
+
+\subsection*{Sequences diagram}
+%AJOUTER SEQUENCE ICI ET ENLEVER LES %, AJUTER LE SCALE EN FONCTION
+%\begin{figure}[b]
+%\includegraphics[scale=0.7]{sequence.png}
+%\end{figure}
+%EXPLIQUER AVEC TEXTE 
+
+%AJOUTER SEQUENCE ICI ET ENLEVER LES %, AJUTER LE SCALE EN FONCTION
+%\begin{figure}[b]
+%\includegraphics[scale=0.7]{sequence.png}
+%\end{figure}
+%EXPLIQUER AVEC TEXTE
 
 \section{Conclusion}
-Changment après le feedback du client, on a implémenté tous les req, les diagram? 
 
-\begin{appendices}
-\noindent
+For this phase, we took your feedback into account. All the must have requirements are now implemented, we will from now on focus on the design of the website, and polish the functionalities to make them run better and so that at the end of next phase we have a finale product. 
 
-\end{appendices}
 \end{document}

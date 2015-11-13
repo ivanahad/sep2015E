@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block nav %}
-	<li><a href="{% url "staff.views.home" %}">Home</a></li>
-	<li><a href="{% url "staff.views.players" %}">Players</a></li>
-	<li><a href="{% url "staff.views.courts" %}">Courts</a></li>
-	<li><a href="{% url "tournament.views.all" %}">Tournaments</a></li>
+	<li><a href="{% url "staff.views.home" %}">Acceuil</a></li>
+	<li><a href="{% url "staff.views.players" %}">Joueurs</a></li>
+	<li><a href="{% url "staff.views.courts" %}">Terrains</a></li>
+	<li><a href="{% url "tournament.views.all" %}">Tournois</a></li>
 	<li><a href="https://github.com/ivanahad/sep2015E/wiki">Wiki</a></li>
 	<li><a href="{% url "staff.views.logout_staff" %}">Logout</a></li>
 {% endblock %}
@@ -18,8 +18,8 @@
 	<div class="box">
 		<div class="col-lg-12">
 			<hr>
-			<h2 class="intro-text text-center">List of
-				<strong>current tournaments</strong>
+			<h2 class="intro-text text-center">Liste des
+				<strong>tournois actuels</strong>
 			</h2>
 			<hr>
 
@@ -28,11 +28,11 @@
         <a href="{% url "tournament.views.tournament" t.tournament.pk %}"
            class="tournament-a-block">
           <div class="panel panel-default panel-body tournament-a-block">
-            <p> <b>Tournament:</b> {{ t.tournament.name }} </p>
-            <p> <b>Category:</b> {{ t.tournament.category }} </p>
-            <p> <b>Number of registered pairs:</b> {{ t.pair_count }} </p>
+            <p> <b>Tournoi:</b> {{ t.tournament.name }} </p>
+            <p> <b>Catégorie:</b> {{ t.tournament.category }} </p>
+            <p> <b>Nombre de paires enregistrées:</b> {{ t.pair_count }} </p>
             {% if t.tournament.is_open %}
-            <p> <b>Number of solo players:</b> {{ t.solo_count }} </p>
+            <p> <b>Nombre de joueurs solo:</b> {{ t.solo_count }} </p>
             {% endif %}
             <p> <b>Status:</b> {{ t.status }} </p>
           </div>
@@ -43,14 +43,14 @@
       {% if True %} <!-- enable this section if user is staff -->
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title"> Create new tournament </h3>
+          <h3 class="panel-title">Créer un nouveau tournoi</h3>
         </div>
 
         <div class="panel-body">
           <form action="{% url "tournament.views.all" %}" method="post">
             {% csrf_token %}
             {{ new_tournament.as_p }}
-            <input type="submit" value="Create" name="create_tournament" />
+            <input type="submit" value="Créer" name="create_tournament" />
           </form>
         </div>
 
