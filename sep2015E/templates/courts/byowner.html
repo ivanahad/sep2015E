@@ -15,6 +15,17 @@
 			<hr>
 
 			<div>
+				{% for c in courts %}
+        <div class="panel panel-default panel-body">
+          <p> <b>Addresse:</b> {{ c.address_street }} {{ c.address_number }}</p>
+          <p> <b>Terrain:</b> {{ c.ground }} </p>
+        </div>
+				{% endfor %}
+			</div>
+
+
+
+			<div>
 				{% for i in match_list %}
 				{% for j in i %}
 				<div class="panel panel-default">

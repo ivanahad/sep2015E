@@ -12,9 +12,11 @@
 				</h2>
 				<hr>
 				<div class="panel-body">
+
 					<form enctype="multipart/form-data" action="{% url "courts.views.register" %}" method="post">
 						{% csrf_token %}
 						{{ form.non_field_errors }}
+
 						<div class="row field">
 							<div class="col-sm-4">
 								<label for="id_owner">Propriétaire:</label>
@@ -26,17 +28,43 @@
 								{{ form.owner.errors }}
 							</div>
 						</div>
+
 						<div class="row field">
 							<div class="col-sm-4">
-								<label for="id_address">Adresse:</label>
+								<label for="id_address">Adresse du propriétaire:</label>
 							</div>
 							<div class="col-sm-4">
-								{{ form.address }}
+								{{ form.owner_address_street }}
 							</div>
 							<div class="col-sm-4 required">
-								{{ form.address.errors }}
+								{{ form.owner_address_street.errors }}
 							</div>
 						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+                <label for="id_address">Numéro:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.owner_address_number }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.owner_address_number.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+                <label for="id_address">Boîte:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.owner_address_box }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.owner_address_box.errors }}
+							</div>
+						</div>
+
 						<div class="row field">
 							<div class="col-sm-4">
 								<label for="id_city">Ville:</label>
@@ -48,6 +76,7 @@
 								{{ form.city.errors }}
 							</div>
 						</div>
+
 						<div class="row field">
 							<div class="col-sm-4">
 								<label for="id_zipcode">Code postal:</label>
@@ -59,6 +88,7 @@
 								{{ form.zipcode.errors }}
 							</div>
 						</div>
+
 						<div class="row field">
 							<div class="col-sm-4">
 								<label for="id_email">Email:</label>
@@ -70,6 +100,7 @@
 								{{ form.email.errors }}
 							</div>
 						</div>
+
 						<div class="row field">
 							<div class="col-sm-4">
 								<label for="id_phone">Téléphone:</label>
@@ -81,6 +112,44 @@
 								{{ form.phone.errors }}
 							</div>
 						</div>
+
+            <!-- Terrain data -->
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_ground">Adresse du court:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.address_street }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.address_street.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_ground">Numéro:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.address_number }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.address_number.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_ground">Boîte:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.address_box }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.address_box.errors }}
+							</div>
+						</div>
+
 						<div class="row field">
 							<div class="col-sm-4">
 								<label for="id_ground">Sol:</label>
@@ -92,6 +161,7 @@
 								{{ form.ground.errors }}
 							</div>
 						</div>
+
 						<div class="row field">
 							<div class="col-sm-4">
 								<label for="id_cover">Couvert:</label>
@@ -103,6 +173,7 @@
 								{{ form.cover.errors }}
 							</div>
 						</div>
+
 						<div class="row field">
 							<div class="col-sm-4">
 								<label for="id_image">Image:</label>
@@ -114,6 +185,7 @@
 								{{ form.image.errors }}
 							</div>
 						</div>
+
 						<div class="row big-field">
 							<div class="col-sm-3">
 								<label for="id_comment_access">Commentaire d'accès:</label>
@@ -125,6 +197,7 @@
 								{{ form.comment_access.errors }}
 							</div>
 						</div>
+
 						<div class="row big-field">
 							<div class="col-sm-3">
 								<label for="id_comment_desiderata">Commentaire Desiderata:</label>
@@ -136,12 +209,15 @@
 								{{ form.comment_desiderata.errors }}
 							</div>
 						</div>
+
 						<input type="submit" value="Enregistrer terrain" />
 					</form>
+
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<div class="row">
 		<div class="box">
 			<div class="col-lg-12">
