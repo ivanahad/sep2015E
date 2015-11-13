@@ -32,7 +32,9 @@
 						<p> <b>Accessibilité:</b> {{ c.comment_access }} </p>
 						<p> <b>Disponible:</b> {{ c.available }} </p>
 						<p> <b>Desiderata:</b> {{ c.comment_desiderata }} </p>
-						<img src="{{ c.image.url }}" />
+						{% if c.image %}
+							<img src="{{ c.image.url }}" />
+						{% endif %}
 					</div>
 				</div>
 
