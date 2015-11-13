@@ -99,7 +99,7 @@
 			</div>
       {% endif %}
 
-      {% if True and trn.is_open %}
+      {% if user.is_staff and trn.is_open %}
       <!-- enable this section only if user is staff -->
       <div class="panel">
         <div class="panel-heading">

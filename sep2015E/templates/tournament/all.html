@@ -40,7 +40,7 @@
 				{% endfor %}
 			</div>
 
-      {% if True %} <!-- enable this section if user is staff -->
+      {% if user.is_staff %} <!-- enable this section if user is staff -->
       <div class="panel">
         <div class="panel-heading">
           <h3 class="panel-title">Créer un nouveau tournoi</h3>
