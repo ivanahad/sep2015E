@@ -142,22 +142,20 @@ You can see our UML diagram in Figure\ref{uml}. Since the last phase, we changed
 In the architecture, in this phase, some models such as the player and the tournament have been modified to fit the client's feedback. As we mentioned before, we added for a tournament two fields(age, gender) to describe the participants more accurately. (Note that the ORM must be updated but we felt that the modifications were trivial, as only two relationships would have been added, otherwise the model stays pretty much the same). 
 
 %AJOUTER LUML ICI ET ENLEVER LES %
-%\begin{figure}[b]
-%\includegraphics[scale=0.7]{uml3.png}
-%\end{figure}
+\begin{figure}[b]
+	\caption{\label{uml} UML diagram}
+\includegraphics[scale=0.45]{Class.png}
+\end{figure}
 
 \subsection*{Sequences diagram}
-%AJOUTER SEQUENCE ICI ET ENLEVER LES %, AJUTER LE SCALE EN FONCTION
-%\begin{figure}[b]
-%\includegraphics[scale=0.7]{sequence.png}
-%\end{figure}
-%EXPLIQUER AVEC TEXTE 
+
+You can see in figure \ref{sequence} the sequence diagram for how a player registers to a tournament with an email confirmation. Note that this is a registration for a single player. For two players, it works the same way but it creates a pair instead. 
 
 %AJOUTER SEQUENCE ICI ET ENLEVER LES %, AJUTER LE SCALE EN FONCTION
-%\begin{figure}[b]
-%\includegraphics[scale=0.7]{sequence.png}
-%\end{figure}
-%EXPLIQUER AVEC TEXTE
+\begin{figure}[position]
+   \caption{\label{sequence} Sequence diagram}
+   \includegraphics[scale=0.4]{sequence.png}
+\end{figure}
 
 \section{Conclusion}
 
