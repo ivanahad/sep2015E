@@ -125,29 +125,47 @@
 {% block script %}
 
 	<script>
-	var eightTeams = {
-	  teams : [
-	    ["Team 1",  "Team 2" ],
-	    ["Team 3",  "Team 4" ],
-	    ["Team 5",  "Team 6" ],
-	    ["Team 7",  "Team 8" ]
-	  ],
-	  results : [[ /* WINNER BRACKET */
-	    [[1,2], [3,4], [5,6], [7,8]],
-	    [[9,1], [8,2]],
-	    [[1,3]]
-	  ], [         /* LOSER BRACKET */
-	    [[5,1], [1,2], [3,2], [6,9]],
-	    [[1,2], [3,1]],
-	    [[4,2]]
-	  ]]
+	var pools = [];
+	var pair = [];
+	{% for pool in pools %}
+		pair[parseInt("{{ pool.0.number }}")] = 'Pool '+"{{ pool.0.number }}";
+		if (((parseInt("{{ pool.0.number }}")+1) % 2) == 0) {
+			pools[Math.floor(parseInt("{{ pool.0.number }}")/2)] = pair;
+		}
+	{% endfor %}
+	var dataBracket = {
+	    teams : pools,
+	    results : []
+	}
+
+	/* Called whenever bracket is modified
+	 *
+	 * data:     changed bracket object in format given to init
+	 * userData: optional data given when bracket is created.
+	 */
+	function saveFn(data, userData) {
+	  var json = jQuery.toJSON(data)
+	  $('#saveOutput').text('POST '+userData+' '+json)
+	  /* You probably want to do something like this
+	  jQuery.ajax("rest/"+userData, {contentType: 'application/json',
+	                                dataType: 'json',
+	                                type: 'post',
+	                                data: json})
+	  */
 	}
 
 	$(function() {
-	  $('#bracket').bracket({
-	    skipGrandFinalComeback: true,
-	    init: eightTeams})
-	})
+	    var container = $('#bracket')
+	    container.bracket({
+	      init: dataBracket,
+		  skipConsolationRound: true,
+	      save: saveFn,
+	      userData: "http://myapi"})
+
+	    /* You can also inquiry the current data */
+	    var data = container.bracket('data')
+	    $('#dataOutput').text(jQuery.toJSON(data))
+	  })
 	</script>
 
 {% endblock %}
