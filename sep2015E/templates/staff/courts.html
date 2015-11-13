@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block nav %}
-	<li><a href="{% url "staff.views.home" %}">Home</a></li>
-	<li><a href="{% url "staff.views.players" %}">Players</a></li>
-	<li><a href="{% url "staff.views.courts" %}">Courts</a></li>
-	<li><a href="{% url "tournament.views.all" %}">Tournaments</a></li>
+	<li><a href="{% url "staff.views.home" %}">Accueil</a></li>
+	<li><a href="{% url "staff.views.players" %}">Joueurs</a></li>
+	<li><a href="{% url "staff.views.courts" %}">Terrains</a></li>
+	<li><a href="{% url "tournament.views.all" %}">Tournois</a></li>
 	<li><a href="https://github.com/ivanahad/sep2015E/wiki">Wiki</a></li>
 	<li><a href="{% url "staff.views.logout_staff" %}">Logout</a></li>
 {% endblock %}
@@ -18,8 +18,8 @@
 	<div class="box">
 		<div class="col-lg-12">
 			<hr>
-			<h2 class="intro-text text-center">List of
-				<strong>Courts</strong>
+			<h2 class="intro-text text-center">Liste des
+				<strong>terrains</strong>
 			</h2>
 			<hr>
 
@@ -27,10 +27,10 @@
 				{% for c in courts %}
 				<div class="panel panel-default panel-body">
 					<div class="row">
-						<p> <b>Owner:</b> {{ c.owner }} </p>
-						<p> <b>Ground:</b> {{ c.ground }} </p>
-						<p> <b>Accessibility:</b> {{ c.comment_access }} </p>
-						<p> <b>Available:</b> {{ c.available }} </p>
+						<p> <b>Propriétaire:</b> {{ c.owner }} </p>
+						<p> <b>Sol:</b> {{ c.ground }} </p>
+						<p> <b>Accessibilité:</b> {{ c.comment_access }} </p>
+						<p> <b>Disponible:</b> {{ c.available }} </p>
 						<p> <b>Desiderata:</b> {{ c.comment_desiderata }} </p>
 						<img src="{{ c.image.url }}" />
 					</div>

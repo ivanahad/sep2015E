@@ -19,7 +19,7 @@
 		<div class="col-lg-12">
 			<hr>
 			<h2 class="intro-text text-center">
-        Details of tournament {{ trn.name }} category {{ trn.category }}
+         		Détails du tournoi {{ trn.name }} catégorie {{ trn.category }}
 			</h2>
 			<hr>
 
@@ -29,20 +29,20 @@
         </div>
 
         <div class="panel-body">
-          <p> Season: {{ trn.season }} </p>
-          <p> Number of registered pairs: {{ nbr_p }} </p>
+          <p> Saison: {{ trn.season }} </p>
+          <p> Nombre de paires enregistrées: {{ nbr_p }} </p>
           {% if trn.is_open %}
-          <p> Number of solo participants: {{ nbr_s }} </p>
+          <p> Nombre de participants solo: {{ nbr_s }} </p>
           {% endif %}
-          <p> Players per pool: {{ trn.pool_size }} </p>
-          <p> Registrations open: {{ trn.is_open }} </p>
+          <p> Joueurs par pool: {{ trn.pool_size }} </p>
+          <p> Inscriptions ouvertes: {{ trn.is_open }} </p>
         </div>
       </div>
 
       <!-- Registered pairs -->
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title"> Registered pairs </h3>
+          <h3 class="panel-title"> Paires inscrites </h3>
         </div>
 
         <div class="panel-body">
@@ -57,7 +57,7 @@
       {% if trn.is_open %}
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title"> Solo participants </h3>
+          <h3 class="panel-title"> Participants solo </h3>
         </div>
 
         <div class="panel-body">
@@ -103,13 +103,13 @@
       <!-- enable this section only if user is staff -->
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title"> Close registrations </h3>
+          <h3 class="panel-title"> Fermer les inscriptions </h3>
         </div>
 
         <div class="panel-body">
           <form action="{% url "tournament.views.tournament" trn.id %}" method="post">
             {% csrf_token %}
-            <input type="submit" value="Launch the tournament" onclick="return confirm('Are you sure ? Once the tournament has been launched, no player will be able to register for it.')" name="close_tournament"/>
+            <input type="submit" value="Lancer le tournoi" onclick="return confirm('Etes vous sûr ? Une fois que le tournoi lancé, plus aucun joueur ne pourra s'y inscrire.')" name="close_tournament"/>
           </form>
         </div>
       </div>
