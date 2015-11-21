@@ -3,239 +3,263 @@
 <title>Court registration</title>
 {% endblock %}
 {% block content %}
-	<div class="row">
-		<div class="box">
-			<div class="col-lg-12">
-				<hr>
-				<h2 class="intro-text text-center">Enregistrer
-					<strong>un terrain</strong>
-				</h2>
-				<hr>
-				<div class="panel-body">
+<div class="row">
+	<div class="box">
+		<div class="col-lg-12">
+			<hr>
+			<h2 class="intro-text text-center">Enregistrer
+				<strong>un terrain</strong>
+			</h2>
+			<hr>
+			<div class="panel-body">
 
-					<form enctype="multipart/form-data" action="{% url "courts.views.register" %}" method="post">
-						{% csrf_token %}
-						{{ form.non_field_errors }}
+				<form enctype="multipart/form-data" action="{% url "courts.views.register" %}" method="post">
+					{% csrf_token %}
+					{{ form.non_field_errors }}
+					<div class = "row">
+						<div class="col-md-6">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">Informations propriétaire</h4>
+								</div>
+								<div class=panel-body>
+									<div class="row field">
+										<div class="col-sm-4">
+											<label for="id_owner">Propriétaire:</label>
+										</div>
+										<div class="col-sm-4">
+											{{ form.owner }}
+										</div>
+										<div class="col-sm-4 required">
+											{{ form.owner.errors }}
+										</div>
+									</div>
 
-						<div class="row field">
-							<div class="col-sm-4">
-								<label for="id_owner">Propriétaire:</label>
-							</div>
-							<div class="col-sm-4">
-								{{ form.owner }}
-							</div>
-							<div class="col-sm-4 required">
-								{{ form.owner.errors }}
+									<div class="row field">
+										<div class="col-sm-4">
+											<label for="id_address">Adresse du propriétaire:</label>
+										</div>
+										<div class="col-sm-4">
+											{{ form.owner_address_street }}
+										</div>
+										<div class="col-sm-4 required">
+											{{ form.owner_address_street.errors }}
+										</div>
+									</div>
+
+									<div class="row field">
+										<div class="col-sm-4">
+											<label for="id_address">Numéro:</label>
+										</div>
+										<div class="col-sm-4">
+											{{ form.owner_address_number }}
+										</div>
+										<div class="col-sm-4 required">
+											{{ form.owner_address_number.errors }}
+										</div>
+									</div>
+
+									<div class="row field">
+										<div class="col-sm-4">
+											<label for="id_address">Boîte:</label>
+										</div>
+										<div class="col-sm-4">
+											{{ form.owner_address_box }}
+										</div>
+										<div class="col-sm-4 required">
+											{{ form.owner_address_box.errors }}
+										</div>
+									</div>
+
+									<div class="row field">
+										<div class="col-sm-4">
+											<label for="id_city">Ville:</label>
+										</div>
+										<div class="col-sm-4">
+											{{ form.city }}
+										</div>
+										<div class="col-sm-4 required">
+											{{ form.city.errors }}
+										</div>
+									</div>
+
+									<div class="row field">
+										<div class="col-sm-4">
+											<label for="id_zipcode">Code postal:</label>
+										</div>
+										<div class="col-sm-4">
+											{{ form.zipcode }}
+										</div>
+										<div class="col-sm-4 required">
+											{{ form.zipcode.errors }}
+										</div>
+									</div>
+
+									<div class="row field">
+										<div class="col-sm-4">
+											<label for="id_email">Email:</label>
+										</div>
+										<div class="col-sm-4">
+											{{ form.email }}
+										</div>
+										<div class="col-sm-4 required">
+											{{ form.email.errors }}
+										</div>
+									</div>
+
+									<div class="row field">
+										<div class="col-sm-4">
+											<label for="id_phone">Téléphone:</label>
+										</div>
+										<div class="col-sm-4">
+											{{ form.phone }}
+										</div>
+										<div class="col-sm-4 required">
+											{{ form.phone.errors }}
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 
-						<div class="row field">
-							<div class="col-sm-4">
-								<label for="id_address">Adresse du propriétaire:</label>
-							</div>
-							<div class="col-sm-4">
-								{{ form.owner_address_street }}
-							</div>
-							<div class="col-sm-4 required">
-								{{ form.owner_address_street.errors }}
-							</div>
+
+				<!-- Terrain data -->
+
+				<div class="col-md-6">
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Informations terrain</h4>
 						</div>
 
-						<div class="row field">
-							<div class="col-sm-4">
-                <label for="id_address">Numéro:</label>
+						<div class=panel-body>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_ground">Adresse du court:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ form.address_street }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ form.address_street.errors }}
+								</div>
 							</div>
-							<div class="col-sm-4">
-								{{ form.owner_address_number }}
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_ground">Numéro:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ form.address_number }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ form.address_number.errors }}
+								</div>
 							</div>
-							<div class="col-sm-4 required">
-								{{ form.owner_address_number.errors }}
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_ground">Boîte:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ form.address_box }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ form.address_box.errors }}
+								</div>
+							</div>
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_ground">Sol:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ form.ground }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ form.ground.errors }}
+								</div>
+							</div>
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_cover">Couvert:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ form.cover }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ form.cover.errors }}
+								</div>
+							</div>
+
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_image">Image:</label>
+								</div>
+								<div class="col-sm-4">
+									{{ form.image }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ form.image.errors }}
+								</div>
+							</div>
+
+							<div class="row big-field">
+								<div class="col-sm-3">
+									<label for="id_comment_access">Commentaire d'accès:</label>
+								</div>
+								<div class="col-sm-6">
+									{{ form.comment_access }}
+								</div>
+								<div class="col-sm-3 required">
+									{{ form.comment_access.errors }}
+								</div>
+							</div>
+
+							<div class="row big-field">
+								<div class="col-sm-3">
+									<label for="id_comment_desiderata">Commentaire Desiderata:</label>
+								</div>
+								<div class="col-sm-6">
+									{{ form.comment_desiderata }}
+								</div>
+								<div class="col-sm-3 required">
+									{{ form.comment_desiderata.errors }}
+								</div>
 							</div>
 						</div>
-
-						<div class="row field">
-							<div class="col-sm-4">
-                <label for="id_address">Boîte:</label>
-							</div>
-							<div class="col-sm-4">
-								{{ form.owner_address_box }}
-							</div>
-							<div class="col-sm-4 required">
-								{{ form.owner_address_box.errors }}
-							</div>
-						</div>
-
-						<div class="row field">
-							<div class="col-sm-4">
-								<label for="id_city">Ville:</label>
-							</div>
-							<div class="col-sm-4">
-								{{ form.city }}
-							</div>
-							<div class="col-sm-4 required">
-								{{ form.city.errors }}
-							</div>
-						</div>
-
-						<div class="row field">
-							<div class="col-sm-4">
-								<label for="id_zipcode">Code postal:</label>
-							</div>
-							<div class="col-sm-4">
-								{{ form.zipcode }}
-							</div>
-							<div class="col-sm-4 required">
-								{{ form.zipcode.errors }}
-							</div>
-						</div>
-
-						<div class="row field">
-							<div class="col-sm-4">
-								<label for="id_email">Email:</label>
-							</div>
-							<div class="col-sm-4">
-								{{ form.email }}
-							</div>
-							<div class="col-sm-4 required">
-								{{ form.email.errors }}
-							</div>
-						</div>
-
-						<div class="row field">
-							<div class="col-sm-4">
-								<label for="id_phone">Téléphone:</label>
-							</div>
-							<div class="col-sm-4">
-								{{ form.phone }}
-							</div>
-							<div class="col-sm-4 required">
-								{{ form.phone.errors }}
-							</div>
-						</div>
-
-            <!-- Terrain data -->
-						<div class="row field">
-							<div class="col-sm-4">
-								<label for="id_ground">Adresse du court:</label>
-							</div>
-							<div class="col-sm-4">
-								{{ form.address_street }}
-							</div>
-							<div class="col-sm-4 required">
-								{{ form.address_street.errors }}
-							</div>
-						</div>
-
-						<div class="row field">
-							<div class="col-sm-4">
-								<label for="id_ground">Numéro:</label>
-							</div>
-							<div class="col-sm-4">
-								{{ form.address_number }}
-							</div>
-							<div class="col-sm-4 required">
-								{{ form.address_number.errors }}
-							</div>
-						</div>
-
-						<div class="row field">
-							<div class="col-sm-4">
-								<label for="id_ground">Boîte:</label>
-							</div>
-							<div class="col-sm-4">
-								{{ form.address_box }}
-							</div>
-							<div class="col-sm-4 required">
-								{{ form.address_box.errors }}
-							</div>
-						</div>
-
-						<div class="row field">
-							<div class="col-sm-4">
-								<label for="id_ground">Sol:</label>
-							</div>
-							<div class="col-sm-4">
-								{{ form.ground }}
-							</div>
-							<div class="col-sm-4 required">
-								{{ form.ground.errors }}
-							</div>
-						</div>
-
-						<div class="row field">
-							<div class="col-sm-4">
-								<label for="id_cover">Couvert:</label>
-							</div>
-							<div class="col-sm-4">
-								{{ form.cover }}
-							</div>
-							<div class="col-sm-4 required">
-								{{ form.cover.errors }}
-							</div>
-						</div>
-
-						<div class="row field">
-							<div class="col-sm-4">
-								<label for="id_image">Image:</label>
-							</div>
-							<div class="col-sm-4">
-								{{ form.image }}
-							</div>
-							<div class="col-sm-4 required">
-								{{ form.image.errors }}
-							</div>
-						</div>
-
-						<div class="row big-field">
-							<div class="col-sm-3">
-								<label for="id_comment_access">Commentaire d'accès:</label>
-							</div>
-							<div class="col-sm-6">
-								{{ form.comment_access }}
-							</div>
-							<div class="col-sm-3 required">
-								{{ form.comment_access.errors }}
-							</div>
-						</div>
-
-						<div class="row big-field">
-							<div class="col-sm-3">
-								<label for="id_comment_desiderata">Commentaire Desiderata:</label>
-							</div>
-							<div class="col-sm-6">
-								{{ form.comment_desiderata }}
-							</div>
-							<div class="col-sm-3 required">
-								{{ form.comment_desiderata.errors }}
-							</div>
-						</div>
-
-						<input type="submit" value="Enregistrer terrain" />
-					</form>
-
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-  {% if user.is_staff %}
-	<div class="row">
-		<div class="box">
-			<div class="col-lg-12">
-				<hr>
-				<h2 class="intro-text text-center">Chercher terrains
-					<strong>par propriétaire</strong>
-				</h2>
-				<hr>
-				<div class="panel-body">
-					<form action="{% url "courts.views.register" %}" method="post">
-						{% csrf_token %}
-						{{ form_owner.as_p }}
-						<input type="submit" value="Chercher terrains"/>
-					</form>
-				</div>
+		<input type="submit" value="Enregistrer terrain" />
+	</form>
+
+</div>
+</div>
+</div>
+</div>
+
+{% if user.is_staff %}
+<div class="row">
+	<div class="box">
+		<div class="col-lg-12">
+			<hr>
+			<h2 class="intro-text text-center">Chercher terrains
+				<strong>par propriétaire</strong>
+			</h2>
+			<hr>
+			<div class="panel-body">
+				<form action="{% url "courts.views.register" %}" method="post">
+					{% csrf_token %}
+					{{ form_owner.as_p }}
+					<input type="submit" value="Chercher terrains"/>
+				</form>
 			</div>
 		</div>
 	</div>
-  {% endif %}
+</div>
+{% endif %}
 {% endblock %}

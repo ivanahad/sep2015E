@@ -6,7 +6,14 @@ class Court(models.Model):
     """This class defines a tennis court.
     It also includes informations such as how the court can be used,
     what his type is and who is the owner."""
-
+    GROUND_TYPES=(
+        ('brique', 'brique'),
+        ('beton', 'béton'),
+        ('synthetique', 'synthétique'),
+        ('terre battue', 'terre battue'),
+        ('quick', 'quick'),
+        ('autres', 'autres')
+    )
     def _phone_validator(value):
         digits_count = 0
         for c in value:
@@ -29,7 +36,7 @@ class Court(models.Model):
     address_street = models.CharField(max_length=128)
     address_number = models.CharField(max_length=8)
     address_box = models.CharField(max_length=8, null=True, blank=True)
-    ground = models.CharField(max_length=128)
+    ground = models.CharField(max_length=128, choices=GROUND_TYPES, default='autres')
     cover = models.BooleanField(default=False)
     image = models.ImageField(null=True, blank=True)
     comment_access = models.TextField(default="", blank=True)
