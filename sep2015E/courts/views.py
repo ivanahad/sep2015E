@@ -11,21 +11,21 @@ def register(request):
 
         if form.is_valid(): # Nous vérifions que les données envoyées sont valides
 
-            new_court = Court(owner = form.cleaned_data['owner'], 
-                    owner_address_street = form.cleaned_data['owner_address_street'], 
-                    owner_address_number = form.cleaned_data['owner_address_number'], 
-                    owner_address_box = form.cleaned_data['owner_address_box'], 
+            new_court = Court(owner = form.cleaned_data['owner'],
+                    owner_address_street = form.cleaned_data['owner_address_street'],
+                    owner_address_number = form.cleaned_data['owner_address_number'],
+                    owner_address_box = form.cleaned_data['owner_address_box'],
                     city = form.cleaned_data['city'],
-                    zipcode = form.cleaned_data['zipcode'], 
-                    email = form.cleaned_data['email'], 
+                    zipcode = form.cleaned_data['zipcode'],
+                    email = form.cleaned_data['email'],
                     phone = form.cleaned_data['phone'],
-                    address_street = form.cleaned_data['address_street'], 
-                    address_number = form.cleaned_data['address_number'], 
-                    address_box = form.cleaned_data['address_box'], 
-                    ground = form.cleaned_data['ground'], 
-                    cover = form.cleaned_data['cover'], 
+                    address_street = form.cleaned_data['address_street'],
+                    address_number = form.cleaned_data['address_number'],
+                    address_box = form.cleaned_data['address_box'],
+                    ground = form.cleaned_data['ground'],
+                    cover = form.cleaned_data['cover'],
                     image = form.cleaned_data['image'],
-                    comment_access = form.cleaned_data['comment_access'], 
+                    comment_access = form.cleaned_data['comment_access'],
                     comment_desiderata = form.cleaned_data['comment_desiderata'],
                     available = True)
             new_court.save()
@@ -33,8 +33,7 @@ def register(request):
             send_mail('Your owner page', 'You will find informations about your court here : http://'+request.META['HTTP_HOST']+ \
                 '/courts/'+form.cleaned_data['owner']+'/byowner', 'info@sep2015e.com', [form.cleaned_data['email']], fail_silently=False)
 
-            return HttpResponseRedirect('/')
-
+            return render(request, 'courts/registration_success.html')
 
         form_owner = OwnerCourtsForm(request.POST)
         if form_owner.is_valid():
