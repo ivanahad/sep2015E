@@ -22,7 +22,152 @@
 			<div class="panel-body">
         <form action="{% url "staff.views.particular_player" player.id %}" method="post">
           {% csrf_token %}
-          {{ form.as_p }}
+					<div class="panel-body">
+						{{ form.non_field_errors }}
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_firstname">Prénom:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.firstname }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.firstname.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_lastname">Nom:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.lastname }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.lastname.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_lastname">Sexe:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.gender }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.gender.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_lastname">Date de naissance:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.birthdate }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.birthdate.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_address">Rue:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.address_street }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.address_street.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_address">Numéro:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.address_number }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.address_number.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_address">Boite:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.address_box }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.address_box.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_city">Ville:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.city }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.city.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_zipcode">Code zip:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.zipcode }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.zipcode.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_country">Pays:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.country }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.country.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_email">Email:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.email }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.email.errors }}
+							</div>
+						</div>
+
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_phone">Téléphone:</label>
+							</div>
+							<div class="col-sm-4">
+								{{ form.phone }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ form.phone.errors }}
+							</div>
+						</div>
+
           <input type="submit" value="Enregistrer" />
         </form>
 			</div>

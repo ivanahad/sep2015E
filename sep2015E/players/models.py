@@ -75,10 +75,37 @@ class UserRegistration(models.Model):
     We also store the level, which must be expressed according to NTRP rating
         (http://www.matchmakertennis.com/public/ntrp.html)
     """
+    LEVEL_CHOICES = (
+        ('C30.5', 'C30.5'),
+        ('C30.4', 'C30.4'),
+        ('C30.3', 'C30.3'),
+        ('C30.2', 'C30.2'),
+        ('C30.1', 'C30.1'),
+        ('C30', 'C30'),
+        ('C15.5', 'C15.5'),
+        ('C15.4', 'C15.4'),
+        ('C15.3', 'C15.3'),
+        ('C15.2', 'C15.2'),
+        ('C15.1', 'C15.1'),
+        ('C15', 'C15'),
+        ('B+4/6', 'B+4/6'),
+        ('B+2/6', 'B+2/6'),
+        ('B0', 'B0'),
+        ('B-2/6', 'B-2/6'),
+        ('B-4/6', 'B-4/6'),
+        ('B-15', 'B-15'),
+        ('B-15.1', 'B-15.1'),
+        ('B-15.2', 'B-15.2'),
+        ('B-15.4', 'B-15.4'),
+        ('A4', 'A4'),
+        ('A3', 'A3'),
+        ('A2', 'A2'),
+        ('A1', 'A1')
+    )
     user = models.ForeignKey(User)
     season = models.CharField(max_length=32);
     bbq = models.BooleanField(default=False)
-    level = models.DecimalField(max_digits=2, decimal_places=1)
+    level = models.CharField(max_length=32, choices=LEVEL_CHOICES);
 
     def __str__(self):
         return "Registration of %s for season %s" % (self.user, self.season)

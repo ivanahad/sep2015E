@@ -106,11 +106,13 @@ def particular_player(request, player_id):
 
     if request.method == 'POST':
         form=PlayerForm(request.POST, player_id=player_id)
-        if form.is_valid():
+        print(form)
+        if not form.is_valid():
             player = User.objects.filter(id=player_id).get()
             player.firstname=form.cleaned_data['firstname']
             player.lastname=form.cleaned_data['lastname']
-            player.address=form.cleaned_data['address']
+            player.address_street=form.cleaned_data['address_street']
+            player.address_number=form.cleaned_data['address_number']
             player.city=form.cleaned_data['city']
             player.country=form.cleaned_data['country']
             player.zipcode=form.cleaned_data['zipcode']
