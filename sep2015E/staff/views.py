@@ -1,11 +1,10 @@
 from math import ceil
 
-from django.shortcuts import render, redirect, render_to_response
+from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.core.mail import send_mass_mail
-from django.template import Library
 
 from datetime import datetime
 
@@ -92,14 +91,6 @@ def courts(request):
 
     return render(request, 'staff/courts.html', locals())
 
-register = Library()
-
-@register.filter
-def get_range( value ):
-    """
-    Filter - returns a list containing range made from given value
-    """
-    return range( value )
 
 def players(request, page_id):
     """Page listing the players registered in the event."""
@@ -139,9 +130,9 @@ def particular_player(request, page_id, player_id):
         return redirect('staff.views.login_staff')
 
     if request.method == 'POST':
-        form=PlayerForm(request.POST, player_id=player_id)
-        print(form)
-        if not form.is_valid():
+        player = get_object_or_404(User, pk=player_id)
+        form=PlayerForm(request.POST, player_id=player_id, instance=player)
+        if form.is_valid():
             player = User.objects.filter(id=player_id).get()
             player.firstname=form.cleaned_data['firstname']
             player.lastname=form.cleaned_data['lastname']
