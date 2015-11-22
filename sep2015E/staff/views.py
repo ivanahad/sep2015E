@@ -138,13 +138,13 @@ def particular_player(request, page_id, player_id):
     else:
         player = User.objects.filter(id=player_id).get()
         form = PlayerForm(player_id=player.id)
-        return render(request, 'staff/particular_player.html', { \
-            'player':player, \
-            'form':form,
-            'players':players ,
-            'page_id':int(page_id),
-            'number_pages':number_pages,
-            'n':range(1, number_pages+1),
-            'prev':int(page_id)-1,
-            'next':int(page_id)+1,
-            })
+    return render(request, 'staff/particular_player.html', { \
+        'player':player, \
+        'form':form,
+        'players':players ,
+        'page_id':int(page_id),
+        'number_pages':number_pages,
+        'n':range(1, number_pages+1),
+        'prev':int(page_id)-1,
+        'next':int(page_id)+1,
+        })

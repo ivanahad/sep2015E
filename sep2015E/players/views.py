@@ -17,7 +17,7 @@ def register(request):
         trn = OpenTournamentChoiceForm(request.POST)
 
         emailForm1 = EmailOldUserForm(prefix="email1")
-        emailForm2 = EmailOldUserForm(prefix="email2") 
+        emailForm2 = EmailOldUserForm(prefix="email2")
 
         if 'solo_registration' in request.POST \
                 and usr1.is_valid() and reg1.is_valid() \
@@ -130,7 +130,7 @@ def register(request):
         pair = PairRegistrationForm()
         trn = OpenTournamentChoiceForm()
         emailForm1 = EmailOldUserForm(prefix="email1")
-        emailForm2 = EmailOldUserForm(prefix="email2") 
+        emailForm2 = EmailOldUserForm(prefix="email2")
 
         trn_open = Tournament.objects.filter(is_open=True).count()
 
