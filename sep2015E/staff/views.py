@@ -1,8 +1,11 @@
+from math import ceil
+
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.core.mail import send_mass_mail
+from django.template import Library
 
 from datetime import datetime
 
@@ -89,14 +92,36 @@ def courts(request):
 
     return render(request, 'staff/courts.html', locals())
 
-def players(request):
+register = Library()
+
+@register.filter
+def get_range( value ):
+    """
+    Filter - returns a list containing range made from given value
+    """
+    return range( value )
+
+def players(request, page_id):
     """Page listing the players registered in the event."""
     if not request.user.is_authenticated():
         return redirect('staff.views.login_staff')
 
-    players = User.objects.all()
+    players_per_page = 10   #Number of players displayed by page
+
+    number_players = User.objects.count()
+    number_pages = ceil(number_players/players_per_page) #Number of pages for the navbar
+
+    extremity1 = 0+(int(page_id)-1)*players_per_page    #Range
+    extremity2 = (int(page_id)*players_per_page)-1
+    players = User.objects.order_by('lastname', 'firstname').all()[extremity1:extremity2]
+
     return render(request, 'staff/players.html', { \
         'players':players ,
+        'page_id':int(page_id),
+        'number_pages':number_pages,
+        'n':range(1, number_pages+1),
+        'prev':int(page_id)-1,
+        'next':int(page_id)+1,
         })
 
 def particular_player(request, player_id):
