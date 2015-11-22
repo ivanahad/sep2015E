@@ -124,8 +124,17 @@ def players(request, page_id):
         'next':int(page_id)+1,
         })
 
-def particular_player(request, player_id):
+def particular_player(request, page_id, player_id):
     """Page showing information on a particular player."""
+    players_per_page = 10   #Number of players displayed by page
+
+    number_players = User.objects.count()
+    number_pages = ceil(number_players/players_per_page) #Number of pages for the navbar
+
+    extremity1 = 0+(int(page_id)-1)*players_per_page    #Range
+    extremity2 = (int(page_id)*players_per_page)-1
+    players = User.objects.order_by('lastname', 'firstname').all()[extremity1:extremity2]
+
     if not request.user.is_authenticated():
         return redirect('staff.views.login_staff')
 
@@ -144,11 +153,17 @@ def particular_player(request, player_id):
             player.email=form.cleaned_data['email']
             player.phone=form.cleaned_data['phone']
             player.save()
-            return redirect('staff.views.players')
+            return redirect('staff.views.players', page_id=page_id)
     else:
         player = User.objects.filter(id=player_id).get()
         form = PlayerForm(player_id=player.id)
         return render(request, 'staff/particular_player.html', { \
             'player':player, \
             'form':form,
+            'players':players ,
+            'page_id':int(page_id),
+            'number_pages':number_pages,
+            'n':range(1, number_pages+1),
+            'prev':int(page_id)-1,
+            'next':int(page_id)+1,
             })

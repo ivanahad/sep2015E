@@ -13,53 +13,65 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-6">
-						{% for player in players %}
-						<p><a href="{% url "staff.views.particular_player" player.id %}">{{ player }}</a></p>
-						{% endfor %}
+						<div class="panel panel-default">
+
+							<!-- AFFICHE LISTE DES JOUEURS -->
+
+							<div class="panel-body">
+								{% for player in players %}
+								<p><a href="{% url "staff.views.particular_player" page_id player.id %}">{{ player }}</a></p>
+								{% endfor %}
+							</div>
+							<div class="panel-footer">
+
+								<!-- NAVIGATION -->
+
+								<nav>
+									<ul class="pagination pagination-sm">
+										{% if page_id == 1 %}
+										<li class="disabled">
+											<a href="#" aria-label="Previous">
+												<span aria-hidden="true">&laquo;</span>
+											</a>
+										</li>
+										{% else %}
+										<li>
+											<a href="{% url "staff.views.players" prev %}" aria-label="Previous">
+												<span aria-hidden="true">&laquo;</span>
+											</a>
+										</li>
+										{% endif %}
+
+										{% for i in n %}
+
+										{% if i == page_id %}
+										<li class="active"><a href="#">{{i}}</a></li>
+										{% else %}
+										<li><a href="{% url "staff.views.players" i %}">{{i}}</a></li>
+										{% endif %}
+
+										{% endfor %}
+
+										{% if page_id == number_pages %}
+										<li class="disabled">
+											<a href="#" aria-label="Next">
+												<span aria-hidden="true">&raquo;</span>
+											</a>
+										</li>
+										{% else %}
+										<li>
+											<a href="{% url "staff.views.players" next %}" aria-label="Next">
+												<span aria-hidden="true">&raquo;</span>
+											</a>
+										</li>
+										{% endif %}
+									</ul>
+								</nav>
+
+							</div>
+						</div>
 					</div>
 				</div>
-				<nav>
-					<ul class="pagination">
-						{% if page_id == 1 %}
-						<li class="disabled">
-							<a href="#" aria-label="Previous">
-								<span aria-hidden="true">&laquo;</span>
-							</a>
-						</li>
-						{% else %}
-						<li>
-							<a href="{% url "staff.views.players" prev %}" aria-label="Previous">
-								<span aria-hidden="true">&laquo;</span>
-							</a>
-						</li>
-						{% endif %}
-
-						{% for i in n %}
-
-						{% if i == page_id %}
-						<li class="active"><a href="#">{{i}}</a></li>
-						{% else %}
-						<li><a href="{% url "staff.views.players" i %}">{{i}}</a></li>
-						{% endif %}
-
-						{% endfor %}
-
-						{% if page_id == number_pages %}
-						<li class="disabled">
-							<a href="#" aria-label="Next">
-								<span aria-hidden="true">&raquo;</span>
-							</a>
-						</li>
-						{% else %}
-						<li>
-							<a href="{% url "staff.views.players" next %}" aria-label="Next">
-								<span aria-hidden="true">&raquo;</span>
-							</a>
-						</li>
-						{% endif %}
-
-					</ul>
-				</nav>
 			</div>
 		</div>
 

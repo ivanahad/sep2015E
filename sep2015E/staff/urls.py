@@ -8,6 +8,6 @@ urlpatterns = [
     url(r'^home$', prefix+'home'),
     url(r'^courts$', prefix+'courts'),
     url(r'^players/(?P<page_id>\d+)$', prefix+'players'),
-    url(r'^players/(?P<player_id>\d+)$', prefix+'particular_player'),
+    url(r'^players/(?P<page_id>\d+)/(?P<player_id>\d+)$', prefix+'particular_player'),
     url(r'^mail_list$', prefix+'mail_list'),
 ]
