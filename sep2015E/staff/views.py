@@ -133,17 +133,7 @@ def particular_player(request, page_id, player_id):
         player = get_object_or_404(User, pk=player_id)
         form=PlayerForm(request.POST, player_id=player_id, instance=player)
         if form.is_valid():
-            player = User.objects.filter(id=player_id).get()
-            player.firstname=form.cleaned_data['firstname']
-            player.lastname=form.cleaned_data['lastname']
-            player.address_street=form.cleaned_data['address_street']
-            player.address_number=form.cleaned_data['address_number']
-            player.city=form.cleaned_data['city']
-            player.country=form.cleaned_data['country']
-            player.zipcode=form.cleaned_data['zipcode']
-            player.email=form.cleaned_data['email']
-            player.phone=form.cleaned_data['phone']
-            player.save()
+            obj=form.save()
             return redirect('staff.views.players', page_id=page_id)
     else:
         player = User.objects.filter(id=player_id).get()
