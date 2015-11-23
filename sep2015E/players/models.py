@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.conf import settings
 
 import string
 
@@ -34,6 +35,11 @@ class User(models.Model):
 
     def __str__(self):              # __unicode__ on Python 2
         return self.lastname + " " + self.firstname
+
+    def __hash__(self):
+        return hash("" + self.email + self.address_street + \
+                self.address_number + self.address_box + str(self.birthdate) + \
+                self.firstname + self.lastname + settings.HASHKEY) % 100000000
 
     def get_level(self, season):
         reg = UserRegistration.objects.filter(user = self).filter(season = season)

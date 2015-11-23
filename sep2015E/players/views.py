@@ -36,6 +36,7 @@ def register(request):
                     email = usr1.cleaned_data['email'], \
                     phone = usr1.cleaned_data['phone'])
             new_user1.save()
+            print(hash(new_user1)) # DEBUG
 
             registration1 = UserRegistration( \
                     user = new_user1, \
@@ -71,6 +72,7 @@ def register(request):
                     email = usr1.cleaned_data['email'], \
                     phone = usr1.cleaned_data['phone'])
             new_user1.save()
+            print(hash(new_user1)) # DEBUG
 
             registration1 = UserRegistration( \
                     user = new_user1, \
@@ -94,6 +96,7 @@ def register(request):
                     email = usr2.cleaned_data['email'], \
                     phone = usr2.cleaned_data['phone'])
             new_user2.save()
+            print(hash(new_user2)) # DEBUG
 
             registration2 = UserRegistration( \
                     user = new_user2, \
@@ -103,7 +106,7 @@ def register(request):
             registration2.save()
 
             pair = Pair(player1 = new_user1, player2 = new_user2, \
-                    average = reg1.cleaned_data['level'] + reg2.cleaned_data['level'], \
+                    average = 0.0, \
                     season = settings.CURRENT_SEASON, \
                     payment_method = pair.cleaned_data['payment_method'], \
                     comment = pair.cleaned_data['comment'])

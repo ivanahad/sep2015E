@@ -121,3 +121,5 @@ EMAIL_USE_TLS = True
 
 with open("current_season") as file_:
     CURRENT_SEASON = file_.readline().strip()
+
+HASHKEY = 'ai2Z5pR5vNbm309'
