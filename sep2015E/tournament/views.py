@@ -1,3 +1,4 @@
+from math import ceil
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse
@@ -152,6 +153,36 @@ def pool(request, id_tournament, id_pool):
             'pool_matches': pool_matches, \
             'form' : form \
             })
+
+def modify_pools(request, id_tournament, id_page, id_pool):
+    tournament = Tournament.objects.get(pk=id_tournament)
+
+    pairs_per_page = 10   #Number of players displayed by page
+
+    number_pairs = TournamentParticipant.objects.filter(tournament=tournament).count()
+    number_pages = ceil(number_pairs/pairs_per_page) #Number of pages for the navbar
+
+    number_pools=Pool.objects.filter(tournament=tournament).count()
+
+    extremity1 = 0+(int(id_page)-1)*pairs_per_page    #Range
+    extremity2 = (int(id_page)*pairs_per_page)-1
+    pairs = TournamentParticipant.objects.filter(tournament=tournament)[extremity1:extremity2]
+    pool = Pool.objects.filter(tournament=tournament, number=id_pool)
+    pool = (pool.get(), PoolParticipant.objects.filter(pool=pool))
+
+    return render(request, 'tournament/modify_pool.html', { \
+        'trn':tournament,
+        'pool':pool,
+        'pairs':pairs,
+        'page_id':int(id_page),
+        'number_pages':number_pages,
+        'n_pages':range(1, number_pages+1),
+        'prev_page':int(id_page)-1,
+        'next_page':int(id_page)+1,
+        'n_pools':range(0, number_pools),
+        'prev_pool':int(id_pool)-1,
+        'next_pool':int(id_pool)+1,
+    })
 
 def save_match_changes(request, id_tournament, id_pool, id_match):
     """Save the changes when editing the match and redirect to the pool where the match has been edited."""

@@ -94,7 +94,7 @@
         <div class="panel-heading">
           <h3 class="panel-title"> Pools </h3>
         </div>
-
+				<a href="{% url "tournament.views.modify_pools" trn.pk 1 0 %}">Modifier pools</a>
         <div class="panel-body">
           {% for pool in pools %}
           <div class="panel">
