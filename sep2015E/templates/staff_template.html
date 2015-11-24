@@ -22,7 +22,7 @@
   <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
 
   <!-- Custom CSS -->
-  <link href="{% static "css/home.css" %}" rel="stylesheet">
+  <link href="{% static "css/staff.css" %}" rel="stylesheet">
 
   <!-- Fonts -->
   <!--
@@ -43,6 +43,7 @@
 
   <div class="brand">Le Charles de Lorraine</div>
 
+
     <!-- Navigation -->
     <nav class="navbar navbar-default" role="navigation">
       <div class="container">
@@ -60,8 +61,12 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            {% block nav %}
-            {% endblock %}
+            <li><a href="{% url "staff.views.home" %}">Accueil</a></li>
+          	<li><a href="{% url "staff.views.players" 1%}">Joueurs</a></li>
+          	<li><a href="{% url "staff.views.courts" %}">Terrains</a></li>
+          	<li><a href="{% url "tournament.views.all" %}">Tournois</a></li>
+          	<li><a href="https://github.com/ivanahad/sep2015E/wiki">Wiki</a></li>
+          	<li><a href="{% url "staff.views.logout_staff" %}">Logout</a></li>
           </ul>
         </div>
         <!-- /.navbar-collapse -->

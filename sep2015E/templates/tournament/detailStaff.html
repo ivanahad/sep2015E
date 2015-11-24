@@ -7,6 +7,15 @@
 <link rel="stylesheet" type="text/css" href="{% static "css/jquery.bracket.min.css" %}" />
 {% endblock %}
 
+{% block nav %}
+	<li><a href="{% url "staff.views.home" %}">Acceuil</a></li>
+	<li><a href="{% url "staff.views.players" %}">Joueurs</a></li>
+	<li><a href="{% url "staff.views.courts" %}">Terrains</a></li>
+	<li><a href="{% url "tournament.views.all" %}">Tournois</a></li>
+	<li><a href="https://github.com/ivanahad/sep2015E/wiki">Wiki</a></li>
+	<li><a href="{% url "staff.views.logout_staff" %}">Logout</a></li>
+{% endblock %}
+
 {% block title %}
 <title>Charles de Lorraine - Details of
   {{ trn.name }} {{ trn.category }}
@@ -85,7 +94,7 @@
         <div class="panel-heading">
           <h3 class="panel-title"> Pools </h3>
         </div>
-
+				<a href="{% url "tournament.views.modify_pools" trn.pk 1 0 %}">Modifier pools</a>
         <div class="panel-body">
           {% for pool in pools %}
           <div class="panel">
@@ -114,6 +123,7 @@
         </div>
       </div>
       {% endif %}
+
 
 		</div>
 	</div>

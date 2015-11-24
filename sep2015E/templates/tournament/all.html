@@ -1,4 +1,4 @@
-{% extends 'site_template.html' %}
+{% extends 'staff_template.html' %}
 
 {% block title %}
 <title>Charles de Lorraine - Staff page</title>
@@ -25,7 +25,7 @@
 
 			<div>
 				{% for t in tournaments %}
-        <a href="{% url "tournament.views.tournament" t.tournament.pk %}"
+        <a href="{% url "tournament.views.tournamentStaff" t.tournament.pk %}"
            class="tournament-a-block">
           <div class="panel panel-default panel-body tournament-a-block">
             <p> <b>Tournoi:</b> {{ t.tournament.name }} </p>
@@ -40,7 +40,7 @@
 				{% endfor %}
 			</div>
 
-      {% if True %} <!-- enable this section if user is staff -->
+      {% if user.is_staff %} <!-- enable this section if user is staff -->
       <div class="panel">
         <div class="panel-heading">
           <h3 class="panel-title">Créer un nouveau tournoi</h3>

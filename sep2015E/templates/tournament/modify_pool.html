@@ -1,0 +1,177 @@
+{% extends 'staff_template.html' %}
+
+{% block css %}
+{% load staticfiles %}
+<link href="{% static "css/modal.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+<title> {{ trn.name }} - Pool {{ pool.0.number }}
+</title>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="box">
+		<div class="col-lg-12">
+			<hr>
+			<h2 class="intro-text text-center">
+				<strong>Liste des joueurs</strong>
+			</h2>
+			<hr>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="panel panel-default">
+
+							<!-- AFFICHE LISTE DES JOUEURS -->
+              <div class="panel-heading">
+                Joueurs dans aucune pool
+              </div>
+							<div class="panel-body">
+								<ul class="list-group">
+								{% for pair in pairs %}
+									<li class="list-group-item">
+										{{ pair }}
+										<a href="{% url "tournament.views.add_player_to_pool"  trn.pk page_id pool.0.number pair.pk %}"
+											<button type="button" class="btn btn-default" aria-label="Left Align">
+										  	<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+											</button>
+										</a>
+									</li>
+								{% endfor %}
+								</ul>
+							</div>
+							<div class="panel-footer">
+
+								<!-- NAVIGATION -->
+
+								<nav>
+									<ul class="pagination pagination-sm">
+										{% if page_id == 1 %}
+										<li class="disabled">
+											<a href="#" aria-label="Previous">
+												<span aria-hidden="true">&laquo;</span>
+											</a>
+										</li>
+										{% else %}
+										<li>
+											<a href="{% url "tournament.views.modify_pools" trn.pk prev_page pool.0.number %}" aria-label="Previous">
+												<span aria-hidden="true">&laquo;</span>
+											</a>
+										</li>
+										{% endif %}
+
+										{% for i in n_pages %}
+
+										{% if i == page_id %}
+										<li class="active"><a href="#">{{i}}</a></li>
+										{% else %}
+										<li><a href="{%  url "tournament.views.modify_pools" trn.pk i pool.0.number %}">{{i}}</a></li>
+                    {% endif %}
+										{% endfor %}
+
+										{% if page_id == number_pages %}
+										<li class="disabled">
+											<a href="#" aria-label="Next">
+												<span aria-hidden="true">&raquo;</span>
+											</a>
+										</li>
+										{% else %}
+										<li>
+											<a href="{% url "tournament.views.modify_pools" trn.pk next_page pool.0.number %}" aria-label="Next">
+												<span aria-hidden="true">&raquo;</span>
+											</a>
+										</li>
+										{% endif %}
+
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">{{ pool.0 }}</div>
+							<div class="panel-body">
+								<table class="table">
+							    <thead>
+							      <tr>
+							        <th>Player1</th>
+							        <th>Player2</th>
+							      </tr>
+							    </thead>
+							    <tbody>
+							      {% for participant in pool.1 %}
+							      <tr>
+							        <td>{{ participant.participant.player1 }}</td>
+							        <td>{{ participant.participant.player2 }}</td>
+											<td>
+												<a href="{% url "tournament.views.remove_player_from_pool" trn.pk page_id pool.0.number participant.pk%}">
+													<button type="button" class="btn btn-default" aria-label="Left Align">
+												  	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+													</button>
+												</a>
+											</td>
+							      </tr>
+										{% endfor %}
+							    </tbody>
+							  </table>
+							</div>
+							<div class="panel-footer">
+
+								<!-- NAVIGATION -->
+
+								<nav>
+									<ul class="pagination pagination-sm">
+										{% if pool.0.number == 0 %}
+										<li class="disabled">
+											<a href="#" aria-label="Previous">
+												<span aria-hidden="true">&laquo;</span>
+											</a>
+										</li>
+										{% else %}
+										<li>
+											<a href="{% url "tournament.views.modify_pools" trn.pk page_id prev_pool %}" aria-label="Previous">
+												<span aria-hidden="true">&laquo;</span>
+											</a>
+										</li>
+										{% endif %}
+
+										{% for i in n_pools %}
+
+										{% if i == pool.0.number %}
+										<li class="active"><a href="#">{{i}}</a></li>
+										{% else %}
+										<li><a href="{%  url "tournament.views.modify_pools" trn.pk page_id i %}">{{i}}</a></li>
+										{% endif %}
+										{% endfor %}
+
+										{% if pool.0.number == number_pages %}
+										<li class="disabled">
+											<a href="#" aria-label="Next">
+												<span aria-hidden="true">&raquo;</span>
+											</a>
+										</li>
+										{% else %}
+										<li>
+											<a href="{% url "tournament.views.modify_pools" trn.pk page_id next_pool %}" aria-label="Next">
+												<span aria-hidden="true">&raquo;</span>
+											</a>
+										</li>
+										{% endif %}
+
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

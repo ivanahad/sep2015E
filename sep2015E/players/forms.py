@@ -28,6 +28,9 @@ class PlayerForm(forms.ModelForm):
     class Meta:
         model = User
         fields = '__all__'
+        widgets = {
+                'zipcode': forms.TextInput(),
+            }
 
 class RegistrationForm(forms.ModelForm):
     class Meta:

@@ -43,7 +43,7 @@
 											{{ email1.email }}
 										</div>
 										<div class="col-sm-4 required">
-											{{ email1.emailerrors }}
+											{{ email1.email.errors }}
 										</div>
 									</div>
 									<div class="row field">
@@ -175,18 +175,6 @@
 
 									<div class="row field">
 										<div class="col-sm-4">
-											<label for="id_country">Pays:</label>
-										</div>
-										<div class="col-sm-4">
-											{{ usr1.country }}
-										</div>
-										<div class="col-sm-4 required">
-											{{ usr1.country.errors }}
-										</div>
-									</div>
-
-									<div class="row field">
-										<div class="col-sm-4">
 											<label for="id_zipcode">Code zip:</label>
 										</div>
 										<div class="col-sm-4">
@@ -194,6 +182,18 @@
 										</div>
 										<div class="col-sm-4 required">
 											{{ usr1.zipcode.errors }}
+										</div>
+									</div>
+
+									<div class="row field">
+										<div class="col-sm-4">
+											<label for="id_country">Pays:</label>
+										</div>
+										<div class="col-sm-4">
+											{{ usr1.country }}
+										</div>
+										<div class="col-sm-4 required">
+											{{ usr1.country.errors }}
 										</div>
 									</div>
 
@@ -482,7 +482,7 @@
 					</div>
 
 					<input type="submit" value="Inscription" />
-					<input type="submit" value="Inscription solo" name="solo_registratio" onclick="return confirm('If you want to register in solo, we will try to match you in a pair with another user that is in the same situation.\nIf you are OK with that, please make sure you filled the form as Player 1 and chose the correct tournament before confirming this message.')"/>
+					<input type="submit" value="Inscription solo" name="solo_registration" onclick="return confirm('If you want to register in solo, we will try to match you in a pair with another user that is in the same situation.\nIf you are OK with that, please make sure you filled the form as Player 1 and chose the correct tournament before confirming this message.')"/>
 				</form>
 			</div>
 		</div>

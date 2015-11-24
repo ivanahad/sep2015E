@@ -1,32 +1,241 @@
 {% extends 'staff_template.html' %}
 
-{% block nav %}
-	<li><a href="{% url "staff.views.home" %}">Acceuil</a></li>
-	<li><a href="{% url "staff.views.players" %}">Joueurs</a></li>
-	<li><a href="{% url "staff.views.courts" %}">Terrains</a></li>
-	<li><a href="{% url "tournament.views.all" %}">Tournois</a></li>
-	<li><a href="https://github.com/ivanahad/sep2015E/wiki">Wiki</a></li>
-	<li><a href="{% url "staff.views.logout_staff" %}">Logout</a></li>
-
-{% endblock %}
-
 {% block content %}
 <div class="row">
 	<div class="box">
 		<div class="col-lg-12">
 			<hr>
 			<h2 class="intro-text text-center">
-				<strong>Joueur: {{ player }}</strong>
+				<strong>Liste des joueurs</strong>
 			</h2>
 			<hr>
 			<div class="panel-body">
-        <form action="{% url "staff.views.particular_player" player.id %}" method="post">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <input type="submit" value="Enregistrer" />
-        </form>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="panel panel-default">
+
+							<!-- AFFICHE LISTE DES JOUEURS -->
+
+							<div class="panel-body">
+								{% for player in players %}
+								<p><a href="{% url "staff.views.particular_player" page_id player.id %}">{{ player }}</a></p>
+								{% endfor %}
+							</div>
+							<div class="panel-footer">
+
+								<!-- NAVIGATION -->
+
+								<nav>
+									<ul class="pagination pagination-sm">
+										{% if page_id == 1 %}
+										<li class="disabled">
+											<a href="#" aria-label="Previous">
+												<span aria-hidden="true">&laquo;</span>
+											</a>
+										</li>
+										{% else %}
+										<li>
+											<a href="{% url "staff.views.players" prev %}" aria-label="Previous">
+												<span aria-hidden="true">&laquo;</span>
+											</a>
+										</li>
+										{% endif %}
+
+										{% for i in n %}
+
+										{% if i == page_id %}
+										<li class="active"><a href="#">{{i}}</a></li>
+										{% else %}
+										<li><a href="{% url "staff.views.players" i %}">{{i}}</a></li>
+										{% endif %}
+
+										{% endfor %}
+
+										{% if page_id == number_pages %}
+										<li class="disabled">
+											<a href="#" aria-label="Next">
+												<span aria-hidden="true">&raquo;</span>
+											</a>
+										</li>
+										{% else %}
+										<li>
+											<a href="{% url "staff.views.players" next %}" aria-label="Next">
+												<span aria-hidden="true">&raquo;</span>
+											</a>
+										</li>
+										{% endif %}
+
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+
+						<!-- FORMULAIRE POUR EDITER JOUEUR -->
+
+						<div class="panel panel-default">
+							<div class="panel-heading">Editer informations joueur</div>
+							<div class="panel-body">
+								<form action="{% url "staff.views.particular_player" page_id player.id %}" method="post">
+									{% csrf_token %}
+									<div class="panel-body">
+										{{ form.non_field_errors }}
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_firstname">Prénom:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.firstname }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.firstname.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_lastname">Nom:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.lastname }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.lastname.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_lastname">Sexe:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.gender }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.gender.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_lastname">Date de naissance:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.birthdate }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.birthdate.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_address">Rue:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.address_street }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.address_street.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_address">Numéro:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.address_number }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.address_number.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_address">Boite:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.address_box }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.address_box.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_city">Ville:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.city }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.city.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_zipcode">Code zip:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.zipcode }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.zipcode.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_country">Pays:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.country }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.country.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_email">Email:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.email }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.email.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_phone">Téléphone:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.phone }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.phone.errors }}
+											</div>
+										</div>
+
+										<input type="submit" value="Enregistrer" />
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
+
 	</div>
 </div>
 

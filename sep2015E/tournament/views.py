@@ -1,7 +1,9 @@
+from math import ceil
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse
 from tournament.models import *
+from players.models import *
 from tournament.forms import OpenTournamentChoiceForm, CreateTournamentForm, \
         MatchEditForm
 
@@ -89,11 +91,60 @@ def tournament(request, id_):
     except Tournament.DoesNotExist:
         return HttpResponseRedirect('/tournament/all')
 
+def tournamentStaff(request, id_):
+    id_ = int(id_)
+    try:
+        tournament = Tournament.objects.get(pk=id_)
+        if request.method == 'POST':
+            if 'close_tournament' in request.POST:
+                tournament.close_registrations()
+
+            return HttpResponseRedirect('/tournament/all')
+            #return HttpResponseRedirect( \
+            #        '/tournament/detail?id=' + tournament.pk)
+
+        else:
+            parts = [p.participant for p in \
+                    TournamentParticipant.objects\
+                    .filter(tournament=tournament)]
+            solos = [entry.player for entry in \
+                    SoloParticipant.objects\
+                    .filter(tournament=tournament)]
+            pools = Pool.objects.filter(tournament=tournament)
+            pools = [(p, PoolParticipant.objects.filter(pool=p)) \
+                    for p in pools]
+            return render(request, 'tournament/detailStaff.html', { \
+                    'trn': tournament, \
+                    'parts': parts, \
+                    'nbr_p': len(parts), \
+                    'solos': solos, \
+                    'nbr_s': len(solos), \
+                    'pools': pools, \
+                    })
+
+    except Tournament.DoesNotExist:
+        return HttpResponseRedirect('/tournament/all')
+
 def pool(request, id_tournament, id_pool):
     tournament = Tournament.objects.get(pk=id_tournament)
-    pool = Pool.objects.filter(tournament=tournament, number=id_pool)
-    pool = (pool, PoolParticipant.objects.filter(pool=pool))
+    pool = Pool.objects.filter(tournament=tournament, number=id_pool).get()
     pool_matches = PoolMatch.objects.filter(pool=pool)
+    participants = PoolParticipant.objects.filter(pool=pool)
+    matches=[]
+    i = 0
+    for participant in participants:
+        partcipant_matches=[]
+        j=0
+        for pool_match  in pool_matches:
+            if i == j:
+                partcipant_matches.append("blank")
+            if pool_match.match.team1==participant.participant or pool_match.match.team2==participant.participant:
+                partcipant_matches.append(pool_match.match)
+            j+=1
+        i+=1
+        matches.append([participant.participant,partcipant_matches])
+
+
     if request.method == 'POST':
         form = MatchEditForm(request.POST)
         if form.is_valid():
@@ -111,13 +162,77 @@ def pool(request, id_tournament, id_pool):
             match.court = court
             match.save()
     else:
+
         form = MatchEditForm()
     return render(request, 'tournament/pool.html', { \
             'trn': tournament, \
             'pool': pool, \
-            'pool_matches': pool_matches, \
+            'matches': matches, \
             'form' : form \
             })
+
+def modify_pools(request, id_tournament, id_page, id_pool):
+    tournament = Tournament.objects.get(pk=id_tournament)
+
+    pairs_per_page = 10   #Number of players displayed by page
+
+    number_pairs = TournamentParticipant.objects.filter(tournament=tournament).count()
+    number_pages = ceil(number_pairs/pairs_per_page) #Number of pages for the navbar
+
+    number_pools=Pool.objects.filter(tournament=tournament).count()
+
+    extremity1 = 0+(int(id_page)-1)*pairs_per_page    #Range
+    extremity2 = (int(id_page)*pairs_per_page)-1
+    pairs = TournamentParticipant.objects.filter(tournament=tournament)[extremity1:extremity2]
+    pool = Pool.objects.filter(tournament=tournament, number=id_pool)
+    pool = (pool.get(), PoolParticipant.objects.filter(pool=pool))
+
+    return render(request, 'tournament/modify_pool.html', { \
+        'trn':tournament,
+        'pool':pool,
+        'pairs':pairs,
+        'page_id':int(id_page),
+        'number_pages':number_pages,
+        'n_pages':range(1, number_pages+1),
+        'prev_page':int(id_page)-1,
+        'next_page':int(id_page)+1,
+        'n_pools':range(0, number_pools),
+        'prev_pool':int(id_pool)-1,
+        'next_pool':int(id_pool)+1,
+    })
+
+def add_player_to_pool(request, id_tournament, id_page, id_pool, id_pair):
+    tournament = Tournament.objects.get(pk=id_tournament)
+    pool = Pool.objects.filter(tournament=tournament, number=id_pool).get()
+    pair = Pair.objects.get(pk=id_pair)
+    if not PoolParticipant.objects.filter(pool=pool).count() >= tournament.pool_size:
+        pool_participant = PoolParticipant(pool=pool, participant=pair)
+        pool_participant.save()
+        for participant in PoolParticipant.objects.filter(pool=pool).exclude(participant=pair):
+            match = Match(team1=participant.participant, team2=pair)
+            match.save()
+            pool_match = PoolMatch(pool=pool, match=match)
+            pool_match.save()
+    return redirect('tournament.views.modify_pools', id_tournament=id_tournament,
+                    id_page=id_page, id_pool=id_pool)
+
+
+def remove_player_from_pool(request, id_tournament, id_page, id_pool, id_pair):
+    tournament = Tournament.objects.get(pk=id_tournament)
+    pool = Pool.objects.filter(tournament=tournament, number=id_pool).get()
+    pair = PoolParticipant.objects.get(pk=id_pair).participant
+    pool_participant = PoolParticipant.objects.filter(pool=pool, participant=pair).get()
+    matches1 = Match.objects.filter(team1=pair)
+    matches2 = Match.objects.filter(team2=pair)
+    for match in matches1:
+        pool_match=PoolMatch.objects.filter(pool=pool,match=match).delete()
+    for match in matches2:
+        pool_match=PoolMatch.objects.filter(pool=pool,match=match).delete()
+    matches1.delete()
+    matches2.delete()
+    pool_participant.delete()
+    return redirect('tournament.views.modify_pools', id_tournament=id_tournament,
+                    id_page=id_page, id_pool=id_pool)
 
 def save_match_changes(request, id_tournament, id_pool, id_match):
     """Save the changes when editing the match and redirect to the pool where the match has been edited."""

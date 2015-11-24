@@ -1,9 +1,4 @@
-{% extends 'site_template.html' %}
-
-{% block css %}
-{% load staticfiles %}
-<link href="{% static "css/modal.css" %}" rel="stylesheet">
-{% endblock %}
+{% extends 'staff_template.html' %}
 
 {% block title %}
 <title> {{ trn.name }} - Pool {{ pool.0.number }}
@@ -17,76 +12,90 @@
     <div class="col-lg-12">
       <hr>
       <h2 class="intro-text text-center">
-        Tournoi {{ trn.name }} - Pool {{ pool.0.number }}
+        Tournoi {{ trn.name }} - Pool {{ pool.number }}
       </h2>
       <hr>
 
       <div class="panel">
-
-        <div class="panel-heading">
-          <h3 class="panel-title"> Pool {{ pool.0.number }} </h3>
-        </div>
-
-        <div class="CSSTableGenerator">
-                <table>
-                  <tr>
-                    <td>Id</td>
-                    <td>Noms</td>
-                    <td>Victoires</td>
-                    <td>Défaites</td>
-                  </tr>
-                  {% for p in pool.1 %}
-                  <tr>
-                    <td>{{ p.participant.id }}</td>
-                    <td>{{ p.participant }}</td>
-                    <td>0</td>
-                    <td>0</td>
-                  </tr>
-                  {% endfor %}
-                </table>
-            </div>
-
-        <div class="panel-body">
-
-
-          <p> Fixtures </p>
-          {% for pool_match in pool_matches %}
-          <p> {{ pool_match.match }}  <a href="#matchModal">Edit</a></p>
-          <div id="matchModal" class="modalDialog">
-            <div>
-              <a href="#close" title="Close" class="close">X</a>
-              <form action="{% url "tournament.views.save_match_changes" trn.id 0 pool_match.match.id %}" method="post">
-                {% csrf_token %}
-                      <div class="fieldWrapper">
+        <table class="table">
+          <thead>
+            <th>Id</th>
+            <th>Paires</th>
+            {% for match in matches %}
+            <th>{{match.0}}</th>
+            {% endfor %}
+            <th>Victoires</th>
+          </thead>
+          {% for match in matches %}
+          <tr>
+            <td>{{ match.0.id }}</td>
+            <td>{{ match.0 }}</td>
+            {% for m in match.1 %}
+              {% if m == "blank" %}
+              <td>-</td>
+              {% else %}
+            <td><a href="#" data-toggle="modal" data-target="#matchModal">-</a></td>
+            <div id="matchModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modifiez match</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form action="{% url "tournament.views.save_match_changes" trn.id pool.number m.id %}" method="post">
+                      {% csrf_token %}
+                      <div class="row field">
+                        <div class="col-sm-4">
+                          <label for="id_firstname">Score paire 1:</label>
+                        </div>
+                        <div class="col-sm-4">
+                          {{ form.score1 }}
+                        </div>
+                        <div class="col-sm-4 required">
                           {{ form.score1.errors }}
-                          {{ form.score1.label_tag }} {{ form.score1 }} {{ pool_match.match.score1 }}
-                          {% if form.score1.help_text %}
-                          <p class="help">{{ form.score1.help_text|safe }}</p>
-                          {% endif %}
+                        </div>
                       </div>
-                      <div class="fieldWrapper">
+
+                      <div class="row field">
+                        <div class="col-sm-4">
+                          <label for="id_firstname">Score paire 2:</label>
+                        </div>
+                        <div class="col-sm-4">
+                          {{ form.score2 }}
+                        </div>
+                        <div class="col-sm-4 required">
                           {{ form.score2.errors }}
-                          {{ form.score2.label_tag }} {{ form.score2 }} {{ pool_match.match.score2 }}
-                          {% if form.score2.help_text %}
-                          <p class="help">{{ form.score2.help_text|safe }}</p>
-                          {% endif %}
+                        </div>
                       </div>
-                      <div class="fieldWrapper">
+
+                      <div class="row field">
+                        <div class="col-sm-4">
+                          <label for="id_firstname">Terrain:</label>
+                        </div>
+                        <div class="col-sm-4">
+                          {{ form.court }}
+                        </div>
+                        <div class="col-sm-4 required">
                           {{ form.court.errors }}
-                          {{ form.court.label_tag }} {{ form.court }} {{ pool_match.match.court }}
-                          {% if form.court.help_text %}
-                          <p class="help">{{ form.court.help_text|safe }}</p>
-                          {% endif %}
+                        </div>
                       </div>
-                <input type="submit" value="Enregistrer" />
-              </form>
+                      <input type="submit" value="Enregistrer" />
+                    </form>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+            {% endif %}
+            {% endfor %}
+            <td>0</td>
+          </tr>
           {% endfor %}
-        </div>
-
+        </table>
       </div>
-
     </div>
   </div>
 </div>
