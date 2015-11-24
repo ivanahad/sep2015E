@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.core.mail import send_mass_mail
+from django.db.models import Q
 
 from datetime import datetime
 
@@ -113,6 +114,17 @@ def players(request, page_id):
         'n':range(1, number_pages+1),
         'prev':int(page_id)-1,
         'next':int(page_id)+1,
+        })
+
+def search(request):
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+        players = User.objects.filter(Q(firstname__contains=query) | Q(lastname__contains=query))
+        owners = Court.objects.filter(owner__contains=query)
+        return render(request, 'staff/search.html', { \
+            'players':players,
+            'owners':owners,
+            'query':query,
         })
 
 def particular_player(request, page_id, player_id):
