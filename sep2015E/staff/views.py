@@ -1,4 +1,5 @@
 from math import ceil
+import os
 
 from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
@@ -6,6 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.core.mail import send_mass_mail
 from django.db.models import Q
+from django.core.servers.basehttp import FileWrapper
 
 from datetime import datetime
 
@@ -169,3 +171,14 @@ def particular_player(request, page_id, player_id):
         'prev':int(page_id)-1,
         'next':int(page_id)+1,
         })
+
+def send_file(request, id_file):
+    """
+    Send a file through Django without loading the whole file into
+    memory at once. The FileWrapper will turn the file object into an
+    iterator for chunks of 8KB.
+    """
+    f=Files.objects.get(pk=id_file)
+    response = HttpResponse(f.f, content_type='none')
+    response['Content-Disposition'] = 'attachment; filename=' + '"' + str(f.f) + '"'
+    return response
