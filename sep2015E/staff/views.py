@@ -9,8 +9,8 @@ from django.db.models import Q
 
 from datetime import datetime
 
-from staff.models import Messages
-from staff.forms import MessageForm, MailListForm
+from staff.models import Messages, Files
+from staff.forms import MessageForm, MailListForm, FilesForm
 
 from courts.models import Court
 
@@ -46,21 +46,30 @@ def home(request):
     """Home page for staff members."""
     if not request.user.is_authenticated():
         return redirect('staff.views.login_staff')
+    name=request.user.username
+    form_files = FilesForm(prefix="files")
     if request.method == 'POST':
         form_msg = MessageForm(request.POST, prefix="msg")
+        form_files = FilesForm(request.POST, request.FILES, prefix="files")
+        print(form_files)
         if form_msg.is_valid():
             Messages(author = name, \
                     destinator = form_msg.cleaned_data['destinator'], \
                     title = form_msg.cleaned_data['title'], \
                     message = form_msg.cleaned_data['message']).save()
+        if form_files.is_valid():
+            Files(name=form_files.cleaned_data['name'], \
+                f=form_files.cleaned_data['f']).save()
     form_msg = MessageForm(prefix="msg")
     messages = Messages.objects.all() #replace by a call destined to the current staff member
-    name=request.user.username
+    files = Files.objects.all()
     return render(request, 'staff/home.html', {\
             'name': name, \
             'date':datetime.now(), \
             'messages':messages, \
             'form_msg': form_msg,
+            'form_files': form_files,
+            'files' : files,
             })
 
 def mail_list(request):
