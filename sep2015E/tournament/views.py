@@ -127,9 +127,24 @@ def tournamentStaff(request, id_):
 
 def pool(request, id_tournament, id_pool):
     tournament = Tournament.objects.get(pk=id_tournament)
-    pool = Pool.objects.filter(tournament=tournament, number=id_pool)
-    pool = (pool, PoolParticipant.objects.filter(pool=pool))
+    pool = Pool.objects.filter(tournament=tournament, number=id_pool).get()
     pool_matches = PoolMatch.objects.filter(pool=pool)
+    participants = PoolParticipant.objects.filter(pool=pool)
+    matches=[]
+    i = 0
+    for participant in participants:
+        partcipant_matches=[]
+        j=0
+        for pool_match  in pool_matches:
+            if i == j:
+                partcipant_matches.append("blank")
+            if pool_match.match.team1==participant.participant or pool_match.match.team2==participant.participant:
+                partcipant_matches.append(pool_match.match)
+            j+=1
+        i+=1
+        matches.append([participant.participant,partcipant_matches])
+
+
     if request.method == 'POST':
         form = MatchEditForm(request.POST)
         if form.is_valid():
@@ -147,11 +162,12 @@ def pool(request, id_tournament, id_pool):
             match.court = court
             match.save()
     else:
+
         form = MatchEditForm()
     return render(request, 'tournament/pool.html', { \
             'trn': tournament, \
             'pool': pool, \
-            'pool_matches': pool_matches, \
+            'matches': matches, \
             'form' : form \
             })
 
