@@ -29,9 +29,16 @@
                 Joueurs dans aucune pool
               </div>
 							<div class="panel-body">
+								<ul class="list-group">
 								{% for pair in pairs %}
-								<p><a href="#">{{ pair }}</a></p>
+									<li class="list-group-item">
+										{{ pair }}
+										<button type="button" class="btn btn-default" aria-label="Left Align">
+										  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+										</button>
+									</li>
 								{% endfor %}
+								</ul>
 							</div>
 							<div class="panel-footer">
 
@@ -98,6 +105,13 @@
 							      <tr>
 							        <td>{{ participant.participant.player1 }}</td>
 							        <td>{{ participant.participant.player2 }}</td>
+											<td>
+												<a href="{% url "tournament.views.remove_player_from_pool" trn.pk page_id pool.0.number participant.pk%}">
+													<button type="button" class="btn btn-default" aria-label="Left Align">
+												  	<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+													</button>
+												</a>
+											</td>
 							      </tr>
 										{% endfor %}
 							    </tbody>

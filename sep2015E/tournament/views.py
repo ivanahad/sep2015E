@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse
 from tournament.models import *
+from players.models import *
 from tournament.forms import OpenTournamentChoiceForm, CreateTournamentForm, \
         MatchEditForm
 
@@ -183,6 +184,23 @@ def modify_pools(request, id_tournament, id_page, id_pool):
         'prev_pool':int(id_pool)-1,
         'next_pool':int(id_pool)+1,
     })
+
+def remove_player_from_pool(request, id_tournament, id_page, id_pool, id_pair):
+    tournament = Tournament.objects.get(pk=id_tournament)
+    pool = Pool.objects.filter(tournament=tournament, number=id_pool).get()
+    pair = PoolParticipant.objects.get(pk=id_pair).participant
+    pool_participant = PoolParticipant.objects.filter(pool=pool, participant=pair).get()
+    matches1 = Match.objects.filter(team1=pair)
+    matches2 = Match.objects.filter(team2=pair)
+    for match in matches1:
+        pool_match=PoolMatch.objects.filter(pool=pool,match=match).delete()
+    for match in matches2:
+        pool_match=PoolMatch.objects.filter(pool=pool,match=match).delete()
+    matches1.delete()
+    matches2.delete()
+    pool_participant.delete()
+    return redirect('tournament.views.modify_pools', id_tournament=id_tournament,
+                    id_page=id_page, id_pool=id_pool)
 
 def save_match_changes(request, id_tournament, id_pool, id_match):
     """Save the changes when editing the match and redirect to the pool where the match has been edited."""
