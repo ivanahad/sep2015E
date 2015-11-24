@@ -185,6 +185,22 @@ def modify_pools(request, id_tournament, id_page, id_pool):
         'next_pool':int(id_pool)+1,
     })
 
+def add_player_to_pool(request, id_tournament, id_page, id_pool, id_pair):
+    tournament = Tournament.objects.get(pk=id_tournament)
+    pool = Pool.objects.filter(tournament=tournament, number=id_pool).get()
+    pair = Pair.objects.get(pk=id_pair)
+    if not PoolParticipant.objects.filter(pool=pool).count() >= tournament.pool_size:
+        pool_participant = PoolParticipant(pool=pool, participant=pair)
+        pool_participant.save()
+        for participant in PoolParticipant.objects.filter(pool=pool).exclude(participant=pair):
+            match = Match(team1=participant.participant, team2=pair)
+            match.save()
+            pool_match = PoolMatch(pool=pool, match=match)
+            pool_match.save()
+    return redirect('tournament.views.modify_pools', id_tournament=id_tournament,
+                    id_page=id_page, id_pool=id_pool)
+
+
 def remove_player_from_pool(request, id_tournament, id_page, id_pool, id_pair):
     tournament = Tournament.objects.get(pk=id_tournament)
     pool = Pool.objects.filter(tournament=tournament, number=id_pool).get()
