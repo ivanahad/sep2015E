@@ -6,6 +6,7 @@ from players.models import User, Pair, UserRegistration
 from tournament.forms import OpenTournamentChoiceForm
 from tournament.models import TournamentParticipant, SoloParticipant, Tournament
 from django.core.mail import send_mail
+from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 
 def register(request):
@@ -37,7 +38,6 @@ def register(request):
                     email = usr1.cleaned_data['email'], \
                     phone = usr1.cleaned_data['phone'])
             new_user1.save()
-            print(hash(new_user1)) # DEBUG
 
             registration1 = UserRegistration( \
                     user = new_user1, \
@@ -73,7 +73,6 @@ def register(request):
                     email = usr1.cleaned_data['email'], \
                     phone = usr1.cleaned_data['phone'])
             new_user1.save()
-            print(hash(new_user1)) # DEBUG
 
             registration1 = UserRegistration( \
                     user = new_user1, \
@@ -97,7 +96,6 @@ def register(request):
                     email = usr2.cleaned_data['email'], \
                     phone = usr2.cleaned_data['phone'])
             new_user2.save()
-            print(hash(new_user2)) # DEBUG
 
             registration2 = UserRegistration( \
                     user = new_user2, \
@@ -186,6 +184,22 @@ def assign_tournament(pair):
         tp = TournamentParticipant(participant=pair, tournament=tournament)
         tp.save()
 
+def unregister(request):
+    form = EmailOldUserForm()
+
+    if request.method == 'POST':
+        form = EmailOldUserForm(request.POST)
+        if form.is_valid():
+            try:
+                user = User.objects.get(email=form.cleaned_data['email'])
+                send_mail('Suppression de votre adresse', "Vous avez demandé que votre adresse soit supprimée de notre base de données. Si vous êtes certain de votre choix, cliquez sur le lien suivant ou copiez-collez le dans votre navigateur.\n\nhttps://localhost:8000/players/unregister_confirm?user="+str(user.pk)+"&token="+str(hash(user))+"\n\nSi vous n'avez pas demandé à ce que votre adresse soit supprimée, veuillez ignorer ce message.", 'info@sep2015e.com', [user.email], fail_silently=False)
+                return HttpResponseRedirect("/")
+            except ObjectDoesNotExist:
+                form.add_error('email', "Cette adresse n'est pas présente dans notre base de données.")
+
+    return render(request, 'players/unregister.html', {\
+            'form_email': form, \
+            })
 
 def filled_registration(request):
     if request.method == 'POST':
