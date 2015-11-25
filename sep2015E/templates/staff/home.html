@@ -93,64 +93,74 @@
 				<strong>Messages</strong>
 			</h2>
 			<hr>
-			 <!-- List of messages-->
+			<!-- List of messages-->
 			<div class=col-md-6>
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<table class="table">
 							{% for msg in messages %}
 							<tr>
-								<td>{{ msg.title }}</td>
-								<td>by {{msg.author.username}}</td>
-							</tr>
-							{% endfor %}
-						</table>
-					</div>
-				</div>
-			</div>
-			<!-- Write a message -->
-			<div class=col-md-6>
-				<div class="panel-body">
-					<a href="{% url "staff.views.mail_list" %}">Envoyer un message aux joueurs.</a>
-					<form action="{% url "staff.views.home" %}" method="post">  <!-- Form to create message -->
-						{% csrf_token %}
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<strong>Ecrire</strong>
-							</div>
-							<div class="panel-body">
-								{{ form_msg.non_field_errors }}
-								<div class="row field">
-									<div class="col-sm-4">
-										<label for="id_title"> Titre :</label>
-									</div>
-									<div class="col-sm-4">
-										{{ form_msg.title }}
-									</div>
-									<div class="col-sm-4 required">
-										{{ form_msg.title.errors }}
-									</div>
+								<td>
+									<a href="#{{msg.title}}_{{msg.pk}}" data-toggle="collapse"
+									aria-expanded="false" aria-controls="{{msg.title}}_{{msg.pk}}">
+									{{ msg.title }}
+								</a>
+							</td>
+							<td>by {{msg.author.username}}</td>
+							<div class="collapse" id="{{msg.title}}_{{msg.pk}}">
+								<div class="well">
+									{{msg.message}}
 								</div>
-								<div class="row field">
-									<div class="col-sm-4">
-										<label for="id_message"> Message :</label>
-									</div>
-									<div class="col-sm-4">
-										{{ form_msg.message }}
-									</div>
-									<div class="col-sm-4 required">
-										{{ form_msg.message.errors }}
-									</div>
-								</div>
-								<input type="submit" value="Envoyer" />
 							</div>
-						</div>
-					</form>
+						</tr>
+						{% endfor %}
+					</table>
 				</div>
 			</div>
 		</div>
-
+		<!-- Write a message -->
+		<div class=col-md-6>
+			<div class="panel-body">
+				<a href="{% url "staff.views.mail_list" %}">Envoyer un message aux joueurs.</a>
+				<form action="{% url "staff.views.home" %}" method="post">  <!-- Form to create message -->
+					{% csrf_token %}
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<strong>Ecrire</strong>
+						</div>
+						<div class="panel-body">
+							{{ form_msg.non_field_errors }}
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_title"> Titre :</label>
+								</div>
+								<div class="col-sm-4">
+									{{ form_msg.title }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ form_msg.title.errors }}
+								</div>
+							</div>
+							<div class="row field">
+								<div class="col-sm-4">
+									<label for="id_message"> Message :</label>
+								</div>
+								<div class="col-sm-4">
+									{{ form_msg.message }}
+								</div>
+								<div class="col-sm-4 required">
+									{{ form_msg.message.errors }}
+								</div>
+							</div>
+							<input type="submit" value="Envoyer" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
+
+</div>
 </div>
 
 <div class="row">
