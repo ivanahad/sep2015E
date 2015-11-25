@@ -19,5 +19,5 @@ class MailListForm(forms.Form):
 class FilesForm(forms.ModelForm):
     class Meta:
         model = Files
-        fields = '__all__'
+        exclude = ['owner']
         prefix = 'files_form'

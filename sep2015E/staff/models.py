@@ -26,6 +26,7 @@ class Messages(models.Model):
 
 class Files(models.Model):
     name = models.CharField(max_length=120)
+    owner = models.ForeignKey(User)
     f = models.FileField(upload_to="files/")
 
     def __str__(self):

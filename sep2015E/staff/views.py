@@ -11,7 +11,7 @@ from django.core.servers.basehttp import FileWrapper
 
 from datetime import datetime
 
-from staff.models import Messages, Files
+from staff.models import Messages, Files, Staff
 from staff.forms import MessageForm, MailListForm, FilesForm
 
 from courts.models import Court
@@ -61,7 +61,7 @@ def home(request):
                     message = form_msg.cleaned_data['message']).save()
         if form_files.is_valid():
             Files(name=form_files.cleaned_data['name'], \
-                f=form_files.cleaned_data['f']).save()
+                f=form_files.cleaned_data['f'], owner=request.user).save()
     form_msg = MessageForm(prefix="msg")
     messages = Messages.objects.all() #replace by a call destined to the current staff member
     files = Files.objects.all()
