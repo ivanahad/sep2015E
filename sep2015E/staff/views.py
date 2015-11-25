@@ -51,7 +51,7 @@ def home(request):
         return redirect('staff.views.login_staff')
     print(LogEntry.objects.all())
     name=request.user.username
-    form_files = FilesForm(prefix="files")
+
     if request.method == 'POST':
         form_msg = MessageForm(request.POST, prefix="msg")
         form_files = FilesForm(request.POST, request.FILES, prefix="files")
@@ -59,10 +59,15 @@ def home(request):
             Messages(author = request.user, \
                     title = form_msg.cleaned_data['title'], \
                     message = form_msg.cleaned_data['message']).save()
+            return HttpResponseRedirect('/staff/home')
         if form_files.is_valid():
             Files(name=form_files.cleaned_data['name'], \
                 f=form_files.cleaned_data['f'], owner=request.user).save()
-    form_msg = MessageForm(prefix="msg")
+            return HttpResponseRedirect('/staff/home')
+    else:
+        form_files = FilesForm(prefix="files")
+        form_msg = MessageForm(prefix="msg")
+
     messages = Messages.objects.all() #replace by a call destined to the current staff member
     files = Files.objects.all()
     return render(request, 'staff/home.html', {\
