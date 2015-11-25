@@ -53,10 +53,8 @@ def home(request):
     if request.method == 'POST':
         form_msg = MessageForm(request.POST, prefix="msg")
         form_files = FilesForm(request.POST, request.FILES, prefix="files")
-        print(form_files)
         if form_msg.is_valid():
-            Messages(author = name, \
-                    destinator = form_msg.cleaned_data['destinator'], \
+            Messages(author = request.user, \
                     title = form_msg.cleaned_data['title'], \
                     message = form_msg.cleaned_data['message']).save()
         if form_files.is_valid():

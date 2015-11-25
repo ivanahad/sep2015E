@@ -6,7 +6,10 @@ class MessageForm(forms.ModelForm):
     """Form when composing a message to send to other staff memebers."""
     class Meta:
         model = Messages
-        fields = '__all__'
+        exclude = ['author']
+        widgets = {
+                'message': forms.Textarea(attrs={'cols': 30, 'rows': 5}),
+            }
         prefix = 'message_form'
 
 class MailListForm(forms.Form):

@@ -16,10 +16,9 @@ class Staff(models.Model):
 
 class Messages(models.Model):
     """ This class contains the messages sent between the staff"""
-    author = models.CharField(max_length=128)
-    destinator = models.CharField(max_length=128)
+    author = models.ForeignKey(User)
     title = models.CharField(max_length=128)
-    message = models.TextField(default="", blank=True)
+    message = models.TextField(default="", max_length=2048 ,blank=True)
 
     def __str__(self):              # __unicode__ on Python 2
         return self.title + " " + self.message
