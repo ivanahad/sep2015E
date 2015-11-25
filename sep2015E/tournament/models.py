@@ -14,10 +14,21 @@ class Tournament(models.Model):
     """This class defines a unique tournament.
     This includes some pools and one knock-off tree.
     """
+    CATEGORIES_LIST=(
+        ('preminimes', 'pré-minimes'),
+        ('minimes', 'minimes'),
+        ('cadet', 'cadet'),
+        ('scolaire', 'scolaire'),
+        ('junior', 'junior'),
+        ('seniores', 'seniors'),
+        ('elites', 'elites'),
+        ('familles', 'tournoi des familles')
+    )
     name = models.CharField(max_length=64) # p.ex. "Familles"
-    category = models.CharField(max_length=64) # p.ex. "strongest"
+    category = models.CharField(max_length=64, choices=CATEGORIES_LIST, default='pré-minimes') # p.ex. "strongest"
     pool_size = models.IntegerField(default=5)
     k_o_root = models.ForeignKey('TournamentNode', null=True, blank=True)
+    mixte = models.BooleanField(default=True)
     is_open = models.BooleanField(default=True)
     season = models.CharField(max_length=32);
 

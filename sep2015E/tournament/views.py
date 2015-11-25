@@ -15,6 +15,7 @@ def all(request):
                     name = new_trn.cleaned_data['name'], \
                     category = new_trn.cleaned_data['category'], \
                     pool_size = new_trn.cleaned_data['pool_size'], \
+                    mixte = new_trn.cleaned_data['mixte'], \
                     season = settings.CURRENT_SEASON, \
                 )
             tournament.save()

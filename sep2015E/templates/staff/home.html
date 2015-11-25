@@ -101,13 +101,13 @@
 							{% for msg in messages %}
 							<tr>
 								<td>
-									<a href="#{{msg.title}}_{{msg.pk}}" data-toggle="collapse"
-									aria-expanded="false" aria-controls="{{msg.title}}_{{msg.pk}}">
+									<a href="#msg_{{msg.pk}}" data-toggle="collapse"
+									aria-expanded="false" aria-controls="msg_{{msg.pk}}">
 									{{ msg.title }}
 								</a>
 							</td>
 							<td>by {{msg.author.username}}</td>
-							<div class="collapse" id="{{msg.title}}_{{msg.pk}}">
+							<div class="collapse" id="msg_{{msg.pk}}">
 								<div class="well">
 									{{msg.message}}
 								</div>

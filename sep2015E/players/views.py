@@ -6,6 +6,7 @@ from players.models import User, Pair, UserRegistration
 from tournament.forms import OpenTournamentChoiceForm
 from tournament.models import TournamentParticipant, SoloParticipant, Tournament
 from django.core.mail import send_mail
+from datetime import datetime
 
 def register(request):
     if request.method == 'POST':  # S'il s'agit d'une requête POST
@@ -112,10 +113,7 @@ def register(request):
                     comment = pair.cleaned_data['comment'])
             pair.save()
 
-            tp = TournamentParticipant( \
-                    participant = pair, \
-                    tournament = trn.cleaned_data['tournament'])
-            tp.save()
+            assign_tournament(pair)
 
             send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
                 +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname'], 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
@@ -150,6 +148,44 @@ def register(request):
         "email1": emailForm1,
         "email2": emailForm2
             })
+
+def assign_tournament(pair):
+    player1 = pair.player1
+    player2 = pair.player2
+
+    #Check if mixte
+    mixte = (player1.gender == player2.gender)
+
+    #Assign the category
+    current_year = datetime.now().year
+    player1_birth_year = player1.birthdate.year
+    player2_birth_year = player2.birthdate.year
+    smaller_difference = current_year - player1_birth_year
+    if current_year - player2_birth_year < current_year - player1_birth_year:
+        smaller_difference = current_year - player2_birth_year
+
+    category = "none"
+    if smaller_difference <= 10 and smaller_difference >=9:
+        category = "preminimes"
+    elif smaller_difference <= 12 and smaller_difference >=11:
+        category = "minimes"
+    elif smaller_difference <= 14 and smaller_difference >=13:
+        category = "cadets"
+    elif smaller_difference <= 16 and smaller_difference >=15:
+        category = "scolaires"
+    elif smaller_difference <= 19 and smaller_difference >=17:
+        category = "juniors"
+    elif smaller_difference <= 40 and smaller_difference >=20:
+        category = "seniors"
+    elif smaller_difference > 40:
+        category = 'elites'
+
+    exist = (Tournament.objects.filter(category=category, mixte=mixte, season=settings.CURRENT_SEASON).count() != 0)
+    if exist:
+        tournament= Tournament.objects.get(category=category, mixte=mixte, season=settings.CURRENT_SEASON)
+        tp = TournamentParticipant(participant=pair, tournament=tournament)
+        tp.save()
+
 
 def filled_registration(request):
     if request.method == 'POST':

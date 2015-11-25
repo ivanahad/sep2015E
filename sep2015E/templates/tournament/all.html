@@ -49,7 +49,51 @@
         <div class="panel-body">
           <form action="{% url "tournament.views.all" %}" method="post">
             {% csrf_token %}
-            {{ new_tournament.as_p }}
+            {{ new_tournament.non_field_errors }}
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_name"> Nom :</label>
+							</div>
+							<div class="col-sm-4">
+								{{ new_tournament.name }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ new_tournament.name.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_category"> Catégories :</label>
+							</div>
+							<div class="col-sm-4">
+								{{ new_tournament.category }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ new_tournament.category.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_pool_size"> Joueurs par pool :</label>
+							</div>
+							<div class="col-sm-4">
+								{{ new_tournament.pool_size }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ new_tournament.pool_size.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_mixte"> Mixte :</label>
+							</div>
+							<div class="col-sm-4">
+								{{ new_tournament.mixte }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ new_tournament.mixte.errors }}
+							</div>
+						</div>
             <input type="submit" value="Créer" name="create_tournament" />
           </form>
         </div>

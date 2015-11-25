@@ -8,6 +8,7 @@ from django.template import RequestContext
 from django.core.mail import send_mass_mail
 from django.db.models import Q
 from django.core.servers.basehttp import FileWrapper
+from django.contrib.admin.models import LogEntry
 
 from datetime import datetime
 
@@ -48,6 +49,7 @@ def home(request):
     """Home page for staff members."""
     if not request.user.is_authenticated():
         return redirect('staff.views.login_staff')
+    print(LogEntry.objects.all())
     name=request.user.username
     form_files = FilesForm(prefix="files")
     if request.method == 'POST':
