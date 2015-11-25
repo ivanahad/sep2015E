@@ -52,21 +52,23 @@ def home(request):
     print(LogEntry.objects.all())
     name=request.user.username
 
+    form_files = FilesForm(prefix="files")
+    form_msg = MessageForm(prefix="msg")
+
     if request.method == 'POST':
-        form_msg = MessageForm(request.POST, prefix="msg")
-        form_files = FilesForm(request.POST, request.FILES, prefix="files")
-        if form_msg.is_valid():
-            Messages(author = request.user, \
-                    title = form_msg.cleaned_data['title'], \
-                    message = form_msg.cleaned_data['message']).save()
-            return HttpResponseRedirect('/staff/home')
-        if form_files.is_valid():
-            Files(name=form_files.cleaned_data['name'], \
-                f=form_files.cleaned_data['f'], owner=request.user).save()
-            return HttpResponseRedirect('/staff/home')
-    else:
-        form_files = FilesForm(prefix="files")
-        form_msg = MessageForm(prefix="msg")
+        if 'type_msg' in request.POST:
+            form_msg = MessageForm(request.POST, prefix="msg")
+            if form_msg.is_valid():
+                Messages(author = request.user, \
+                        title = form_msg.cleaned_data['title'], \
+                        message = form_msg.cleaned_data['message']).save()
+                return HttpResponseRedirect('/staff/home')
+        if 'type_files' in request.POST:
+            form_files = FilesForm(request.POST, request.FILES, prefix="files")
+            if form_files.is_valid():
+                Files(name=form_files.cleaned_data['name'], \
+                    f=form_files.cleaned_data['f'], owner=request.user).save()
+                return HttpResponseRedirect('/staff/home')
 
     messages = Messages.objects.all() #replace by a call destined to the current staff member
     files = Files.objects.all()
