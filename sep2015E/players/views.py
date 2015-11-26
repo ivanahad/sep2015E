@@ -199,7 +199,7 @@ def unregister(request):
         if form.is_valid():
             try:
                 user = User.objects.get(email=form.cleaned_data['email'])
-                send_mail('Suppression de votre adresse', "Vous avez demandé que votre adresse soit supprimée de notre base de données. Si vous êtes certain de votre choix, cliquez sur le lien suivant ou copiez-collez le dans votre navigateur.\n\nhttps://localhost:8000/players/unregister_confirm?user="+str(user.pk)+"&token="+str(hash(user))+"\n\nSi vous n'avez pas demandé à ce que votre adresse soit supprimée, veuillez ignorer ce message.", 'info@sep2015e.com', [user.email], fail_silently=False)
+                send_mail('Suppression de votre adresse sur le site SEP2015E', "Vous avez demandé que votre adresse soit supprimée de notre base de données. Si vous êtes certain de votre choix, cliquez sur le lien suivant ou copiez-collez le dans votre navigateur.\n\nhttp://localhost:8000/players/unregister_confirm?user="+str(user.pk)+"&token="+str(hash(user))+"\n\nSi vous n'avez pas demandé à ce que votre adresse soit supprimée, veuillez ignorer ce message.", 'info@sep2015e.com', [user.email], fail_silently=False)
                 return HttpResponseRedirect("/")
             except ObjectDoesNotExist:
                 form.add_error('email', "Cette adresse n'est pas présente dans notre base de données.")
@@ -207,6 +207,16 @@ def unregister(request):
     return render(request, 'players/unregister.html', {\
             'form_email': form, \
             })
+
+def unregister_confirm(request):
+    user_pk = request.GET.get('user', -1)
+    token = request.GET.get('token', -1)
+    user = User.objects.get(pk=int(user_pk))
+    if hash(user) == int(token):
+        user.delete()
+        return render(request, 'players/unregister_success.html')
+    else:
+        return render(request, 'players/unregister_failure.html')
 
 def filled_registration(request):
     """Registration already filled for participants on previous years."""
