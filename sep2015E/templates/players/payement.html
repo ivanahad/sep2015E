@@ -38,13 +38,16 @@
 						<h3 class="panel-title">Méthode de payement</h3>
 					</div>
 					<div class="panel-body">
-						<input type="radio" name="groupe" value="Maestro"><img src="{% static "img/maestro.png" %}"><br>
-						<input type="radio" name="groupe" value="Mastercard"><img src="{% static "img/mastercard.png" %}"><br>
-						<input type="radio" name="groupe" value="Paypal"><img src="{% static "img/paypal.png" %}"><br>
-						<input type="radio" name="groupe" value="Visa"><img src="{% static "img/visa.png" %}"><br>
-						<input type="radio" name="groupe" value="Cash"><img src="{% static "img/cash.png" %}"><br><br>
+						<form action="{% url "players.views.payement" user reg solo%}" method="post">
+							{% csrf_token %}
+							<input type="radio" name="payement_method" value="Maestro"><img src="{% static "img/maestro.png" %}"><br>
+							<input type="radio" name="payement_method" value="Mastercard"><img src="{% static "img/mastercard.png" %}"><br>
+							<input type="radio" name="payement_method" value="Paypal"><img src="{% static "img/paypal.png" %}"><br>
+							<input type="radio" name="payement_method" value="Visa"><img src="{% static "img/visa.png" %}"><br>
+							<input type="radio" name="payement_method" value="Cash"><img src="{% static "img/cash.png" %}"><br><br>
 
-						<input type="button" value="Valider mon inscription">
+							<input type="submit" value="Valider mon inscription">
+						</form>
 					</div>
 				</div>
 			</div>

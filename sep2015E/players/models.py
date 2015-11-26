@@ -32,6 +32,8 @@ class User(models.Model):
     zipcode = models.IntegerField()
     email = models.EmailField(max_length=128, unique=True)
     phone = models.CharField(max_length=32, validators=[_phone_validator])
+    
+    payement_method = models.CharField(max_length=32, blank=True)
 
     def __str__(self):              # __unicode__ on Python 2
         return self.lastname + " " + self.firstname
@@ -47,9 +49,9 @@ class User(models.Model):
 
 
 # list of available payment methods
-PAYMENT_METHODS = (("Cash","Cash"), ("Visa","Visa"), \
-        ("Bancontact","Bancontact"), ("MasterCard","MasterCard"), \
-        ("Paypal","Paypal"))
+#PAYMENT_METHODS = (("Cash","Cash"), ("Visa","Visa"), \
+#        ("Bancontact","Bancontact"), ("MasterCard","MasterCard"), \
+#        ("Paypal","Paypal"))
 
 
 class Pair(models.Model):
@@ -64,9 +66,9 @@ class Pair(models.Model):
     season = models.CharField(max_length=32);
 
     # registration details
-    payment_method = models.CharField(choices=PAYMENT_METHODS, max_length=64, \
-            default=PAYMENT_METHODS[0])
-    payment_done = models.BooleanField(default=False)
+    #payment_method = models.CharField(choices=PAYMENT_METHODS, max_length=64, \
+    #        default=PAYMENT_METHODS[0])
+    #payment_done = models.BooleanField(default=False)
     comment = models.TextField(max_length=2048, default="", blank=True)
 
     def __str__(self):              # __unicode__ on Python 2

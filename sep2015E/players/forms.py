@@ -47,7 +47,6 @@ class PairRegistrationForm(forms.ModelForm):
     class Meta:
         model = Pair
         fields = [
-                'payment_method',
                 'comment'
             ]
         widgets = {

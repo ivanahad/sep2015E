@@ -109,7 +109,7 @@ def register(request):
             pair = Pair(player1 = new_user1, player2 = new_user2, \
                     average = 0.0, \
                     season = settings.CURRENT_SEASON, \
-                    payment_method = pair.cleaned_data['payment_method'], \
+                    #payment_method = pair.cleaned_data['payment_method'], \
                     comment = pair.cleaned_data['comment'])
             pair.save()
 
@@ -122,7 +122,7 @@ def register(request):
             #    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname'], 'info@sep2015e.com', [usr2.cleaned_data['email']], fail_silently=False)
 
             return redirect('players.views.payement', id_user1=new_user1.pk, id_user2=new_user2.pk, 
-                id_registration1=registration1.pk, id_registration2=id_registration2.pk, id_solo=None, id_pair=pair.pk)
+                id_registration1=registration1.pk, id_registration2=id_registration2.pk, id_pair=pair.pk)
 
     else:
         usr1 = PlayerForm(prefix="usr1")
@@ -307,7 +307,14 @@ def payement(request, id_user1, id_registration1, id_solo, id_registration2=None
     
     total = nb_user*20 + nb_bbq*15
 
-    return render(request, 'players/payement.html', {"nb_user": nb_user, "nb_bbq": nb_bbq, "total": total})
+    if request.method == 'POST':
+        payement_method = request.POST['payement_method']
+
+        user1 = User.objects.get(pk=id_user1)
+        user1.payement_method = payement_method
+        user1.save()
+
+    return render(request, 'players/payement.html', {"user":id_user1, "reg":id_registration1, "solo": id_solo, "nb_user": nb_user, "nb_bbq": nb_bbq, "total": total})
 
 
 
