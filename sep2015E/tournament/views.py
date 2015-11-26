@@ -193,18 +193,22 @@ def modify_pools(request, id_tournament, id_page, id_pool):
         and the other for the pool."""
     tournament = Tournament.objects.get(pk=id_tournament)
 
+    number_pools=Pool.objects.filter(tournament=tournament).count()
+    pool = Pool.objects.filter(tournament=tournament, number=id_pool)
+    pool = (pool.get(), PoolParticipant.objects.filter(pool=pool))
+
     pairs_per_page = 10   #Number of players displayed by page
 
-    number_pairs = TournamentParticipant.objects.filter(tournament=tournament).count()
+    all_pools = Pool.objects.filter(tournament=tournament)
+    pool_pairs = PoolParticipant.objects.filter(pool=all_pools).values('participant')
+
+    number_pairs = TournamentParticipant.objects.filter(tournament=tournament).exclude(participant=pool_pairs).count()
     number_pages = ceil(number_pairs/pairs_per_page) #Number of pages for the navbar
 
-    number_pools=Pool.objects.filter(tournament=tournament).count()
 
     extremity1 = 0+(int(id_page)-1)*pairs_per_page    #Range
     extremity2 = (int(id_page)*pairs_per_page)-1
-    pairs = TournamentParticipant.objects.filter(tournament=tournament)[extremity1:extremity2]
-    pool = Pool.objects.filter(tournament=tournament, number=id_pool)
-    pool = (pool.get(), PoolParticipant.objects.filter(pool=pool))
+    pairs = TournamentParticipant.objects.filter(tournament=tournament).exclude(participant=pool_pairs)[extremity1:extremity2]
 
     return render(request, 'tournament/modify_pool.html', { \
         'trn':tournament,
