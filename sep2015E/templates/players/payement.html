@@ -25,10 +25,10 @@
 					</div>
 					<div class="panel-body">
 
-						<p>2 x 20€ : Inscription au tournoi de tennis.</p>
-						<p>1 x 15€ : Barbecue de 12h30 à 15h (boisons non comprises).<p>
+						<p>{{nb_user}} x 20€ : Inscription au tournoi de tennis.</p>
+						<p>{{nb_bbq}} x 15€ : Barbecue de 12h30 à 15h (boisons non comprises).<p>
 						<br>
-						<p>TOTAL = 55€</p>
+						<p>TOTAL = {{total}}€</p>
 
 					</div>
 				</div>
@@ -44,7 +44,7 @@
 						<input type="radio" name="groupe" value="Visa"><img src="{% static "img/visa.png" %}"><br>
 						<input type="radio" name="groupe" value="Cash"><img src="{% static "img/cash.png" %}"><br><br>
 
-						<input type="button" href="#" value="Submit">
+						<input type="button" value="Valider mon inscription">
 					</div>
 				</div>
 			</div>

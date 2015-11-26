@@ -29,7 +29,7 @@ class User(models.Model):
     address_box = models.CharField(max_length=8, null=True, blank=True)
     city = models.CharField(max_length=64)
     country = models.CharField(max_length=64)
-    zipcode = models.IntegerField(default=0)
+    zipcode = models.IntegerField()
     email = models.EmailField(max_length=128, unique=True)
     phone = models.CharField(max_length=32, validators=[_phone_validator])
 
