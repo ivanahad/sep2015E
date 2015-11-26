@@ -80,6 +80,7 @@ class Tournament(models.Model):
                 pp.save()
 
     def generate_pdf(self):
+        """ Generate a pdf version of the pools."""
         doc = SimpleDocTemplate("pools.pdf", rightMargin=72, leftMargin=72,
                                 topMargin=72, bottomMargin=18, showBoundary=1)
         doc.pagesize=landscape(A4)
@@ -135,6 +136,7 @@ class Tournament(models.Model):
 
 
     def pdf_pool(self, pool):
+        """ Return a table representing a pool for pdf generation."""
         participants = PoolParticipant.objects.filter(pool=pool) #List of participants
         styles=getSampleStyleSheet()
         styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))

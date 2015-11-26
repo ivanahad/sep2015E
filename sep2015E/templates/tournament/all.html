@@ -17,6 +17,7 @@
 <div class="row">
 	<div class="box">
 		<div class="col-lg-12">
+			<!-- DISPLAY LIST OF TOURNAMENTS -->
 			<hr>
 			<h2 class="intro-text text-center">Liste des
 				<strong>tournois actuels</strong>
@@ -39,6 +40,9 @@
         </a>
 				{% endfor %}
 			</div>
+
+
+			<!-- CREATE A NEW TOURNAMENT -->
 
       {% if user.is_staff %} <!-- enable this section if user is staff -->
       <div class="panel">

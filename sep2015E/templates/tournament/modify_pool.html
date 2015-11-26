@@ -24,7 +24,7 @@
 					<div class="col-md-6">
 						<div class="panel panel-default">
 
-							<!-- AFFICHE LISTE DES JOUEURS -->
+							<!-- DISPLAY LIST OF PLAYERS -->
               <div class="panel-heading">
                 Joueurs dans aucune pool
               </div>
@@ -35,7 +35,7 @@
 										{{ pair }}
 										<a href="{% url "tournament.views.add_player_to_pool"  trn.pk page_id pool.0.number pair.pk %}"
 											<button type="button" class="btn btn-default" aria-label="Left Align">
-										  	<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+										  	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 											</button>
 										</a>
 									</li>
@@ -91,6 +91,7 @@
 						</div>
 					</div>
 
+					<!-- DISPLAY POOL -->
 					<div class="col-md-6">
 						<div class="panel panel-default">
 							<div class="panel-heading">{{ pool.0 }}</div>
