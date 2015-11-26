@@ -285,10 +285,29 @@ def filled_registration(request):
 
 def payement(request, id_user1, id_registration1, id_solo, id_registration2=None, id_user2=None, id_pair=None):
 
-    user1 = User.objects.get(pk=id_user1)
-    nb_user = 1
+    if id_user1 is not None and id_user2 is not None:
+        nb_user = 2
+        usr1 = UserRegistration.objects.get(pk=id_registration1)
+        usr2 = UserRegistration.objects.get(pk=id_registration2)
 
-    return render(request, 'players/payement.html', {"nb_user": nb_user})
+        if usr1.bbq is True and usr2.bbq is True:
+            nb_bbq = 2
+        elif usr1.bbq is True or urs2.bbq is True:
+            nb_bbq = 1
+        else:
+            nb_bbq = 0
+    else:
+        nb_user = 1
+        usr1 = UserRegistration.objects.get(pk=id_registration1)
+
+        if usr1.bbq is True:
+            nb_bbq = 1
+        else:
+            nb_bbq = 0
+    
+    total = nb_user*20 + nb_bbq*15
+
+    return render(request, 'players/payement.html', {"nb_user": nb_user, "nb_bbq": nb_bbq, "total": total})
 
 
 
