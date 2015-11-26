@@ -280,3 +280,7 @@ def filled_registration(request):
             })
 
     return redirect('players.views.register')
+
+
+def payement(request):
+    return render(request, 'players/payement.html')
