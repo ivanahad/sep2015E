@@ -139,17 +139,20 @@ def pool(request, id_tournament, id_pool):
     for participant in participants:
         partcipant_matches=[]
         j=0
+        boolean = False
         number_victory = 0
         for pool_match  in pool_matches:
-            if i == j: #leave a blank because pair i can't affront pair i (necessary for the table representation)
+            if i == j and boolean == False: #leave a blank because pair i can't affront pair i (necessary for the table representation)
                 partcipant_matches.append("blank")
+                boolean = True
             if pool_match.match.team1==participant.participant or pool_match.match.team2==participant.participant:
                 partcipant_matches.append(pool_match.match)
                 number_victory += winned(participant, pool_match.match)
-            j+=1
+                j+=1
+        if boolean==False:
+            partcipant_matches.append("blank")
         i+=1
         matches.append([participant.participant,partcipant_matches, number_victory])
-
 
     if request.method == 'POST':
         form = MatchEditForm(request.POST)
@@ -168,7 +171,6 @@ def pool(request, id_tournament, id_pool):
             match.court = court
             match.save()
     else:
-
         form = MatchEditForm()
     return render(request, 'tournament/pool.html', { \
             'trn': tournament, \
