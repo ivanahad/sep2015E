@@ -215,6 +215,7 @@ def modify_pools(request, id_tournament, id_page, id_pool):
         'n_pages':range(1, number_pages+1),
         'prev_page':int(id_page)-1,
         'next_page':int(id_page)+1,
+        'number_pools':number_pools,
         'n_pools':range(0, number_pools),
         'prev_pool':int(id_pool)-1,
         'next_pool':int(id_pool)+1,
