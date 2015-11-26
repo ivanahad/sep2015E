@@ -56,18 +56,20 @@
 
 		<!-- List of files-->
 		<div class="col-md-6">
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<table class="table">
-						{% for file in files %}
-						<tr>
-							<td><a href="{% url "staff.views.send_file" file.pk %}">{{ file.name }}</a></td>
-							<td>by {{file.owner.username}}</td>
-						</tr>
-						{% endfor %}
-					</table>
+			{% if files.count > 0 %}
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<table class="table">
+							{% for file in files %}
+							<tr>
+								<td><a href="{% url "staff.views.send_file" file.pk %}">{{ file.name }}</a></td>
+								<td>by {{file.owner.username}}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
 				</div>
-			</div>
+			{% endif %}
 		</div>
 	</div>
 </div>
@@ -128,28 +130,30 @@
 			</div>
 			<!-- List of messages-->
 			<div class=col-md-6>
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<table class="table">
-							{% for msg in messages %}
-							<tr>
-								<td>
-									<a href="#msg_{{msg.pk}}" data-toggle="collapse"
-									aria-expanded="false" aria-controls="msg_{{msg.pk}}">
-									{{ msg.title }}
-									</a>
-								</td>
-								<td>by {{msg.author.username}}</td>
-								<div class="collapse" id="msg_{{msg.pk}}">
-									<div class="well">
-									{{msg.message}}
+				{% if messages.count > 0 %}
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<table class="table">
+								{% for msg in messages %}
+								<tr>
+									<td>
+										<a href="#msg_{{msg.pk}}" data-toggle="collapse"
+										aria-expanded="false" aria-controls="msg_{{msg.pk}}">
+										{{ msg.title }}
+										</a>
+									</td>
+									<td>by {{msg.author.username}}</td>
+									<div class="collapse" id="msg_{{msg.pk}}">
+										<div class="well">
+										{{msg.message}}
+										</div>
 									</div>
-								</div>
-							</tr>
-							{% endfor %}
-						</table>
+								</tr>
+								{% endfor %}
+							</table>
+						</div>
 					</div>
-				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
