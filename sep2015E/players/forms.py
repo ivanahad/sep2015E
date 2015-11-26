@@ -2,7 +2,8 @@ from django import forms
 from players.models import User, UserRegistration, Pair
 
 class PlayerForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):    #"""When editing player informations."""
+    """Form for registering a new player and edit it."""
+    def __init__(self, *args, **kwargs):
        player_id = kwargs.pop('player_id', None)
        player_email = kwargs.pop('player_email', None)
        player = None
@@ -33,6 +34,7 @@ class PlayerForm(forms.ModelForm):
             }
 
 class RegistrationForm(forms.ModelForm):
+    """Form to register a player."""
     class Meta:
         model = UserRegistration
         fields = [
@@ -41,6 +43,7 @@ class RegistrationForm(forms.ModelForm):
             ]
 
 class PairRegistrationForm(forms.ModelForm):
+    """Form to register a new pair."""
     class Meta:
         model = Pair
         fields = [

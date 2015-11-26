@@ -10,6 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 
 def register(request):
+    """Page for players registrations. We permit pairs to register or solo players."""
     if request.method == 'POST':  # S'il s'agit d'une requête POST
         usr1 = PlayerForm(request.POST, prefix="usr1")
         reg1 = RegistrationForm(request.POST, prefix="reg1")
@@ -21,6 +22,7 @@ def register(request):
         emailForm1 = EmailOldUserForm(prefix="email1")
         emailForm2 = EmailOldUserForm(prefix="email2")
 
+        #Solo registration
         if 'solo_registration' in request.POST \
                 and usr1.is_valid() and reg1.is_valid() \
                 and trn.is_valid():
@@ -56,6 +58,7 @@ def register(request):
 
             return render(request, 'players/registration_success.html')
 
+        #Pair registration
         elif usr1.is_valid() and usr2.is_valid() \
                 and reg1.is_valid() and reg2.is_valid() \
                 and pair.is_valid() and trn.is_valid():
@@ -121,7 +124,7 @@ def register(request):
 
             return render(request, 'players/registration_success.html')
 
-    else: # Si ce n'est pas du POST, c'est probablement une requête GET
+    else:
         usr1 = PlayerForm(prefix="usr1")
         reg1 = RegistrationForm(prefix="reg1")
         usr2 = PlayerForm(prefix="usr2")
@@ -148,13 +151,16 @@ def register(request):
             })
 
 def assign_tournament(pair):
+    """ Assign a tournament to a pair based on their genders (if same or different)
+        and their birthdate. The category is based on the older player.
+        It may happen that some players are not assigned tournaments (don'f fit)."""
     player1 = pair.player1
     player2 = pair.player2
 
     #Check if mixte
     mixte = (player1.gender == player2.gender)
 
-    #Assign the category
+    #Assign the category based on birthdate
     current_year = datetime.now().year
     player1_birth_year = player1.birthdate.year
     player2_birth_year = player2.birthdate.year
@@ -178,6 +184,7 @@ def assign_tournament(pair):
     elif smaller_difference > 40:
         category = 'elites'
 
+    #Assign a tournament if possible
     exist = (Tournament.objects.filter(category=category, mixte=mixte, season=settings.CURRENT_SEASON).count() != 0)
     if exist:
         tournament= Tournament.objects.get(category=category, mixte=mixte, season=settings.CURRENT_SEASON)
@@ -202,6 +209,7 @@ def unregister(request):
             })
 
 def filled_registration(request):
+    """Registration already filled for participants on previous years."""
     if request.method == 'POST':
         emailForm1 = EmailOldUserForm(request.POST, prefix="email1")
         emailForm2 = EmailOldUserForm(request.POST, prefix="email2")
@@ -210,7 +218,7 @@ def filled_registration(request):
         usr2 = PlayerForm(prefix="usr2")
         reg2 = RegistrationForm(prefix="reg2")
         trn = OpenTournamentChoiceForm()
-
+        
         if emailForm1.is_valid():
             email1 = emailForm1.cleaned_data['email']
             usr1 = PlayerForm(player_email=email1, prefix="usr1")

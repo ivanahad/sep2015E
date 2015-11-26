@@ -21,9 +21,12 @@
 
 			<hr>
 			<div class="panel-body">
+
+				<!-- Button for participants that previously take part on the tournament -->
 				<div class="col-md-2 col-md-offset-5">
 					<button  type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#emailModal"><strong>Déjà participé</strong></button></p>
 				</div>
+				<!-- Modal view -->
 				<div id="emailModal" class="modal fade" role="dialog">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -66,9 +69,13 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- REGISTRATION FORM-->
 				<form action="{% url "players.views.register" %}" method="post">
 					{% csrf_token %}
 					<div class = "row">
+
+						<!--Player 1 registration-->
 						<div class="col-md-6">
 							<div class="panel panel-default">
 								<div class="panel-heading">
@@ -251,8 +258,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
 
+						<!--Player 2 registration-->
+						<div class="col-md-6">
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">Joueur 2</h4>
@@ -436,6 +444,7 @@
 						</div>
 					</div>
 
+					<!-- PAYMENT RECAPS (bbq, etc)-->
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<em><strong><i>Récapitulatif de votre soutiens pour les projets de l'asble asmae :</i></strong></em>
@@ -450,12 +459,12 @@
 						</div>
 					</div>
 
+					<!-- REGISTRATION OPTIONS (payment method, comments, etc) -->
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h4 class="panel-title">Détails</h4>
 						</div>
 						<div class="panel-body">
-
 							<div class="row field">
 								<div class="col-sm-4">
 									<label for="id_bbq">Tournoi:</label>
@@ -491,7 +500,6 @@
 									{{ pair.comment.errors }}
 								</div>
 							</div>
-
 						</div>
 					</div>
 
