@@ -254,8 +254,10 @@ def save_match_changes(request, id_tournament, id_pool, id_match):
             court = form.cleaned_data['court']
             match = Match.objects.filter(id=id_match)
             match = match.get()
-            match.score1 = score1
-            match.score2 = score2
+            if score1 != None:
+                match.score1 = score1
+            if score2 != None:
+                match.score2 = score2
             match.court = court
             match.save()
     return redirect('tournament.views.pool', id_tournament=id_tournament,id_pool=id_pool)

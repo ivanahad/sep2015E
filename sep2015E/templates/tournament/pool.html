@@ -35,61 +35,80 @@
               <td>-</td>
               {% else %}
               <!-- MODAL TO EDIT MATCH SCORE AND COURT -->
-            <td><a href="#" data-toggle="modal" data-target="#matchModal">-</a></td>
-            <div id="matchModal" class="modal fade" role="dialog">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modifiez match</h4>
-                  </div>
-                  <div class="modal-body">
-                    <form action="{% url "tournament.views.save_match_changes" trn.id pool.number m.id %}" method="post">
-                      {% csrf_token %}
-                      <div class="row field">
-                        <div class="col-sm-4">
-                          <label for="id_firstname">Score paire 1:</label>
+            <td><a href="#" data-toggle="modal" data-target="#matchModal">
+                {% if match.0.pk == m.team1.pk and m.score1 > m.score2 %}
+                  V
+                {% elif match.0.pk == m.team1.pk and m.score1 < m.score2 %}
+                  D
+                {% elif match.0.pk != m.team1.pk and m.score1 > m.score2 %}
+                  D
+                {% elif match.0.pk != m.team1.pk and m.score1 < m.score2 %}
+                  V
+                {% else  %}
+                  -
+                {% endif %}
+                </a>
+            </td>
+              <div id="matchModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Modifiez match</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form action="{% url "tournament.views.save_match_changes" trn.id pool.number m.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="row field">
+                          <div class="col-sm-4">
+                            <label for="id_firstname">Score paire 1:</label>
+                          </div>
+                          <div class="col-sm-4">
+                            {{ form.score1 }}
+                            {% if m.score1 != None %}
+                              {{m.score1}}
+                            {% endif %}
+                          </div>
+                          <div class="col-sm-4 required">
+                            {{ form.score1.errors }}
+                          </div>
                         </div>
-                        <div class="col-sm-4">
-                          {{ form.score1 }}
-                        </div>
-                        <div class="col-sm-4 required">
-                          {{ form.score1.errors }}
-                        </div>
-                      </div>
 
-                      <div class="row field">
-                        <div class="col-sm-4">
-                          <label for="id_firstname">Score paire 2:</label>
+                        <div class="row field">
+                          <div class="col-sm-4">
+                            <label for="id_firstname">Score paire 2:</label>
+                          </div>
+                          <div class="col-sm-4">
+                            {{ form.score2 }}
+                            {% if m.score2 != None %}
+                              {{m.score2}}
+                            {% endif %}
+                          </div>
+                          <div class="col-sm-4 required">
+                            {{ form.score2.errors }}
+                          </div>
                         </div>
-                        <div class="col-sm-4">
-                          {{ form.score2 }}
-                        </div>
-                        <div class="col-sm-4 required">
-                          {{ form.score2.errors }}
-                        </div>
-                      </div>
 
-                      <div class="row field">
-                        <div class="col-sm-4">
-                          <label for="id_firstname">Terrain:</label>
+                        <div class="row field">
+                          <div class="col-sm-4">
+                            <label for="id_firstname">Terrain:</label>
+                          </div>
+                          <div class="col-sm-4">
+                            {{ form.court }}
+                          </div>
+                          <div class="col-sm-4 required">
+                            {{ form.court.errors }}
+                          </div>
                         </div>
-                        <div class="col-sm-4">
-                          {{ form.court }}
-                        </div>
-                        <div class="col-sm-4 required">
-                          {{ form.court.errors }}
-                        </div>
+                        <input type="submit" value="Enregistrer" />
+                      </form>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                       </div>
-                      <input type="submit" value="Enregistrer" />
-                    </form>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
             {% endif %}
             {% endfor %}
             <td>0</td>

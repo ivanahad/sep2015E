@@ -148,8 +148,7 @@
 										<li><a href="{%  url "tournament.views.modify_pools" trn.pk page_id i %}">{{i}}</a></li>
 										{% endif %}
 										{% endfor %}
-
-										{% if pool.0.number == number_pages %}
+										{% if next_pool == number_pages %}
 										<li class="disabled">
 											<a href="#" aria-label="Next">
 												<span aria-hidden="true">&raquo;</span>
