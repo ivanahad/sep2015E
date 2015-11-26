@@ -24,6 +24,7 @@ class Messages(models.Model):
         return self.title + " " + self.message
 
 class Files(models.Model):
+    """ This class contains the files uploaded by staff members."""
     name = models.CharField(max_length=120)
     owner = models.ForeignKey(User)
     f = models.FileField(upload_to="files/")

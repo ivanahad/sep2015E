@@ -20,6 +20,7 @@ class MailListForm(forms.Form):
 
 
 class FilesForm(forms.ModelForm):
+    """ Form for staff to upload a file """
     class Meta:
         model = Files
         exclude = ['owner']

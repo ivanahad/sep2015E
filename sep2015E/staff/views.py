@@ -49,13 +49,14 @@ def home(request):
     """Home page for staff members."""
     if not request.user.is_authenticated():
         return redirect('staff.views.login_staff')
-    print(LogEntry.objects.all())
+
     name=request.user.username
 
     form_files = FilesForm(prefix="files")
     form_msg = MessageForm(prefix="msg")
 
     if request.method == 'POST':
+        #Form for messages
         if 'type_msg' in request.POST:
             form_msg = MessageForm(request.POST, prefix="msg")
             if form_msg.is_valid():
@@ -63,6 +64,7 @@ def home(request):
                         title = form_msg.cleaned_data['title'], \
                         message = form_msg.cleaned_data['message']).save()
                 return HttpResponseRedirect('/staff/home')
+        #Form for files
         if 'type_files' in request.POST:
             form_files = FilesForm(request.POST, request.FILES, prefix="files")
             if form_files.is_valid():
@@ -70,8 +72,9 @@ def home(request):
                     f=form_files.cleaned_data['f'], owner=request.user).save()
                 return HttpResponseRedirect('/staff/home')
 
-    messages = Messages.objects.all() #replace by a call destined to the current staff member
+    messages = Messages.objects.all()
     files = Files.objects.all()
+
     return render(request, 'staff/home.html', {\
             'name': name, \
             'date':datetime.now(), \
@@ -103,6 +106,7 @@ def mail_list(request):
     return render(request, 'staff/mail_list.html', {'form':form})
 
 def courts(request):
+    """ Page listing all the courts"""
     if not request.user.is_authenticated():
         return redirect('staff.views.login_staff')
 
@@ -134,19 +138,8 @@ def players(request, page_id):
         'next':int(page_id)+1,
         })
 
-def search(request):
-    if request.method == 'POST':
-        query = request.POST['query'].strip()
-        players = User.objects.filter(Q(firstname__contains=query) | Q(lastname__contains=query))
-        owners = Court.objects.filter(owner__contains=query)
-        return render(request, 'staff/search.html', { \
-            'players':players,
-            'owners':owners,
-            'query':query,
-        })
-
 def particular_player(request, page_id, player_id):
-    """Page showing information on a particular player."""
+    """Page showing information for a particular player."""
     players_per_page = 10   #Number of players displayed by page
 
     number_players = User.objects.count()
@@ -179,12 +172,22 @@ def particular_player(request, page_id, player_id):
         'next':int(page_id)+1,
         })
 
+def search(request):
+    """Search staff or owners of courts"""
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+        players = User.objects.filter(Q(firstname__contains=query) | Q(lastname__contains=query))
+        owners = Court.objects.filter(owner__contains=query)
+        return render(request, 'staff/search.html', { \
+            'players':players,
+            'owners':owners,
+            'query':query,
+        })
+    else:
+        return redirect('staff.views.home')
+
 def send_file(request, id_file):
-    """
-    Send a file through Django without loading the whole file into
-    memory at once. The FileWrapper will turn the file object into an
-    iterator for chunks of 8KB.
-    """
+    """Send a file"""
     f=Files.objects.get(pk=id_file)
     response = HttpResponse(f.f, content_type='none')
     response['Content-Disposition'] = 'attachment; filename=' + '"' + str(f.f) + '"'
