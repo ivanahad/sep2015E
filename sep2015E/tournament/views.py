@@ -139,14 +139,16 @@ def pool(request, id_tournament, id_pool):
     for participant in participants:
         partcipant_matches=[]
         j=0
+        number_victory = 0
         for pool_match  in pool_matches:
             if i == j: #leave a blank because pair i can't affront pair i (necessary for the table representation)
                 partcipant_matches.append("blank")
             if pool_match.match.team1==participant.participant or pool_match.match.team2==participant.participant:
                 partcipant_matches.append(pool_match.match)
+                number_victory += winned(participant, pool_match.match)
             j+=1
         i+=1
-        matches.append([participant.participant,partcipant_matches])
+        matches.append([participant.participant,partcipant_matches, number_victory])
 
 
     if request.method == 'POST':
@@ -174,6 +176,14 @@ def pool(request, id_tournament, id_pool):
             'matches': matches, \
             'form' : form \
             })
+
+def winned(pair, match):
+    if match.score1 == None or match.score2 == None:
+        return 0
+    elif pair.pk == match.team1.pk:
+        return 1 if match.score1 > match.score2 else 0
+    else:
+        return 1 if match.score2 > match.score1 else 0
 
 def modify_pools(request, id_tournament, id_page, id_pool):
     """ Page for modifying a pool. The page is divided in two parts,
