@@ -147,7 +147,7 @@ def pool(request, id_tournament, id_pool):
                 boolean = True
             if pool_match.match.team1==participant.participant or pool_match.match.team2==participant.participant:
                 partcipant_matches.append(pool_match.match)
-                number_victory += winned(participant, pool_match.match)
+                number_victory += winned(participant.participant, pool_match.match)
                 j+=1
         if boolean==False:
             partcipant_matches.append("blank")
@@ -182,7 +182,7 @@ def pool(request, id_tournament, id_pool):
 def winned(pair, match):
     if match.score1 == None or match.score2 == None:
         return 0
-    elif pair.pk == match.team1.pk:
+    elif pair == match.team1:
         return 1 if match.score1 > match.score2 else 0
     else:
         return 1 if match.score2 > match.score1 else 0
