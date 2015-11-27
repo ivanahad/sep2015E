@@ -33,32 +33,51 @@
 			<hr>
 
 			<!-- DETAILS ON TOURNAMENT -->
-      <div class="panel">
+      <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title"> Informations </h3>
         </div>
 
         <div class="panel-body">
-          <p> Saison: {{ trn.season }} </p>
-          <p> Nombre de paires enregistrées: {{ nbr_p }} </p>
-          {% if trn.is_open %}
-          <p> Nombre de participants solo: {{ nbr_s }} </p>
-          {% endif %}
-          <p> Joueurs par pool: {{ trn.pool_size }} </p>
-          <p> Inscriptions ouvertes: {{ trn.is_open }} </p>
+					<table class="table">
+						<tr>
+							<td> Saison: </td>
+							<td>{{ trn.season }} </td>
+						</tr>
+						<tr>
+							<td> Nombre de paires enregistrées:</td>
+							 <td>{{ nbr_p }} </td>
+						</tr>
+						{% if trn.is_open %}
+						<tr>
+							<td> Nombre de participants solo:</td>
+							 <td>{{ nbr_s }} </td>
+						</tr>
+						{% endif %}
+						<tr>
+							<td> Joueurs par pool:</td>
+							 <td>{{ trn.pool_size }} </td>
+						</tr>
+						<tr>
+							<td> Inscriptions ouvertes:</td>
+							 <td>{{ trn.is_open }} </td>
+						</tr>
+				</table>
         </div>
       </div>
 
       <!-- Registered pairs -->
-      <div class="panel">
+      <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title"> Paires inscrites </h3>
         </div>
 
         <div class="panel-body">
+					<ul class="list-group">
           {% for p in parts %}
-          <p> <a href="{% url "staff.views.particular_pair" p.pk %}">{{ p.player1 }} - {{ p.player2 }}</a> </p>
+          	<li class="list-group-item"> <a href="{% url "staff.views.particular_pair" p.pk %}">{{ p.player1 }} - {{ p.player2 }}</a> </li>
           {% endfor %}
+					</ul>
         </div>
       </div>
 
@@ -78,7 +97,7 @@
       {% endif %}
 
 	  <!-- Bracket -->
-	  <div class="panel">
+	  <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title"> Bracket </h3>
         </div>
@@ -90,21 +109,31 @@
 
       <!-- Pools -->
       {% if not trn.is_open %}
-      <div class="panel">
+      <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title"> Pools </h3>
         </div>
-				<a href="{% url "tournament.views.modify_pools" trn.pk 1 0 %}">Modifier pools</a>
         <div class="panel-body">
+					<div class="row">
           {% for pool in pools %}
-          <div class="panel">
-            <h3 class="panel-title"> <a href="{% url "tournament.views.pool" trn.id pool.0.number %}"> Pool {{ pool.0.number }} </a></h3>
-            {% for p in pool.1 %}
-            <p> {{ p }} </p>
-            {% endfor %}
-          </div>
+						<div class="col-md-4">
+									<ul class="list-group">
+ 										<a href="{% url "tournament.views.pool" trn.id pool.0.number %}" class="list-group-item list-group-item-info">
+											Pool {{ pool.0.number }}
+										</a>
+										{% for p in pool.1 %}
+				            <li class="list-group-item"> {{ p.participant.player1 }} -  {{ p.participant.player2 }}</li>
+				            {% endfor %}
+									</ul>
+						</div>
           {% endfor %}
+					</div>
         </div>
+				<div class="panel-footer">
+					<a href="{% url "tournament.views.modify_pools" trn.pk 1 0 %}">
+						<button type="button" class="btn btn-warning"> Modifier pools</button>
+					</a>
+				</div>
 			</div>
       {% endif %}
 
