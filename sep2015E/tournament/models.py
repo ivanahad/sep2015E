@@ -67,7 +67,7 @@ class Tournament(models.Model):
         Tournament.assign_players(pools, pairs, self.pool_size)
         for pool in pools:
             pool.create_matches()
-            pool.send_emails() # DEBUG
+            #pool.send_emails() # DEBUG
 
         self.is_open = False
         self.save()
@@ -255,7 +255,7 @@ class Pool(models.Model):
         users.remove(self.leader)
         for user in users:
             print("Sending email to "+user.email)
-            if players.models.UserRegistration.objects.filter(user=user, season=settings.CURRENT_SEASON)[0].payment_done:
+            if players.models.UserRegistration.objects.filter(user=user, season=settings.CURRENT_SEASON)[0].payement_done:
                 emails.append(("Votre participation au tournoi Charles de Lorraine", "Voici les coordonnées pour votre premier match : <enter court address>", "info@sep2015e.net", [user.email]))
             else:
                 emails.append(("Votre participation au tournoi Charles de Lorraine", "Veuillez vous rendre à l'address "+settings.HQ+" pour procéder au paiement avant votre participation au tournoi.", "info@sep2015e.net", [user.email]))
