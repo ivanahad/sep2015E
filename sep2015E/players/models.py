@@ -23,7 +23,7 @@ class User(models.Model):
     firstname = models.CharField(max_length=128)
     lastname = models.CharField(max_length=128)
     gender = models.CharField(max_length=1, choices=(("M", "Homme"), ("F", "Femme")))
-    birthdate = models.DateField(help_text="TEST")
+    birthdate = models.DateField()
     address_street = models.CharField(max_length=128)
     address_number = models.CharField(max_length=8)
     address_box = models.CharField(max_length=8, null=True, blank=True)
