@@ -144,17 +144,6 @@ Here is the live version of our website : http://sep2015e.herokuapp.com.  To get
 \textbf{To get access to the code of our project}, you can click on the link to our \textit{Github} repository : https://github.com/ivanahad/sep2015E\\
 \subsubsection*{How to modify a tournament}
 
-\subsubsection*{How }
-\subsection{The software}
-
-
-Here is the live version of our website : http://sep2015e.herokuapp.com.  To get admin access you should add "/admin" in the url.\\
-
-To get access to the data of our project, you can click on the link to our \textit{Github} repository : https://github.com/ivanahad/sep2015E\\
-\subsubsection*{How to modify a tournament}
-
-\subsubsection*{How }
-
 \section{For next phase}
 \subsection{Tests to improve the software}
 To improve our software, we are going to ask random people to test the website to see if it is user-friendly and easy to use, and then we will proceed to modify it accordingly.\\
@@ -173,17 +162,23 @@ The documentation will be one of our main focuses. It will be divided into two p
 
 You can see our UML diagram in Figure\ref{uml}. Since the last phase, we changed.\\
 
-In the architecture, in this phase, some models such as the player and the tournament have been modified to fit the client's feedback. As we mentioned before, we added for a tournament two fields(age, gender) to describe the participants more accurately. (Note that the ORM must be updated but we felt that the modifications were trivial, as only two relationships would have been added, otherwise the model stays pretty much the same). 
+In the architecture, in this phase, there isn't much that has changed. However, one big change is that we added many methods that now allow to modify information about users, courts, tournaments, etc. Making things changeable manually was one of our main coucerns for this phase, as it was requested by the client.
 
 \subsection*{Sequences diagram}
 
-You can see in figure \ref{sequence} the sequence diagram for how a player registers to a tournament with an email confirmation. Note that this is a registration for a single player. For two players, it works the same way but it creates a pair instead. 
+You can see in figure \ref{sequence} the sequence diagram for how a player registers to a tournament with an email confirmation. It has been updated since the last phase's report.
 
-%AJOUTER SEQUENCE ICI ET ENLEVER LES %, AJUTER LE SCALE EN FONCTION
 %\begin{figure}[position]
-%   \caption{\label{sequence} Sequence diagram}
-%  \includegraphics[scale=0.4]{sequence.png}
+%   \caption{\label{playerseq} Sequence diagram}
+%  \includegraphics[scale=0.4]{playerseq.png}
 %\end{figure}
+The second sequence diagram describes the life cycle of a tournament, how players are added into groups, how the knock-off tournament is created, how the tournament is created, etc. 
+
+%\begin{figure}[position]
+%   \caption{\label{tournseq} Sequence diagram for tournament}
+%  \includegraphics[scale=0.4]{tournsec.png}
+%\end{figure}
+
 
 \section{Conclusion}
 
