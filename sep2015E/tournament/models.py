@@ -272,7 +272,7 @@ class TournamentNode(models.Model):
     Value is the match (once the two players are known), rest
     is the recursive links.
     """
-    match = models.ForeignKey('Match')
+    match = models.ForeignKey('Match', blank=True, null=True)
     parent = models.ForeignKey('self', related_name='parent_', blank=True, null=True)
     child1 = models.ForeignKey('self', related_name='child1_', blank=True, null=True)
     child2 = models.ForeignKey('self', related_name='child2_', blank=True, null=True)
