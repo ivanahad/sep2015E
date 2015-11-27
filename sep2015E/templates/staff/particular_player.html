@@ -17,9 +17,11 @@
 							<!-- DISPLAY LISTING OF PLAYERS -->
 
 							<div class="panel-body">
+								<ul class="list-group">
 								{% for player in players %}
-								<p><a href="{% url "staff.views.particular_player" page_id player.id %}">{{ player }}</a></p>
+									<li class="list-group-item"><a href="{% url "staff.views.particular_player" page_id player.id %}">{{ player }}</a></li>
 								{% endfor %}
+								</ul>
 							</div>
 							<div class="panel-footer">
 
