@@ -337,3 +337,22 @@ def save_match_changes(request, id_tournament, id_pool, id_match):
             match.court = court
             match.save()
     return redirect('tournament.views.pool', id_tournament=id_tournament,id_pool=id_pool)
+
+def assign_pairs_for_solo_automatic(request, id_tournament):
+    tournament = Tournament.objects.get(pk=id_tournament)
+    solo_players = SoloParticipant.objects.filter(tournament=tournament)
+    n_solo_players = SoloParticipant.objects.filter(tournament=tournament).count()
+    i = 0
+    j = 1
+    while j < n_solo_players:
+        solo_p1 = solo_players[i]
+        solo_p2 = solo_players[j]
+        pair = Pair(player1=solo_p1.player, player2=solo_p2.player, season=settings.CURRENT_SEASON, average=0)
+        pair.save()
+        tournament_participant = TournamentParticipant(tournament=tournament, participant=pair)
+        tournament_participant.save()
+        solo_p1.delete()
+        solo_p2.delete()
+        i+=2
+        j+=2
+    return redirect('tournament.views.tournamentStaff', id_=id_tournament)

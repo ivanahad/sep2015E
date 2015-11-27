@@ -87,7 +87,7 @@
 
       <!-- Solo players -->
       {% if trn.is_open %}
-      <div class="panel">
+      <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title"> Participants solo </h3>
         </div>
@@ -99,6 +99,11 @@
 	          {% endfor %}
 					</ul>
         </div>
+				<div class="panel-footer">
+					<a href="{% url "tournament.views.assign_pairs_for_solo_automatic" trn.pk %}">
+						<button type="button" class="btn btn-info">Créer paires automatiquement</button>
+					</a>
+				</div>
       </div>
       {% endif %}
 
