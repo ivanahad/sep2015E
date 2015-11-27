@@ -29,7 +29,7 @@ class Court(models.Model):
     owner_address_number = models.CharField(max_length=8)
     owner_address_box = models.CharField(max_length=8, null=True, blank=True)
     city = models.CharField(max_length=64)
-    zipcode = models.IntegerField(default=0)
+    zipcode = models.IntegerField()
     email = models.EmailField()
     phone = models.CharField(max_length=32, validators=[_phone_validator])
 
