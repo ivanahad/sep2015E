@@ -55,10 +55,6 @@ def register(request):
 
             assign_tournament_solo(new_user1)
 
-
-            #send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
-            #    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category, 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
-
             return redirect('players.views.payement', id_user1=new_user1.pk, id_registration1=registration1.pk,
                     id_user2=-1, id_registration2=-1, id_pair=-1)
 
@@ -117,6 +113,7 @@ def register(request):
             pair.save()
 
             assign_tournament(pair)
+            
             return redirect('players.views.payement', id_user1=new_user1.pk, id_user2=new_user2.pk,
                 id_registration1=registration1.pk, id_registration2=registration2.pk, id_pair=pair.pk)
 
@@ -332,7 +329,7 @@ def filled_registration(request):
 def payement(request, id_user1, id_registration1, id_registration2, id_user2, id_pair):
 
     user1 = UserRegistration.objects.get(pk=id_registration1)
-    if int(id_user1) != -1 and int(id_user2) != -1:
+    if int(id_user2) != -1:
         nb_user = 2
         user2 = UserRegistration.objects.get(pk=id_registration2)
 
@@ -354,25 +351,39 @@ def payement(request, id_user1, id_registration1, id_registration2, id_user2, id
     error = False
 
     if request.method == 'POST':
-        payement_method = request.POST.get('payement_method', False)
-        if payement_method is False:
-            error = True
-            return render(request, 'players/payement.html', {
-                "user":id_user1,
-                "other_user": id_user2,
-                "reg":id_registration1,
-                "reg2":id_registration2,
-                "nb_user": nb_user,
-                "nb_bbq": nb_bbq,
-                "total": total,
-                "error": error
-            })
-        user1.payement_method = payement_method
-        user1.save()
-        if int(id_user2) != -1:
-            user2.payement_method = payement_method
-            user2.save()
-        return render(request, 'players/registration_success.html')
+        if 'delete' in request.POST:
+            UserRegistration.objects.get(pk=id_registration1).delete()
+            User.objects.get(pk=id_user1).delete()
+            if int(id_user2) != -1:
+                Pair.objects.get(pk=id_pair).delete()
+                UserRegistration.objects.get(pk=id_registration2).delete()
+                User.objects.get(pk=id_user2).delete()
+                return redirect('plays.views.register')
+            return redirect('players.views.register')
+        else:
+            payement_method = request.POST.get('payement_method', False)
+            if payement_method is False:
+                error = True
+                return render(request, 'players/payement.html', {
+                    "user":id_user1,
+                    "other_user": id_user2,
+                    "reg":id_registration1,
+                    "reg2":id_registration2,
+                    "nb_user": nb_user,
+                    "nb_bbq": nb_bbq,
+                    "total": total,
+                    "error": error
+                })
+            user1.payement_method = payement_method
+            user1.save()
+
+            #send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
+            #    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category, 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
+
+            if int(id_user2) != -1:
+                user2.payement_method = payement_method
+                user2.save()
+            return render(request, 'players/registration_success.html')
 
     return render(request, 'players/payement.html', {
         "user":id_user1,
