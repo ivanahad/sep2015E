@@ -83,6 +83,9 @@ class Tournament(models.Model):
                 pp.pool = pools[i]
                 pp.participant = players.pop()
                 pp.save()
+            participants = PoolParticipant.objects.filter(pool=pools[i])
+            pools[i].leader = participants[0].participant.player1
+            pools[i].save()
 
     def generate_pdf(self):
         """ Generate a pdf version of the pools."""
@@ -212,6 +215,8 @@ class Pool(models.Model):
     number = models.IntegerField(default=0, blank=True)
     winner = models.ForeignKey('players.Pair', null=True, blank=True)
 
+    leader = models.ForeignKey('players.User', null=True)
+
     def compute_winner(self):
         pass #TODO
 
@@ -248,6 +253,7 @@ class Match(models.Model):
     score1 = models.IntegerField(null=True, blank=True)
     score2 = models.IntegerField(null=True, blank=True)
     court = models.ForeignKey('courts.Court', null=True, blank=True)
+    date = models.DateTimeField()
 
     def __str__(self):
         return "%s vs %s" % (self.team1, self.team2)
