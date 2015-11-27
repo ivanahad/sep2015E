@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^search$', prefix+'search'),
     url(r'^players/(?P<page_id>\d+)$', prefix+'players'),
     url(r'^players/(?P<page_id>\d+)/(?P<player_id>\d+)$', prefix+'particular_player'),
+    url(r'^pairs/(?P<id_pair>\d+)$', prefix+'particular_pair'),
     url(r'^mail_list$', prefix+'mail_list'),
     url(r'^get_file/(?P<id_file>\d+)$', prefix+'send_file'),
 

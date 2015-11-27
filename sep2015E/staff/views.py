@@ -9,6 +9,8 @@ from django.core.mail import send_mass_mail
 from django.db.models import Q
 from django.core.servers.basehttp import FileWrapper
 from django.contrib.admin.models import LogEntry
+from django.conf import settings
+
 
 from datetime import datetime
 
@@ -17,8 +19,10 @@ from staff.forms import MessageForm, MailListForm, FilesForm
 
 from courts.models import Court
 
-from players.models import User
+from players.models import User, Pair
 from players.forms import PlayerForm
+
+from tournament.models import TournamentParticipant
 
 
 
@@ -160,16 +164,28 @@ def particular_player(request, page_id, player_id):
             return redirect('staff.views.players', page_id=page_id)
     else:
         player = User.objects.filter(id=player_id).get()
+        player_pairs = Pair.objects.filter(season=settings.CURRENT_SEASON).filter(Q(player1=player) | Q(player2=player))
         form = PlayerForm(player_id=player.id)
     return render(request, 'staff/particular_player.html', { \
         'player':player, \
         'form':form,
         'players':players ,
+        'player_pairs': player_pairs,
         'page_id':int(page_id),
         'number_pages':number_pages,
         'n':range(1, number_pages+1),
         'prev':int(page_id)-1,
         'next':int(page_id)+1,
+        })
+
+def particular_pair(request, id_pair):
+    pair = Pair.objects.get(pk=id_pair)
+    tournament = None
+    if TournamentParticipant.objects.filter(participant=pair).count() != 0:
+        tournament = TournamentParticipant.objects.filter(participant=pair).get().tournament
+    return render(request, 'staff/particular_pair.html', { \
+        'pair':pair,
+        'tournament':tournament,
         })
 
 def search(request):
