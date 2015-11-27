@@ -43,11 +43,15 @@
 						{%endif%}
 						<form id="payement" action="{% url "players.views.payement" user other_user reg reg2 -1 %}" method="post">
 							{% csrf_token %}
-							<input type="radio" name="payement_method" value="Maestro"><img src="{% static "img/maestro.png" %}"><br>
+							<input type="radio" name="payement_method" value="Maestro"><img src="{% static "img/maestro.png" %}">
+								<p class="desc_methode">Que j'effectue avant  le jeudi 9 septembre sur le numéro de compte BNP BE32 2100 1574 7802.</p><p>Communication : le(s) nom(s) de l'incription</p><br>
 							<input type="radio" name="payement_method" value="Mastercard"><img src="{% static "img/mastercard.png" %}"><br>
-							<input type="radio" name="payement_method" value="Paypal"><img src="{% static "img/paypal.png" %}"><br>
-							<input type="radio" name="payement_method" value="Visa"><img src="{% static "img/visa.png" %}"><br>
-							<input type="radio" name="payement_method" value="Cash"><img src="{% static "img/cash.png" %}"><br>
+							<input type="radio" name="payement_method" value="Paypal"><img src="{% static "img/paypal.png" %}">
+								<p class="desc_methode">En venant au bureau d'asmae (Place des Carabiniers 5 - 1030 Bruxelles) du lundi au vendredi avant  17h.</p><br>
+							<input type="radio" name="payement_method" value="Visa"><img src="{% static "img/visa.png" %}">
+								<p class="desc_methode">Dont je communiquerais les détails (numéro et date d'expiration) par téléphone au 02/742 03 06.</p><p>Communication : le(s) nom(s) de l'incription</p><br>
+							<input type="radio" name="payement_method" value="Cash"><img src="{% static "img/cash.png" %}">
+								<p class="desc_methode">En venant au bureau d'asmae (Place des Carabiniers 5 - 1030 Bruxelles) du lundi au vendredi avant  17h.</p><br>
 						</form>
 					</div>
 
