@@ -15,6 +15,7 @@ def all(request):
                     name = new_trn.cleaned_data['name'], \
                     category = new_trn.cleaned_data['category'], \
                     pool_size = new_trn.cleaned_data['pool_size'], \
+                    mixte = new_trn.cleaned_data['mixte'], \
                     season = settings.CURRENT_SEASON, \
                 )
             tournament.save()
@@ -126,28 +127,78 @@ def tournamentStaff(request, id_):
         return HttpResponseRedirect('/tournament/all')
 
 def pool(request, id_tournament, id_pool):
+    """ Page for visualing a particular pool """
     tournament = Tournament.objects.get(pk=id_tournament)
     pool = Pool.objects.filter(tournament=tournament, number=id_pool).get()
     pool_matches = PoolMatch.objects.filter(pool=pool)
     participants = PoolParticipant.objects.filter(pool=pool)
-    matches=[]
+    number_pools = len(Pool.objects.filter(tournament=tournament))
+    matches=[]  #List of matches for the pool, the format is the following:
+                #[ [pair, [pair_matches]]
+                #  [pair, [pair_matches]],... ]
+    winner = None
+    tournament_pool_winners = Pool.objects.filter(tournament=tournament, winner__isnull=False)
+
+    pool_victories = 0
     i = 0
     for participant in participants:
         partcipant_matches=[]
         j=0
+        boolean = False
+        number_victory = 0
         for pool_match  in pool_matches:
-            if i == j:
+            if i == j and boolean == False: #leave a blank because pair i can't affront pair i (necessary for the table representation)
                 partcipant_matches.append("blank")
+                boolean = True
             if pool_match.match.team1==participant.participant or pool_match.match.team2==participant.participant:
                 partcipant_matches.append(pool_match.match)
-            j+=1
+                number_victory += winned(participant.participant, pool_match.match)
+                pool_victories += winned(participant.participant, pool_match.match)
+                j+=1
+        if boolean==False:
+            partcipant_matches.append("blank")
         i+=1
-        matches.append([participant.participant,partcipant_matches])
+        matches.append([participant.participant,partcipant_matches, number_victory])
+        if(len(pool_matches) == pool_victories):
+            winner = get_winner(matches)
+            pool.winner = winner[0]
+            pool.save()
+        if(len(tournament_pool_winners) == number_pools and tournament.k_o_root == None):
+            leafs_number = 1
+            tournamentNode = TournamentNode()
+            tournamentNode.save()
+            tournament.k_o_root = tournamentNode
+            tournament.save()
+            nodes_to_create = [tournament.k_o_root]
+            while leafs_number < number_pools/2:
+                leafs_number = 0
+                current_nodes = []
+                for node in nodes_to_create:
+                    tournamentNode1 = TournamentNode(parent=node)
+                    tournamentNode1.save()
+                    node.child1 = tournamentNode1
+                    tournamentNode2 = TournamentNode(parent=node)
+                    tournamentNode2.save()
+                    node.child2 = tournamentNode2
+                    leafs_number += 2
+                    current_nodes.append(node.child1)
+                    current_nodes.append(node.child2)
+                    node.save()
+                    if leafs_number >= number_pools:
+                        break
+                nodes_to_create = current_nodes
+            index = 0
+            for node in nodes_to_create:
+                match = Match(team1=tournament_pool_winners[index].winner,team2=tournament_pool_winners[index+1].winner)
+                match.save()
+                node.match = match
+                node.save()
+                index +=2
 
 
     if request.method == 'POST':
         form = MatchEditForm(request.POST)
-        if form.is_valid():
+        if form.is_valid(): #Form to edit infos of a match
             score1 = form.cleaned_data['score1']
             score2 = form.cleaned_data['score2']
             court = form.cleaned_data['court']
@@ -162,30 +213,55 @@ def pool(request, id_tournament, id_pool):
             match.court = court
             match.save()
     else:
-
         form = MatchEditForm()
     return render(request, 'tournament/pool.html', { \
             'trn': tournament, \
             'pool': pool, \
             'matches': matches, \
-            'form' : form \
+            'form' : form, \
+            'winner' : winner\
             })
 
+def get_winner(matches):
+    winner = None
+    for match in matches:
+        if(winner == None):
+            winner = match
+        else:
+            if(match[2] > winner[2]):
+                winner = match
+    return winner
+
+def winned(pair, match):
+    if match.score1 == None or match.score2 == None:
+        return 0
+    elif pair == match.team1:
+        return 1 if match.score1 > match.score2 else 0
+    else:
+        return 1 if match.score2 > match.score1 else 0
+
 def modify_pools(request, id_tournament, id_page, id_pool):
+    """ Page for modifying a pool. The page is divided in two parts,
+        one for the list of players not assigned on a tournament
+        and the other for the pool."""
     tournament = Tournament.objects.get(pk=id_tournament)
+
+    number_pools=Pool.objects.filter(tournament=tournament).count()
+    pool = Pool.objects.filter(tournament=tournament, number=id_pool)
+    pool = (pool.get(), PoolParticipant.objects.filter(pool=pool))
 
     pairs_per_page = 10   #Number of players displayed by page
 
-    number_pairs = TournamentParticipant.objects.filter(tournament=tournament).count()
+    all_pools = Pool.objects.filter(tournament=tournament)
+    pool_pairs = PoolParticipant.objects.filter(pool=all_pools).values('participant')
+
+    number_pairs = TournamentParticipant.objects.filter(tournament=tournament).exclude(participant=pool_pairs).count()
     number_pages = ceil(number_pairs/pairs_per_page) #Number of pages for the navbar
 
-    number_pools=Pool.objects.filter(tournament=tournament).count()
 
     extremity1 = 0+(int(id_page)-1)*pairs_per_page    #Range
     extremity2 = (int(id_page)*pairs_per_page)-1
-    pairs = TournamentParticipant.objects.filter(tournament=tournament)[extremity1:extremity2]
-    pool = Pool.objects.filter(tournament=tournament, number=id_pool)
-    pool = (pool.get(), PoolParticipant.objects.filter(pool=pool))
+    pairs = TournamentParticipant.objects.filter(tournament=tournament).exclude(participant=pool_pairs)[extremity1:extremity2]
 
     return render(request, 'tournament/modify_pool.html', { \
         'trn':tournament,
@@ -196,16 +272,18 @@ def modify_pools(request, id_tournament, id_page, id_pool):
         'n_pages':range(1, number_pages+1),
         'prev_page':int(id_page)-1,
         'next_page':int(id_page)+1,
+        'number_pools':number_pools,
         'n_pools':range(0, number_pools),
         'prev_pool':int(id_pool)-1,
         'next_pool':int(id_pool)+1,
     })
 
 def add_player_to_pool(request, id_tournament, id_page, id_pool, id_pair):
+    """ Add a player to a pool."""
     tournament = Tournament.objects.get(pk=id_tournament)
     pool = Pool.objects.filter(tournament=tournament, number=id_pool).get()
     pair = Pair.objects.get(pk=id_pair)
-    if not PoolParticipant.objects.filter(pool=pool).count() >= tournament.pool_size:
+    if not PoolParticipant.objects.filter(pool=pool).count() >= tournament.pool_size: #Check the pool_size limit
         pool_participant = PoolParticipant(pool=pool, participant=pair)
         pool_participant.save()
         for participant in PoolParticipant.objects.filter(pool=pool).exclude(participant=pair):
@@ -218,10 +296,12 @@ def add_player_to_pool(request, id_tournament, id_page, id_pool, id_pair):
 
 
 def remove_player_from_pool(request, id_tournament, id_page, id_pool, id_pair):
+    """ Remove a player from a pool."""
     tournament = Tournament.objects.get(pk=id_tournament)
     pool = Pool.objects.filter(tournament=tournament, number=id_pool).get()
     pair = PoolParticipant.objects.get(pk=id_pair).participant
     pool_participant = PoolParticipant.objects.filter(pool=pool, participant=pair).get()
+    #Delete all matches off the pair
     matches1 = Match.objects.filter(team1=pair)
     matches2 = Match.objects.filter(team2=pair)
     for match in matches1:
@@ -244,8 +324,29 @@ def save_match_changes(request, id_tournament, id_pool, id_match):
             court = form.cleaned_data['court']
             match = Match.objects.filter(id=id_match)
             match = match.get()
-            match.score1 = score1
-            match.score2 = score2
+            if score1 != None:
+                match.score1 = score1
+            if score2 != None:
+                match.score2 = score2
             match.court = court
             match.save()
     return redirect('tournament.views.pool', id_tournament=id_tournament,id_pool=id_pool)
+
+def assign_pairs_for_solo_automatic(request, id_tournament):
+    tournament = Tournament.objects.get(pk=id_tournament)
+    solo_players = SoloParticipant.objects.filter(tournament=tournament)
+    n_solo_players = SoloParticipant.objects.filter(tournament=tournament).count()
+    i = 0
+    j = 1
+    while j < n_solo_players:
+        solo_p1 = solo_players[i]
+        solo_p2 = solo_players[j]
+        pair = Pair(player1=solo_p1.player, player2=solo_p2.player, season=settings.CURRENT_SEASON, average=0)
+        pair.save()
+        tournament_participant = TournamentParticipant(tournament=tournament, participant=pair)
+        tournament_participant.save()
+        solo_p1.delete()
+        solo_p2.delete()
+        i+=2
+        j+=2
+    return redirect('tournament.views.tournamentStaff', id_=id_tournament)

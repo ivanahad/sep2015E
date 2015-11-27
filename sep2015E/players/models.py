@@ -29,7 +29,7 @@ class User(models.Model):
     address_box = models.CharField(max_length=8, null=True, blank=True)
     city = models.CharField(max_length=64)
     country = models.CharField(max_length=64)
-    zipcode = models.IntegerField(default=0)
+    zipcode = models.IntegerField()
     email = models.EmailField(max_length=128, unique=True)
     phone = models.CharField(max_length=32, validators=[_phone_validator])
 
@@ -47,9 +47,9 @@ class User(models.Model):
 
 
 # list of available payment methods
-PAYMENT_METHODS = (("Cash","Cash"), ("Visa","Visa"), \
-        ("Bancontact","Bancontact"), ("MasterCard","MasterCard"), \
-        ("Paypal","Paypal"))
+#PAYMENT_METHODS = (("Cash","Cash"), ("Visa","Visa"), \
+#        ("Bancontact","Bancontact"), ("MasterCard","MasterCard"), \
+#        ("Paypal","Paypal"))
 
 
 class Pair(models.Model):
@@ -63,10 +63,6 @@ class Pair(models.Model):
     average = models.DecimalField(max_digits=2, decimal_places=1)
     season = models.CharField(max_length=32);
 
-    # registration details
-    payment_method = models.CharField(choices=PAYMENT_METHODS, max_length=64, \
-            default=PAYMENT_METHODS[0])
-    payment_done = models.BooleanField(default=False)
     comment = models.TextField(max_length=2048, default="", blank=True)
 
     def __str__(self):              # __unicode__ on Python 2
@@ -82,6 +78,7 @@ class UserRegistration(models.Model):
         (http://www.matchmakertennis.com/public/ntrp.html)
     """
     LEVEL_CHOICES = (
+        ('-','-'),
         ('C30.5', 'C30.5'),
         ('C30.4', 'C30.4'),
         ('C30.3', 'C30.3'),
@@ -108,10 +105,14 @@ class UserRegistration(models.Model):
         ('A2', 'A2'),
         ('A1', 'A1')
     )
+
     user = models.ForeignKey(User)
-    season = models.CharField(max_length=32);
+    season = models.CharField(max_length=32)
     bbq = models.BooleanField(default=False)
-    level = models.CharField(max_length=32, choices=LEVEL_CHOICES);
+    level = models.CharField(max_length=32, default='-', choices=LEVEL_CHOICES);
+    # registration details
+    payment_method = models.CharField(max_length=32, blank=True)
+    payment_done = models.BooleanField(default=False)
 
     def __str__(self):
         return "Registration of %s for season %s" % (self.user, self.season)

@@ -7,15 +7,75 @@
 		<div class="col-lg-12">
 			<hr>
 			<h2 class="intro-text text-center">
-				<strong>Accueil</strong>
+				<strong>Fichiers</strong>
 			</h2>
 			<hr>
-			<div class="panel-body">
-				<p> Bienvenue {{ name }}</p>
+		</div>
+
+		<!-- Files uploading -->
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<form id="files" action="{% url "staff.views.home" %}" enctype="multipart/form-data" method="post">  <!-- Form to create message -->
+						{% csrf_token %}
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">Chargez fichier</h4>
+							</div>
+							<div class="panel-body">
+								{{form_files.non_field_errors}}
+								<div class="row field">
+									<div class="col-sm-4">
+										<label for="id_name">Nom :</label>
+									</div>
+									<div class="col-sm-4">
+										{{ form_files.name }}
+									</div>
+									<div class="col-sm-4 required">
+										{{ form_files.name.errors }}
+									</div>
+								</div>
+								<div class="row field">
+									<div class="col-sm-4">
+										<label for="id_file">Fichier :</label>
+									</div>
+									<div class="col-sm-4">
+										{{ form_files.f }}
+									</div>
+									<div class="col-sm-4 required">
+										{{ form_files.f.errors }}
+									</div>
+								</div>
+							</div>
+						</div>
+						<input type="submit" value="Envoyer" name="type_files"/>
+					</form>
+				</div>
 			</div>
+		</div>
+
+		<!-- List of files-->
+		<div class="col-md-6">
+			{% if files.count > 0 %}
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<table class="table">
+							{% for file in files %}
+							<tr>
+								<td><a href="{% url "staff.views.send_file" file.pk %}">{{ file.name }}</a></td>
+								<td>by {{file.owner.username}}</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div>
+			{% endif %}
 		</div>
 	</div>
 </div>
+
+
+<!-- MESSAGES -->
 
 <div class="row">
 	<div class="box">
@@ -25,42 +85,81 @@
 				<strong>Messages</strong>
 			</h2>
 			<hr>
-			<div class="panel-body">
-				{% for message in messages %}  <!-- Display the messages received-->
-				<p> Titre: {{ message.title }} </p>
-				<p> Texte: {{ message.message }} </p>
-				{% endfor %}
-
-				<a href="{% url "staff.views.mail_list" %}">Envoyer un message aux joueurs.</a>
-				<form action="{% url "staff.views.home" %}" method="post">  <!-- Form to create message -->
-					{% csrf_token %}
+			<!-- Write a message -->
+			<div class=col-md-6>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<form id="message" action="{% url "staff.views.home" %}" method="post">  <!-- Form to create message -->
+							{% csrf_token %}
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">Ecrire</h4>
+								</div>
+								<div class="panel-body">
+									{{ form_msg.non_field_errors }}
+									<div class="row field">
+										<div class="col-sm-4">
+											<label for="id_title"> Titre :</label>
+										</div>
+										<div class="col-sm-4">
+											{{ form_msg.title }}
+										</div>
+										<div class="col-sm-4 required">
+											{{ form_msg.title.errors }}
+										</div>
+									</div>
+									<div class="row field">
+										<div class="col-sm-4">
+											<label for="id_message"> Message :</label>
+										</div>
+										<div class="col-sm-4">
+											{{ form_msg.message }}
+										</div>
+										<div class="col-sm-4 required">
+											{{ form_msg.message.errors }}
+										</div>
+									</div>
+								</div>
+							</div>
+							<input type="submit" value="Envoyer" name="type_msg"/>
+						</form>
+					</div>
+				</div>
+				<br>
+				<center><a class="btn btn-info btn-lg" href="{% url "staff.views.mail_list" %}" >Envoyer un message aux joueurs</a></center>
+			</div>
+			<!-- List of messages-->
+			<div class=col-md-6>
+				{% if messages.count > 0 %}
 					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">Ecrire</h4>
-						</div>
 						<div class="panel-body">
-							{{ form_msg.as_p }}
+							<table class="table">
+								{% for msg in messages %}
+								<tr>
+									<td>
+										<a href="#msg_{{msg.pk}}" data-toggle="collapse"
+										aria-expanded="false" aria-controls="msg_{{msg.pk}}">
+										{{ msg.title }}
+										</a>
+									</td>
+									<td>by {{msg.author.username}}</td>
+									<div class="collapse" id="msg_{{msg.pk}}">
+										<div class="well">
+										{{msg.message}}
+										</div>
+									</div>
+								</tr>
+								{% endfor %}
+							</table>
 						</div>
 					</div>
-					<input type="submit" value="Envoyer" />
-				</form>
-
+				{% endif %}
 			</div>
 		</div>
 	</div>
 </div>
 
 <div class="row">
-	<div class="box">
-		<div class="col-lg-12">
-			<hr>
-			<h2 class="intro-text text-center">
-				<strong>Fichiers</strong>
-			</h2>
-			<hr>
-			<div class="panel-body">
-			</div>
-		</div>
-	</div>
+
 </div>
 {% endblock %}

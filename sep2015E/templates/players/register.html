@@ -21,9 +21,12 @@
 
 			<hr>
 			<div class="panel-body">
+
+				<!-- Button for participants that previously take part on the tournament -->
 				<div class="col-md-2 col-md-offset-5">
-					<button  type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#emailModal"><strong>Déjà participé</strong></button></p>
+					<button  type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#emailModal"><strong>Déjà participé</strong></button><br><br><br>
 				</div>
+				<!-- Modal view -->
 				<div id="emailModal" class="modal fade" role="dialog">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -37,24 +40,13 @@
 									<div class="row field">
 
 										<div class="col-sm-4">
-											<label for="id_firstname">Email du joueur 1:</label>
+											<label for="id_firstname">Email du joueur :</label>
 										</div>
 										<div class="col-sm-4">
 											{{ email1.email }}
 										</div>
 										<div class="col-sm-4 required">
 											{{ email1.email.errors }}
-										</div>
-									</div>
-									<div class="row field">
-										<div class="col-sm-4">
-											<label for="id_firstname">Email du joueur 2:</label>
-										</div>
-										<div class="col-sm-4">
-											{{ email2.email }}
-										</div>
-										<div class="col-sm-4 required">
-											{{ email2.email.errors }}
 										</div>
 									</div>
 									<input type="submit" value="Envoyer" />
@@ -66,9 +58,13 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- REGISTRATION FORM-->
 				<form action="{% url "players.views.register" %}" method="post">
 					{% csrf_token %}
 					<div class = "row">
+
+						<!--Player 1 registration-->
 						<div class="col-md-6">
 							<div class="panel panel-default">
 								<div class="panel-heading">
@@ -251,8 +247,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
 
+						<!--Player 2 registration-->
+						<div class="col-md-6">
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">Joueur 2</h4>
@@ -436,35 +433,9 @@
 						</div>
 					</div>
 
+					<!-- REGISTRATION OPTIONS (payment method, comments, etc) -->
 					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">Détails</h4>
-						</div>
 						<div class="panel-body">
-
-							<div class="row field">
-								<div class="col-sm-4">
-									<label for="id_bbq">Tournoi:</label>
-								</div>
-								<div class="col-sm-4">
-									{{ trn.tournament }}
-								</div>
-								<div class="col-sm-4 required">
-									{{ trn.tournament.errors }}
-								</div>
-							</div>
-
-							<div class="row field">
-								<div class="col-sm-4">
-									<label for="id_bbq">Moyen de paiement:</label>
-								</div>
-								<div class="col-sm-4">
-									{{ pair.payment_method }}
-								</div>
-								<div class="col-sm-4 required">
-									{{ pair.payment_method.errors }}
-								</div>
-							</div>
 
 							<div class="row field">
 								<div class="col-sm-4">
@@ -477,12 +448,12 @@
 									{{ pair.comment.errors }}
 								</div>
 							</div>
-
+							
 						</div>
 					</div>
 
-					<input type="submit" value="Inscription" />
-					<input type="submit" value="Inscription solo" name="solo_registration" onclick="return confirm('If you want to register in solo, we will try to match you in a pair with another user that is in the same situation.\nIf you are OK with that, please make sure you filled the form as Player 1 and chose the correct tournament before confirming this message.')"/>
+					<center><input type="submit" value="Inscription" class="btn btn-warning"/>
+					<input type="submit" value="Inscription solo" name="solo_registration" onclick="return confirm('If you want to register in solo, we will try to match you in a pair with another user that is in the same situation.\nIf you are OK with that, please make sure you filled the form as Player 1 and chose the correct tournament before confirming this message.')" class="btn btn-warning"/></center>
 				</form>
 			</div>
 		</div>

@@ -12,7 +12,7 @@ class OpenTournamentChoiceForm(forms.Form):
 class CreateTournamentForm(forms.ModelForm):
     class Meta:
         model = Tournament
-        fields = ["name", "category", "pool_size"]
+        fields = ["name", "category", "pool_size", "mixte"]
 
 class MatchEditForm(forms.ModelForm):
     class Meta:

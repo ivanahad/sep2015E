@@ -14,15 +14,34 @@ class Tournament(models.Model):
     """This class defines a unique tournament.
     This includes some pools and one knock-off tree.
     """
+    CATEGORIES_LIST=(
+        ('preminimes', 'pré-minimes'),
+        ('minimes', 'minimes'),
+        ('cadet', 'cadet'),
+        ('scolaire', 'scolaire'),
+        ('junior', 'junior'),
+        ('seniores', 'seniors'),
+        ('elites', 'elites'),
+        ('familles', 'tournoi des familles')
+    )
+    MIXTE_CHOICES=(
+        ('M', 'masculin'),
+        ('F', 'féminin'),
+        ('Mixte', 'mixte')
+    )
     name = models.CharField(max_length=64) # p.ex. "Familles"
-    category = models.CharField(max_length=64) # p.ex. "strongest"
+    category = models.CharField(max_length=64, choices=CATEGORIES_LIST, default='pré-minimes') # p.ex. "strongest"
     pool_size = models.IntegerField(default=5)
     k_o_root = models.ForeignKey('TournamentNode', null=True, blank=True)
+    mixte = models.CharField(max_length=16, default="Mixte", choices=MIXTE_CHOICES)
     is_open = models.BooleanField(default=True)
     season = models.CharField(max_length=32);
 
     class Meta:
         ordering = ['name', 'category']
+
+    def get_nodes(self):
+        return self.k_o_root._get_all_tree_nodes()
 
     def close_registrations(self):
         if not self.is_open :
@@ -67,8 +86,12 @@ class Tournament(models.Model):
                 pp.pool = pools[i]
                 pp.participant = players.pop()
                 pp.save()
+            participants = PoolParticipant.objects.filter(pool=pools[i])
+            pools[i].leader = participants[0].participant.player1
+            pools[i].save()
 
     def generate_pdf(self):
+        """ Generate a pdf version of the pools."""
         doc = SimpleDocTemplate("pools.pdf", rightMargin=72, leftMargin=72,
                                 topMargin=72, bottomMargin=18, showBoundary=1)
         doc.pagesize=landscape(A4)
@@ -124,6 +147,7 @@ class Tournament(models.Model):
 
 
     def pdf_pool(self, pool):
+        """ Return a table representing a pool for pdf generation."""
         participants = PoolParticipant.objects.filter(pool=pool) #List of participants
         styles=getSampleStyleSheet()
         styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
@@ -194,6 +218,8 @@ class Pool(models.Model):
     number = models.IntegerField(default=0, blank=True)
     winner = models.ForeignKey('players.Pair', null=True, blank=True)
 
+    leader = models.ForeignKey('players.User', null=True)
+
     def compute_winner(self):
         pass #TODO
 
@@ -230,6 +256,7 @@ class Match(models.Model):
     score1 = models.IntegerField(null=True, blank=True)
     score2 = models.IntegerField(null=True, blank=True)
     court = models.ForeignKey('courts.Court', null=True, blank=True)
+    date = models.DateTimeField()
 
     def __str__(self):
         return "%s vs %s" % (self.team1, self.team2)
@@ -248,7 +275,15 @@ class TournamentNode(models.Model):
     Value is the match (once the two players are known), rest
     is the recursive links.
     """
-    match = models.ForeignKey('Match')
+    match = models.ForeignKey('Match', blank=True, null=True)
     parent = models.ForeignKey('self', related_name='parent_', blank=True, null=True)
     child1 = models.ForeignKey('self', related_name='child1_', blank=True, null=True)
     child2 = models.ForeignKey('self', related_name='child2_', blank=True, null=True)
+
+    def _get_all_tree_nodes(self):
+        nodes = [self]
+        for child in (self.child1, self.child2):
+            if child != None:
+                nodes.extend(child._get_all_tree_nodes())
+        return nodes
+

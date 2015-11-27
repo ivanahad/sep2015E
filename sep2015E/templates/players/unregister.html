@@ -1,0 +1,40 @@
+{% extends 'site_template.html' %}
+
+{% block title %}
+<title>Se désinscrire</title>
+{% endblock %}
+
+{% block content %}
+	<div class="panel panel-default">
+		<div class="panel-body">
+      <div class="alert altert-danger">
+
+        <p class="text-danger"><strong>Attention !</strong></p>
+
+        <p>Cette page vous permet de supprimer de notre base de données votre 
+        adresse email et toutes les informations que vous avez entrées lors 
+        de votre inscription.</p>
+        <p>Cette désinscription est définitive, et si vous faites en ce moment
+        partie d'une équipe enregistrée pour un match, vous serez
+        automatiquement déclarés comme forfait.</p>
+        <p><br/><br/></p>
+
+        <p>Si vous préférez vous informer sur quelles infomations sont
+        enregistrées avant de prendre votre décision, vous pouvez consulter
+        <a href="/contact">notre page de contact</a>.</p>
+        <p><br/><br/></p>
+
+        <p>Si vous êtes certain de votre choix, entrez votre adresse email
+        ci-dessous. Vous recevrez un email de confirmation pour la suppression
+        définitive de vos données.</p>
+
+        <form id="unregister" action="{% url "players.views.unregister" %}" method="post">
+          {% csrf_token %}
+          {{ form_email.as_p }}
+          <input type="submit" value="Envoyer" name="unregister"/>
+        </form>
+
+      </div>
+		</div>
+	</div>
+{% endblock %}

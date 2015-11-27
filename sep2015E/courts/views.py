@@ -2,7 +2,7 @@ from django.shortcuts import render
 from courts.forms import RegisterForm, OwnerCourtsForm
 from django.http import HttpResponseRedirect
 from courts.models import Court
-from tournament.models import Match
+from tournament.models import Match, Tournament
 from django.core.mail import send_mail
 
 def register(request):
@@ -43,6 +43,12 @@ def register(request):
     else: # Si ce n'est pas du POST, c'est probablement une requête GET
         form = RegisterForm()  # Nous créons un formulaire vide
         form_owner = OwnerCourtsForm()
+
+        trn_open = Tournament.objects.filter(is_open=True).count()
+
+        if trn_open == 0  :
+            return render(request, 'players/no_tournament_open.html')
+
 
     return render(request, 'courts/register.html', {"form":form, "form_owner":form_owner})
 

@@ -14,12 +14,14 @@
 					<div class="col-md-6">
 						<div class="panel panel-default">
 
-							<!-- AFFICHE LISTE DES JOUEURS -->
+							<!-- DISPLAY LISTING OF PLAYERS -->
 
 							<div class="panel-body">
+								<ul class="list-group">
 								{% for player in players %}
-								<p><a href="{% url "staff.views.particular_player" page_id player.id %}">{{ player }}</a></p>
+									<li class="list-group-item"><a href="{% url "staff.views.particular_player" page_id player.id %}">{{ player }}</a></li>
 								{% endfor %}
+								</ul>
 							</div>
 							<div class="panel-footer">
 
@@ -72,7 +74,7 @@
 					</div>
 					<div class="col-md-6">
 
-						<!-- FORMULAIRE POUR EDITER JOUEUR -->
+						<!-- FORM TO EDIT PLAYER -->
 
 						<div class="panel panel-default">
 							<div class="panel-heading">Editer informations joueur</div>
@@ -107,7 +109,7 @@
 
 										<div class="row field">
 											<div class="col-sm-4">
-												<label for="id_lastname">Sexe:</label>
+												<label for="id_gender">Sexe:</label>
 											</div>
 											<div class="col-sm-4">
 												{{ form.gender }}
@@ -119,7 +121,7 @@
 
 										<div class="row field">
 											<div class="col-sm-4">
-												<label for="id_lastname">Date de naissance:</label>
+												<label for="id_birthdate">Date de naissance:</label>
 											</div>
 											<div class="col-sm-4">
 												{{ form.birthdate }}
@@ -143,7 +145,7 @@
 
 										<div class="row field">
 											<div class="col-sm-4">
-												<label for="id_address">Numéro:</label>
+												<label for="id_number">Numéro:</label>
 											</div>
 											<div class="col-sm-4">
 												{{ form.address_number }}
@@ -155,7 +157,7 @@
 
 										<div class="row field">
 											<div class="col-sm-4">
-												<label for="id_address">Boite:</label>
+												<label for="id_box">Boite:</label>
 											</div>
 											<div class="col-sm-4">
 												{{ form.address_box }}
@@ -228,6 +230,12 @@
 										<input type="submit" value="Enregistrer" />
 									</div>
 								</form>
+									<strong>Est en pair avec:</strong>
+								<ul>
+								{% for pair in player_pairs %}
+									<li><a href="{% url "staff.views.particular_pair" pair.pk %}">{{pair.player1}} - {{pair.player2}}</a></li>
+								{% endfor%}
+								</ul>
 							</div>
 						</div>
 					</div>

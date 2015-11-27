@@ -17,28 +17,13 @@
 <div class="row">
 	<div class="box">
 		<div class="col-lg-12">
+			<!-- DISPLAY LIST OF TOURNAMENTS -->
 			<hr>
 			<h2 class="intro-text text-center">Liste des
 				<strong>tournois actuels</strong>
 			</h2>
 			<hr>
-
-			<div>
-				{% for t in tournaments %}
-        <a href="{% url "tournament.views.tournamentStaff" t.tournament.pk %}"
-           class="tournament-a-block">
-          <div class="panel panel-default panel-body tournament-a-block">
-            <p> <b>Tournoi:</b> {{ t.tournament.name }} </p>
-            <p> <b>Catégorie:</b> {{ t.tournament.category }} </p>
-            <p> <b>Nombre de paires enregistrées:</b> {{ t.pair_count }} </p>
-            {% if t.tournament.is_open %}
-            <p> <b>Nombre de joueurs solo:</b> {{ t.solo_count }} </p>
-            {% endif %}
-            <p> <b>Status:</b> {{ t.status }} </p>
-          </div>
-        </a>
-				{% endfor %}
-			</div>
+			<!-- CREATE A NEW TOURNAMENT -->
 
       {% if user.is_staff %} <!-- enable this section if user is staff -->
       <div class="panel">
@@ -49,7 +34,51 @@
         <div class="panel-body">
           <form action="{% url "tournament.views.all" %}" method="post">
             {% csrf_token %}
-            {{ new_tournament.as_p }}
+            {{ new_tournament.non_field_errors }}
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_name"> Nom :</label>
+							</div>
+							<div class="col-sm-4">
+								{{ new_tournament.name }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ new_tournament.name.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_category"> Catégories :</label>
+							</div>
+							<div class="col-sm-4">
+								{{ new_tournament.category }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ new_tournament.category.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_pool_size"> Joueurs par pool :</label>
+							</div>
+							<div class="col-sm-4">
+								{{ new_tournament.pool_size }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ new_tournament.pool_size.errors }}
+							</div>
+						</div>
+						<div class="row field">
+							<div class="col-sm-4">
+								<label for="id_mixte"> Mixte :</label>
+							</div>
+							<div class="col-sm-4">
+								{{ new_tournament.mixte }}
+							</div>
+							<div class="col-sm-4 required">
+								{{ new_tournament.mixte.errors }}
+							</div>
+						</div>
             <input type="submit" value="Créer" name="create_tournament" />
           </form>
         </div>
@@ -57,6 +86,37 @@
       </div>
       {% endif %}
 
+
+			<div class="row">
+				{% for t in tournaments %}
+				<div class="col-md-4">
+	        <a href="{% url "tournament.views.tournamentStaff" t.tournament.pk %}"
+	           class="tournament-a-block">
+	          <div class="panel panel-default panel-body tournament-a-block">
+								<table class="table">
+			            <tr>
+										<td>Tournoi:</td> <td>{{ t.tournament.name }}</td>
+									</tr>
+			            <tr>
+										<td>Catégorie:</td> <td>{{ t.tournament.category }}</td>
+									</tr>
+			            <tr>
+										 <td>Nombre de paires enregistrées:</td> <td>{{ t.pair_count }}</td>
+									 </tr>
+			            {% if t.tournament.is_open %}
+			            <tr>
+										<td>Nombre de joueurs solo:</td> <td>{{ t.solo_count }}</td>
+									</tr>
+			            {% endif %}
+			            <tr>
+										<td>Status:</td> <td>{{ t.status }}</td>
+									</tr>
+								</table>
+	          </div>
+	        </a>
+				</div>
+				{% endfor %}
+			</div>
 
 		</div>
 	</div>
