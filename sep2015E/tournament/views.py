@@ -290,7 +290,6 @@ def add_player_to_pool(request, id_tournament, id_page, id_pool, id_pair):
     tournament = Tournament.objects.get(pk=id_tournament)
     pool = Pool.objects.filter(tournament=tournament, number=id_pool).get()
     pair = Pair.objects.get(pk=id_pair)
-    print(pair)
     if not PoolParticipant.objects.filter(pool=pool).count() >= tournament.pool_size: #Check the pool_size limit
         pool_participant = PoolParticipant(pool=pool, participant=pair)
         pool_participant.save()

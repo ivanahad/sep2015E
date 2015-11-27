@@ -32,8 +32,8 @@
 								<ul class="list-group">
 								{% for pair in pairs %}
 									<li class="list-group-item">
-										{{ pair }}
-										<a href="{% url "tournament.views.add_player_to_pool"  trn.pk page_id pool.0.number pair.pk %}"
+										{{ pair.participant }}
+										<a href="{% url "tournament.views.add_player_to_pool"  trn.pk page_id pool.0.number pair.participant.pk %}"
 											<button type="button" class="btn btn-default" aria-label="Left Align">
 										  	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 											</button>
