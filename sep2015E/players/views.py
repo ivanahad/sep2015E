@@ -352,9 +352,22 @@ def payement(request, id_user1, id_registration1, id_registration2, id_user2, id
             nb_bbq = 0
 
     total = nb_user*20 + nb_bbq*15
+    error = False
 
     if request.method == 'POST':
-        payement_method = request.POST['payement_method']
+        payement_method = request.POST.get('payement_method', False)
+        if payement_method is False:
+            error = True
+            return render(request, 'players/payement.html', {
+                "user":id_user1,
+                "other_user": id_user2,
+                "reg":id_registration1,
+                "reg2":id_registration2,
+                "nb_user": nb_user,
+                "nb_bbq": nb_bbq,
+                "total": total,
+                "error": error
+            })
         user1 = User.objects.get(pk=id_user1)
         user1.payement_method = payement_method
         user1.save()
@@ -372,4 +385,5 @@ def payement(request, id_user1, id_registration1, id_registration2, id_user2, id
         "nb_user": nb_user,
         "nb_bbq": nb_bbq,
         "total": total,
+        "error": error
     })
