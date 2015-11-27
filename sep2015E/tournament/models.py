@@ -40,6 +40,9 @@ class Tournament(models.Model):
     class Meta:
         ordering = ['name', 'category']
 
+    def get_nodes(self):
+        return self.k_o_root._get_all_tree_nodes()
+
     def close_registrations(self):
         if not self.is_open :
             raise Exception("Tournament is already closed.")
@@ -83,6 +86,9 @@ class Tournament(models.Model):
                 pp.pool = pools[i]
                 pp.participant = players.pop()
                 pp.save()
+            participants = PoolParticipant.objects.filter(pool=pools[i])
+            pools[i].leader = participants[0].participant.player1
+            pools[i].save()
 
     def generate_pdf(self):
         """ Generate a pdf version of the pools."""
@@ -212,6 +218,8 @@ class Pool(models.Model):
     number = models.IntegerField(default=0, blank=True)
     winner = models.ForeignKey('players.Pair', null=True, blank=True)
 
+    leader = models.ForeignKey('players.User', null=True)
+
     def compute_winner(self):
         pass #TODO
 
@@ -248,6 +256,7 @@ class Match(models.Model):
     score1 = models.IntegerField(null=True, blank=True)
     score2 = models.IntegerField(null=True, blank=True)
     court = models.ForeignKey('courts.Court', null=True, blank=True)
+    date = models.DateTimeField()
 
     def __str__(self):
         return "%s vs %s" % (self.team1, self.team2)
@@ -266,7 +275,15 @@ class TournamentNode(models.Model):
     Value is the match (once the two players are known), rest
     is the recursive links.
     """
-    match = models.ForeignKey('Match')
+    match = models.ForeignKey('Match', blank=True, null=True)
     parent = models.ForeignKey('self', related_name='parent_', blank=True, null=True)
     child1 = models.ForeignKey('self', related_name='child1_', blank=True, null=True)
     child2 = models.ForeignKey('self', related_name='child2_', blank=True, null=True)
+
+    def _get_all_tree_nodes(self):
+        nodes = [self]
+        for child in (self.child1, self.child2):
+            if child != None:
+                nodes.extend(child._get_all_tree_nodes())
+        return nodes
+

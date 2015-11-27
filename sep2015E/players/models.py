@@ -33,8 +33,6 @@ class User(models.Model):
     email = models.EmailField(max_length=128, unique=True)
     phone = models.CharField(max_length=32, validators=[_phone_validator])
 
-    payement_method = models.CharField(max_length=32, blank=True)
-
     def __str__(self):              # __unicode__ on Python 2
         return self.lastname + " " + self.firstname
 
@@ -65,10 +63,6 @@ class Pair(models.Model):
     average = models.DecimalField(max_digits=2, decimal_places=1)
     season = models.CharField(max_length=32);
 
-    # registration details
-    #payment_method = models.CharField(choices=PAYMENT_METHODS, max_length=64, \
-    #        default=PAYMENT_METHODS[0])
-    #payment_done = models.BooleanField(default=False)
     comment = models.TextField(max_length=2048, default="", blank=True)
 
     def __str__(self):              # __unicode__ on Python 2
@@ -111,10 +105,14 @@ class UserRegistration(models.Model):
         ('A2', 'A2'),
         ('A1', 'A1')
     )
+
     user = models.ForeignKey(User)
-    season = models.CharField(max_length=32);
+    season = models.CharField(max_length=32)
     bbq = models.BooleanField(default=False)
     level = models.CharField(max_length=32, default='-', choices=LEVEL_CHOICES);
+    # registration details
+    payment_method = models.CharField(max_length=32, blank=True)
+    payment_done = models.BooleanField(default=False)
 
     def __str__(self):
         return "Registration of %s for season %s" % (self.user, self.season)

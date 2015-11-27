@@ -331,22 +331,21 @@ def filled_registration(request):
 
 def payement(request, id_user1, id_registration1, id_registration2, id_user2, id_pair):
 
+    user1 = UserRegistration.objects.get(pk=id_registration1)
     if int(id_user1) != -1 and int(id_user2) != -1:
         nb_user = 2
-        usr1 = UserRegistration.objects.get(pk=id_registration1)
-        usr2 = UserRegistration.objects.get(pk=id_registration2)
+        user2 = UserRegistration.objects.get(pk=id_registration2)
 
-        if usr1.bbq is True and usr2.bbq is True:
+        if user1.bbq is True and user2.bbq is True:
             nb_bbq = 2
-        elif usr1.bbq is True or usr2.bbq is True:
+        elif user1.bbq is True or user2.bbq is True:
             nb_bbq = 1
         else:
             nb_bbq = 0
     else:
         nb_user = 1
-        usr1 = UserRegistration.objects.get(pk=id_registration1)
 
-        if usr1.bbq is True:
+        if user1.bbq is True:
             nb_bbq = 1
         else:
             nb_bbq = 0
@@ -368,11 +367,9 @@ def payement(request, id_user1, id_registration1, id_registration2, id_user2, id
                 "total": total,
                 "error": error
             })
-        user1 = User.objects.get(pk=id_user1)
         user1.payement_method = payement_method
         user1.save()
         if int(id_user2) != -1:
-            user2 = User.objects.get(pk=id_user2)
             user2.payement_method = payement_method
             user2.save()
         return render(request, 'players/registration_success.html')

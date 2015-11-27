@@ -132,10 +132,13 @@ def pool(request, id_tournament, id_pool):
     pool = Pool.objects.filter(tournament=tournament, number=id_pool).get()
     pool_matches = PoolMatch.objects.filter(pool=pool)
     participants = PoolParticipant.objects.filter(pool=pool)
+    number_pools = len(Pool.objects.filter(tournament=tournament))
     matches=[]  #List of matches for the pool, the format is the following:
                 #[ [pair, [pair_matches]]
                 #  [pair, [pair_matches]],... ]
     winner = None
+    tournament_pool_winners = Pool.objects.filter(tournament=tournament, winner__isnull=False)
+
     pool_victories = 0
     i = 0
     for participant in participants:
@@ -158,6 +161,39 @@ def pool(request, id_tournament, id_pool):
         matches.append([participant.participant,partcipant_matches, number_victory])
         if(len(pool_matches) == pool_victories):
             winner = get_winner(matches)
+            pool.winner = winner[0]
+            pool.save()
+        if(len(tournament_pool_winners) == number_pools and tournament.k_o_root == None):
+            leafs_number = 1
+            tournamentNode = TournamentNode()
+            tournamentNode.save()
+            tournament.k_o_root = tournamentNode
+            tournament.save()
+            nodes_to_create = [tournament.k_o_root]
+            while leafs_number < number_pools/2:
+                leafs_number = 0
+                current_nodes = []
+                for node in nodes_to_create:
+                    tournamentNode1 = TournamentNode(parent=node)
+                    tournamentNode1.save()
+                    node.child1 = tournamentNode1
+                    tournamentNode2 = TournamentNode(parent=node)
+                    tournamentNode2.save()
+                    node.child2 = tournamentNode2
+                    leafs_number += 2
+                    current_nodes.append(node.child1)
+                    current_nodes.append(node.child2)
+                    node.save()
+                    if leafs_number >= number_pools:
+                        break
+                nodes_to_create = current_nodes
+            index = 0
+            for node in nodes_to_create:
+                match = Match(team1=tournament_pool_winners[index].winner,team2=tournament_pool_winners[index+1].winner)
+                match.save()
+                node.match = match
+                node.save()
+                index +=2
 
 
     if request.method == 'POST':
