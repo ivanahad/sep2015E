@@ -100,7 +100,6 @@ class UserRegistration(models.Model):
         ('A1', 'A1')
     )
 
-<<<<<<< HEAD
     PAYMENT_METHODS = (("Cash","Cash"), ("Visa","Visa"), \
         ("Bancontact","Bancontact"), ("MasterCard","MasterCard"), \
         ("Paypal","Paypal"))
@@ -108,18 +107,9 @@ class UserRegistration(models.Model):
     user = models.ForeignKey(User)
     season = models.CharField(max_length=32)
     bbq = models.BooleanField(default=False)
-    level = models.CharField(max_length=32, choices=LEVEL_CHOICES)
+    level = models.CharField(max_length=32, default="-", choices=LEVEL_CHOICES)
     payement_method = models.CharField(max_length=32, choices=PAYMENT_METHODS, default=PAYMENT_METHODS[0][1], blank=True)
     payement_done = models.BooleanField(default=False)
-=======
-    user = models.ForeignKey(User)
-    season = models.CharField(max_length=32)
-    bbq = models.BooleanField(default=False)
-    level = models.CharField(max_length=32, default='-', choices=LEVEL_CHOICES);
-    # registration details
-    payment_method = models.CharField(max_length=32, blank=True)
-    payment_done = models.BooleanField(default=False)
->>>>>>> origin/master
 
     def __str__(self):
         return "Registration of %s for season %s" % (self.user, self.season)

@@ -161,7 +161,6 @@ def particular_player(request, page_id, player_id):
         form = PlayerForm(request.POST, player_id=player_id, instance=player)
         user_reg = get_object_or_404(UserRegistration, user=player, season=settings.CURRENT_SEASON)
         reg_form = RegistrationForm(request.POST, user_reg_id=user_reg.pk, instance=user_reg)
-        print(reg_form)
         if form.is_valid():
             obj = form.save()
         if reg_form.is_valid():
