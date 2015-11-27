@@ -311,4 +311,3 @@ class TournamentNode(models.Model):
             if child != None:
                 nodes.extend(child._get_all_tree_nodes())
         return nodes
-

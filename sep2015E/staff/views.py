@@ -19,8 +19,8 @@ from staff.forms import MessageForm, MailListForm, FilesForm
 
 from courts.models import Court
 
-from players.models import User, Pair
-from players.forms import PlayerForm
+from players.models import User, Pair, UserRegistration
+from players.forms import PlayerForm, RegistrationForm
 
 from tournament.models import TournamentParticipant
 
@@ -158,14 +158,18 @@ def particular_player(request, page_id, player_id):
 
     if request.method == 'POST':
         player = get_object_or_404(User, pk=player_id)
-        form=PlayerForm(request.POST, player_id=player_id, instance=player)
+        form = PlayerForm(request.POST, player_id=player_id, instance=player)
+        user_reg = get_object_or_404(UserRegistration, user=player, season=settings.CURRENT_SEASON)
+        reg_form = RegistrationForm(request.POST, user_reg_id=user_reg.pk, instance=user_reg)
         if form.is_valid():
-            obj=form.save()
-            return redirect('staff.views.players', page_id=page_id)
-    else:
-        player = User.objects.filter(id=player_id).get()
-        player_pairs = Pair.objects.filter(season=settings.CURRENT_SEASON).filter(Q(player1=player) | Q(player2=player))
-        form = PlayerForm(player_id=player.id)
+            obj = form.save()
+        if reg_form.is_valid():
+            obj2 = reg_form.save()
+    player = User.objects.filter(id=player_id).get()
+    player_pairs = Pair.objects.filter(season=settings.CURRENT_SEASON).filter(Q(player1=player) | Q(player2=player))
+    user_reg = UserRegistration.objects.get(user=player, season=settings.CURRENT_SEASON)
+    form = PlayerForm(player_id=player.id)
+    reg_form = RegistrationForm(user_reg_id = user_reg.pk)
     return render(request, 'staff/particular_player.html', { \
         'player':player, \
         'form':form,
@@ -176,6 +180,7 @@ def particular_player(request, page_id, player_id):
         'n':range(1, number_pages+1),
         'prev':int(page_id)-1,
         'next':int(page_id)+1,
+        'reg_form': reg_form
         })
 
 def particular_pair(request, id_pair):
