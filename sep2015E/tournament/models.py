@@ -40,6 +40,9 @@ class Tournament(models.Model):
     class Meta:
         ordering = ['name', 'category']
 
+    def get_nodes(self):
+        return self.k_o_root._get_all_tree_nodes()
+
     def close_registrations(self):
         if not self.is_open :
             raise Exception("Tournament is already closed.")
@@ -276,3 +279,11 @@ class TournamentNode(models.Model):
     parent = models.ForeignKey('self', related_name='parent_', blank=True, null=True)
     child1 = models.ForeignKey('self', related_name='child1_', blank=True, null=True)
     child2 = models.ForeignKey('self', related_name='child2_', blank=True, null=True)
+
+    def _get_all_tree_nodes(self):
+        nodes = [self]
+        for child in (self.child1, self.child2):
+            if child != None:
+                nodes.extend(child._get_all_tree_nodes())
+        return nodes
+
