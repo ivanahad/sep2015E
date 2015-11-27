@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.mail import send_mail, send_mass_mail
 from io import BytesIO
 import time
 from reportlab.lib import colors
@@ -39,6 +40,9 @@ class Tournament(models.Model):
 
     class Meta:
         ordering = ['name', 'category']
+
+    def get_nodes(self):
+        return self.k_o_root._get_all_tree_nodes()
 
     def close_registrations(self):
         if not self.is_open :
@@ -83,6 +87,9 @@ class Tournament(models.Model):
                 pp.pool = pools[i]
                 pp.participant = players.pop()
                 pp.save()
+            participants = PoolParticipant.objects.filter(pool=pools[i])
+            pools[i].leader = participants[0].participant.player1
+            pools[i].save()
 
     def generate_pdf(self):
         """ Generate a pdf version of the pools."""
@@ -212,13 +219,16 @@ class Pool(models.Model):
     number = models.IntegerField(default=0, blank=True)
     winner = models.ForeignKey('players.Pair', null=True, blank=True)
 
+    leader = models.ForeignKey('players.User', null=True)
+    date = models.DateTimeField()
+    court = models.ForeignKey('courts.Court', null=True)
+
     def compute_winner(self):
         pass #TODO
 
     def create_matches(self):
         parts = [pp.participant for pp in \
                 PoolParticipant.objects.filter(pool=self)]
-        print(len(parts))
         for i in range(len(parts)):
             for j in range(i+1, len(parts)):
                 match = Match()
@@ -228,6 +238,21 @@ class Pool(models.Model):
                 pm = PoolMatch()
                 pm.pool, pm.match = self, match
                 pm.save()
+
+    def send_emails(self):
+        parts = [pp.participant for pp in \
+                PoolParticipant.objects.filter(pool=self)]
+        users = []
+        for p in parts:
+            users.add(parts.player1)
+            users.add(parts.player2)
+        send_mail("Votre participation au tournoi Charles de Lorraine", "Bonjour. Vous avez été selectionné comme responsable de votre groupe pour le tournoi. Veuillez passer à l'adresse "+settings.HQ+" pour récupérer le matériel et l'addresse de votre premier match.", "info@sep2015e.net", [self.leader.email])
+        users.remove(self.leader)
+        for user in users:
+            if UserRegistration.objects.filter(user=user, season=settings.CURRENT_SEASON)[0].payment_done:
+                send_mail("Votre participation au tournoi Charles de Lorraine", "Voici les coordonnées pour votre premier match : %s %s %s" % (court.address_street, court.address_number, court.address_box), "info@sep2015e.net", [user])
+            else:
+                send_mail("Votre participation au tournoi Charles de Lorraine", "Veuillez vous rendre à l'address "+settings.HQ+" pour procéder au paiement avant votre participation au tournoi.", "info@sep2015e.net", [user])
 
     def __str__(self):
         return "%s - pool %d" % (self.tournament, self.number)
@@ -247,6 +272,7 @@ class Match(models.Model):
     team2 = models.ForeignKey('players.Pair', related_name='team2')
     score1 = models.IntegerField(null=True, blank=True)
     score2 = models.IntegerField(null=True, blank=True)
+
     court = models.ForeignKey('courts.Court', null=True, blank=True)
 
     def __str__(self):
@@ -270,3 +296,10 @@ class TournamentNode(models.Model):
     parent = models.ForeignKey('self', related_name='parent_', blank=True, null=True)
     child1 = models.ForeignKey('self', related_name='child1_', blank=True, null=True)
     child2 = models.ForeignKey('self', related_name='child2_', blank=True, null=True)
+
+    def _get_all_tree_nodes(self):
+        nodes = [self]
+        for child in (self.child1, self.child2):
+            if child != None:
+                nodes.extend(child._get_all_tree_nodes())
+        return nodes

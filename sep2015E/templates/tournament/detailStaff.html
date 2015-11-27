@@ -87,7 +87,7 @@
 
       <!-- Solo players -->
       {% if trn.is_open %}
-      <div class="panel">
+      <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title"> Participants solo </h3>
         </div>
@@ -99,6 +99,11 @@
 	          {% endfor %}
 					</ul>
         </div>
+				<div class="panel-footer">
+					<a href="{% url "tournament.views.assign_pairs_for_solo_automatic" trn.pk %}">
+						<button type="button" class="btn btn-info">Créer paires automatiquement</button>
+					</a>
+				</div>
       </div>
       {% endif %}
 
@@ -170,16 +175,20 @@
 
 	<script>
 	var pools = [];
+	var scores = [];
 	var pair = [];
-	{% for pool in pools %}
-		pair[parseInt("{{ pool.0.number }}")] = 'Pool '+"{{ pool.0.number }}";
-		if (((parseInt("{{ pool.0.number }}")+1) % 2) == 0) {
-			pools[Math.floor(parseInt("{{ pool.0.number }}")/2)] = pair;
-		}
+	var tempResults = [];
+	var index = 0;
+	{% for node in nodes %}
+		pair = ["{{ node.match.team1 }}", "{{ node.match.team2 }}"];
+		tempResults = ["{{ node.match.score1 }}", "{{ node.match.score2 }}"];
+		pools[index] = pair;
+		scores[index] = tempResults;
+		index++;
 	{% endfor %}
 	var dataBracket = {
 	    teams : pools,
-	    results : []
+	    results : scores
 	}
 
 	/* Called whenever bracket is modified
@@ -188,8 +197,14 @@
 	 * userData: optional data given when bracket is created.
 	 */
 	function saveFn(data, userData) {
-	  var json = jQuery.toJSON(data)
-	  $('#saveOutput').text('POST '+userData+' '+json)
+	  //window.alert(data.teams[0]);
+	  $.post("{{ current_path }}", data, function(response){
+	        if(response === 'success'){ alert('Score ajouté'); }
+	        else{ alert('Error! :('); }
+	    });
+	  window.alert(data.teams[0]);
+	  /*var json = jQuery.toJSON(data)
+	  $('#saveOutput').text('POST '+userData+' '+json)*/
 	  /* You probably want to do something like this
 	  jQuery.ajax("rest/"+userData, {contentType: 'application/json',
 	                                dataType: 'json',
@@ -203,7 +218,7 @@
 	    container.bracket({
 	      init: dataBracket,
 		  skipConsolationRound: true,
-	      save: saveFn,
+	      //save: saveFn,
 	      userData: "http://myapi"})
 
 	    /* You can also inquiry the current data */
