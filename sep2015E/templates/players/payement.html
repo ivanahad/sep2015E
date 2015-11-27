@@ -38,7 +38,7 @@
 						<h3 class="panel-title">Méthode de payement</h3>
 					</div>
 					<div class="panel-body">
-						<form action="{% url "players.views.payement" user reg solo%}" method="post">
+						<form action="{% url "players.views.payement" user other_user reg reg2 -1 %}" method="post">
 							{% csrf_token %}
 							<input type="radio" name="payement_method" value="Maestro"><img src="{% static "img/maestro.png" %}"><br>
 							<input type="radio" name="payement_method" value="Mastercard"><img src="{% static "img/mastercard.png" %}"><br>

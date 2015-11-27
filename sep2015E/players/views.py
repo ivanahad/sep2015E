@@ -9,6 +9,13 @@ from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 
+
+#send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
+#    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname'], 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
+
+#send_mail('Enregistrement à un tournoi', 'Bonjour '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
+#    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname'], 'info@sep2015e.com', [usr2.cleaned_data['email']], fail_silently=False)
+
 def register(request):
     """Page for players registrations. We permit pairs to register or solo players."""
     if request.method == 'POST':  # S'il s'agit d'une requête POST
@@ -52,7 +59,8 @@ def register(request):
             #send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
             #    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category, 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
 
-            return redirect('players.views.payement', id_user1=new_user1.pk, id_registration1=registration1.pk, id_solo=solo_registration.pk)
+            return redirect('players.views.payement', id_user1=new_user1.pk, id_registration1=registration1.pk,
+                    id_user2=-1, id_registration2=-1, id_pair=-1)
 
         #Pair registration
         elif usr1.is_valid() and usr2.is_valid() \
@@ -105,20 +113,12 @@ def register(request):
             pair = Pair(player1 = new_user1, player2 = new_user2, \
                     average = 0.0, \
                     season = settings.CURRENT_SEASON, \
-                    #payment_method = pair.cleaned_data['payment_method'], \
                     comment = pair.cleaned_data['comment'])
             pair.save()
 
             assign_tournament(pair)
-
-            #send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
-            #    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname'], 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
-
-            #send_mail('Enregistrement à un tournoi', 'Bonjour '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
-            #    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname'], 'info@sep2015e.com', [usr2.cleaned_data['email']], fail_silently=False)
-
             return redirect('players.views.payement', id_user1=new_user1.pk, id_user2=new_user2.pk,
-                id_registration1=registration1.pk, id_registration2=id_registration2.pk, id_pair=pair.pk)
+                id_registration1=registration1.pk, id_registration2=registration2.pk, id_pair=pair.pk)
 
     else:
         usr1 = PlayerForm(prefix="usr1")
@@ -151,10 +151,10 @@ def assign_tournament_solo(player):
     player_birth_year = player.birthdate.year
     smaller_difference = current_year - player_birth_year
 
-    if player.gender == "Homme":
-        mixte == "M"
+    if player.gender == "M":
+        mixte = "M"
     else:
-        mixte == "F"
+        mixte = "F"
 
     category = "none"
     if smaller_difference <= 10 and smaller_difference >=9:
@@ -174,9 +174,12 @@ def assign_tournament_solo(player):
 
     #Assign a tournament if possible
     exist = (Tournament.objects.filter(category=category, mixte=mixte, season=settings.CURRENT_SEASON).count() != 0)
+    print(exist)
+    print(category)
+    print(mixte)
     if exist:
         tournament= Tournament.objects.get(category=category, mixte=mixte, season=settings.CURRENT_SEASON)
-        tp = SoloParticipant(participant=pair, tournament=tournament)
+        tp = SoloParticipant(player=player, tournament=tournament)
         tp.save()
 
 def assign_tournament(pair):
@@ -187,12 +190,12 @@ def assign_tournament(pair):
     player2 = pair.player2
 
     #Check if mixte
-    if player1.gender != pplayer2.gender:
+    if player1.gender != player2.gender:
         mixte = "Mixte"
-    elif player1.gender == "Homme":
-        mixte == "M"
+    elif player1.gender == "M":
+        mixte = "M"
     else:
-        mixte == "F"
+        mixte = "F"
 
     #Assign the category based on birthdate
     current_year = datetime.now().year
@@ -326,10 +329,11 @@ def filled_registration(request):
     return redirect('players.views.register')
 
 
-def payement(request, id_user1, id_registration1, id_solo, id_registration2=None, id_user2=None, id_pair=None):
+def payement(request, id_user1, id_registration1, id_registration2, id_user2, id_pair):
 
-    if id_user1 is not None and id_user2 is not None:
+    if id_user1 != -1 and id_user2 != -1:
         nb_user = 2
+        print(id_registration2)
         usr1 = UserRegistration.objects.get(pk=id_registration1)
         usr2 = UserRegistration.objects.get(pk=id_registration2)
 
@@ -352,9 +356,21 @@ def payement(request, id_user1, id_registration1, id_solo, id_registration2=None
 
     if request.method == 'POST':
         payement_method = request.POST['payement_method']
-
         user1 = User.objects.get(pk=id_user1)
         user1.payement_method = payement_method
         user1.save()
+        if id_user2 != -1:
+            user2 = User.objects.get(pk=id_user2)
+            user2.payement_method = payement_method
+            user2.save()
+        return render(request, 'players/registration_success.html')
 
-    return render(request, 'players/payement.html', {"user":id_user1, "reg":id_registration1, "solo": id_solo, "nb_user": nb_user, "nb_bbq": nb_bbq, "total": total})
+    return render(request, 'players/payement.html', {
+        "user":id_user1,
+        "other_user": id_user2,
+        "reg":id_registration1,
+        "reg2":id_registration2,
+        "nb_user": nb_user,
+        "nb_bbq": nb_bbq,
+        "total": total,
+    })
