@@ -135,6 +135,8 @@ def pool(request, id_tournament, id_pool):
     matches=[]  #List of matches for the pool, the format is the following:
                 #[ [pair, [pair_matches]]
                 #  [pair, [pair_matches]],... ]
+    winner = None
+    pool_victories = 0
     i = 0
     for participant in participants:
         partcipant_matches=[]
@@ -148,11 +150,15 @@ def pool(request, id_tournament, id_pool):
             if pool_match.match.team1==participant.participant or pool_match.match.team2==participant.participant:
                 partcipant_matches.append(pool_match.match)
                 number_victory += winned(participant.participant, pool_match.match)
+                pool_victories += winned(participant.participant, pool_match.match)
                 j+=1
         if boolean==False:
             partcipant_matches.append("blank")
         i+=1
         matches.append([participant.participant,partcipant_matches, number_victory])
+        if(len(pool_matches) == pool_victories):
+            winner = get_winner(matches)
+
 
     if request.method == 'POST':
         form = MatchEditForm(request.POST)
@@ -176,8 +182,19 @@ def pool(request, id_tournament, id_pool):
             'trn': tournament, \
             'pool': pool, \
             'matches': matches, \
-            'form' : form \
+            'form' : form, \
+            'winner' : winner\
             })
+
+def get_winner(matches):
+    winner = None
+    for match in matches:
+        if(winner == None):
+            winner = match
+        else:
+            if(match[2] > winner[2]):
+                winner = match
+    return winner
 
 def winned(pair, match):
     if match.score1 == None or match.score2 == None:

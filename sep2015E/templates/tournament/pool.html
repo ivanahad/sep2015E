@@ -27,7 +27,11 @@
             <th>Victoires</th>
           </thead>
           {% for match in matches %}
-          <tr>
+		  {% if winner != None and winner.0.id == match.0.id %}
+          <tr style="background:#01DF3A">
+		  {% else %}
+		  <tr>
+		  {% endif %}
             <td>{{ match.0.id }}</td>
             <td>{{ match.0 }}</td>
             {% for m in match.1 %}
