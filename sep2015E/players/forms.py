@@ -35,11 +35,26 @@ class PlayerForm(forms.ModelForm):
 
 class RegistrationForm(forms.ModelForm):
     """Form to register a player."""
+    def __init__(self, *args, **kwargs):
+       user_reg_id = kwargs.pop('user_reg_id', None)
+       user_reg = None
+       if user_reg_id != None:
+           user_reg = UserRegistration.objects.get(pk=user_reg_id)
+           #player = User.objects.filter(id=player_id).get()
+       super(RegistrationForm, self).__init__(*args, **kwargs)
+       if user_reg != None:
+           self.fields['payement_method'].initial = user_reg.payement_method
+           self.fields['payement_done'].initial = user_reg.payement_done
+           self.fields['bbq'].initial = user_reg.bbq
+           self.fields['level'].initial = user_reg.level
+
     class Meta:
         model = UserRegistration
         fields = [
                 'level',
                 'bbq',
+                'payement_method',
+                'payement_done'
             ]
 
 class PairRegistrationForm(forms.ModelForm):
