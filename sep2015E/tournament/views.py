@@ -114,6 +114,10 @@ def tournamentStaff(request, id_):
             pools = Pool.objects.filter(tournament=tournament)
             pools = [(p, PoolParticipant.objects.filter(pool=p)) \
                     for p in pools]
+            nodes = []
+            for node in tournament.get_nodes():
+                if(node.match != None and node.child1 == None and node.child2 == None):
+                    nodes.append(node)
             return render(request, 'tournament/detailStaff.html', { \
                     'trn': tournament, \
                     'parts': parts, \
@@ -121,6 +125,8 @@ def tournamentStaff(request, id_):
                     'solos': solos, \
                     'nbr_s': len(solos), \
                     'pools': pools, \
+                    'nodes': nodes, \
+                    'current_url': request.get_full_path(), \
                     })
 
     except Tournament.DoesNotExist:
