@@ -32,7 +32,7 @@ class User(models.Model):
     zipcode = models.IntegerField()
     email = models.EmailField(max_length=128, unique=True)
     phone = models.CharField(max_length=32, validators=[_phone_validator])
-    
+
     payement_method = models.CharField(max_length=32, blank=True)
 
     def __str__(self):              # __unicode__ on Python 2
@@ -84,6 +84,7 @@ class UserRegistration(models.Model):
         (http://www.matchmakertennis.com/public/ntrp.html)
     """
     LEVEL_CHOICES = (
+        ('-','-'),
         ('C30.5', 'C30.5'),
         ('C30.4', 'C30.4'),
         ('C30.3', 'C30.3'),
@@ -113,7 +114,7 @@ class UserRegistration(models.Model):
     user = models.ForeignKey(User)
     season = models.CharField(max_length=32);
     bbq = models.BooleanField(default=False)
-    level = models.CharField(max_length=32, choices=LEVEL_CHOICES);
+    level = models.CharField(max_length=32, default='-', choices=LEVEL_CHOICES);
 
     def __str__(self):
         return "Registration of %s for season %s" % (self.user, self.season)
