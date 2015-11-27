@@ -228,6 +228,12 @@
 										<input type="submit" value="Enregistrer" />
 									</div>
 								</form>
+									<strong>Est en pair avec:</strong>
+								<ul>
+								{% for pair in player_pairs %}
+									<li><a href="{% url "staff.views.particular_pair" pair.pk %}">{{pair.player1}} - {{pair.player2}}</a></li>
+								{% endfor%}
+								</ul>
 							</div>
 						</div>
 					</div>

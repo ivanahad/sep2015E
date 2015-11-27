@@ -57,8 +57,7 @@
 
         <div class="panel-body">
           {% for p in parts %}
-          <p> {{ p.player1 }}
-              - {{ p.player2 }} </p>
+          <p> <a href="{% url "staff.views.particular_pair" p.pk %}">{{ p.player1 }} - {{ p.player2 }}</a> </p>
           {% endfor %}
         </div>
       </div>
