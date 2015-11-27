@@ -1,7 +1,9 @@
 from django.db import models
+from django.conf import settings
 from django.core.mail import send_mail, send_mass_mail
 from io import BytesIO
 import time
+import datetime
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_JUSTIFY
 from reportlab.lib.pagesizes import A4, inch, landscape
@@ -65,6 +67,7 @@ class Tournament(models.Model):
         Tournament.assign_players(pools, pairs, self.pool_size)
         for pool in pools:
             pool.create_matches()
+            pool.send_emails() # DEBUG
 
         self.is_open = False
         self.save()
@@ -220,7 +223,7 @@ class Pool(models.Model):
     winner = models.ForeignKey('players.Pair', null=True, blank=True)
 
     leader = models.ForeignKey('players.User', null=True)
-    date = models.DateTimeField()
+    date = models.DateTimeField(null=True)
     court = models.ForeignKey('courts.Court', null=True)
 
     def compute_winner(self):
@@ -243,16 +246,21 @@ class Pool(models.Model):
         parts = [pp.participant for pp in \
                 PoolParticipant.objects.filter(pool=self)]
         users = []
+        emails = []
         for p in parts:
-            users.add(parts.player1)
-            users.add(parts.player2)
-        send_mail("Votre participation au tournoi Charles de Lorraine", "Bonjour. Vous avez été selectionné comme responsable de votre groupe pour le tournoi. Veuillez passer à l'adresse "+settings.HQ+" pour récupérer le matériel et l'addresse de votre premier match.", "info@sep2015e.net", [self.leader.email])
+            users.append(p.player1)
+            users.append(p.player2)
+        print("Sending email to "+self.leader.email)
+        emails.append(("Votre participation au tournoi Charles de Lorraine", "Bonjour. Vous avez été selectionné comme responsable de votre groupe pour le tournoi. Veuillez passer à l'adresse "+settings.HQ+" pour récupérer le matériel et l'addresse de votre premier match.", "info@sep2015e.net", [self.leader.email]))
         users.remove(self.leader)
         for user in users:
-            if UserRegistration.objects.filter(user=user, season=settings.CURRENT_SEASON)[0].payment_done:
-                send_mail("Votre participation au tournoi Charles de Lorraine", "Voici les coordonnées pour votre premier match : %s %s %s" % (court.address_street, court.address_number, court.address_box), "info@sep2015e.net", [user])
+            print("Sending email to "+user.email)
+            if players.models.UserRegistration.objects.filter(user=user, season=settings.CURRENT_SEASON)[0].payment_done:
+                emails.append(("Votre participation au tournoi Charles de Lorraine", "Voici les coordonnées pour votre premier match : <enter court address>", "info@sep2015e.net", [user.email]))
             else:
-                send_mail("Votre participation au tournoi Charles de Lorraine", "Veuillez vous rendre à l'address "+settings.HQ+" pour procéder au paiement avant votre participation au tournoi.", "info@sep2015e.net", [user])
+                emails.append(("Votre participation au tournoi Charles de Lorraine", "Veuillez vous rendre à l'address "+settings.HQ+" pour procéder au paiement avant votre participation au tournoi.", "info@sep2015e.net", [user.email]))
+
+        send_mass_mail(emails)
 
     def __str__(self):
         return "%s - pool %d" % (self.tournament, self.number)
