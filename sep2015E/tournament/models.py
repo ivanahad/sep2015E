@@ -219,6 +219,7 @@ class Pool(models.Model):
     winner = models.ForeignKey('players.Pair', null=True, blank=True)
 
     leader = models.ForeignKey('players.User', null=True)
+    date = models.DateTimeField()
 
     def compute_winner(self):
         pass #TODO
@@ -255,8 +256,8 @@ class Match(models.Model):
     team2 = models.ForeignKey('players.Pair', related_name='team2')
     score1 = models.IntegerField(null=True, blank=True)
     score2 = models.IntegerField(null=True, blank=True)
+
     court = models.ForeignKey('courts.Court', null=True, blank=True)
-    date = models.DateTimeField()
 
     def __str__(self):
         return "%s vs %s" % (self.team1, self.team2)
