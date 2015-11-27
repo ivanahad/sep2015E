@@ -227,6 +227,54 @@
 											</div>
 										</div>
 
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_bbq">BBQ:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ reg_form.bbq }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ reg_form.bbq.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_bbq">Niveau:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ reg_form.level }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ reg_form.level.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_payement_method">Méthodes de payement:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ reg_form.payement_method }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ reg_form.payement_method.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_payement_done">Payement effectuer:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ reg_form.payement_done }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ reg_form.payement_done.errors }}
+											</div>
+										</div>
+
 										<input type="submit" value="Enregistrer" />
 									</div>
 								</form>

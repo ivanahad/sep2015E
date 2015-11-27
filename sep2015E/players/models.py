@@ -46,12 +46,6 @@ class User(models.Model):
         return reg.first().level
 
 
-# list of available payment methods
-#PAYMENT_METHODS = (("Cash","Cash"), ("Visa","Visa"), \
-#        ("Bancontact","Bancontact"), ("MasterCard","MasterCard"), \
-#        ("Paypal","Paypal"))
-
-
 class Pair(models.Model):
     """This class contains a pair of users registered for a tournament.
     One pair must only participate in one tournament, and a new pair
@@ -104,14 +98,17 @@ class UserRegistration(models.Model):
         ('A2', 'A2'),
         ('A1', 'A1')
     )
+
+    PAYMENT_METHODS = (("Cash","Cash"), ("Visa","Visa"), \
+        ("Bancontact","Bancontact"), ("MasterCard","MasterCard"), \
+        ("Paypal","Paypal"))
     
     user = models.ForeignKey(User)
     season = models.CharField(max_length=32)
     bbq = models.BooleanField(default=False)
     level = models.CharField(max_length=32, choices=LEVEL_CHOICES)
-    # registration details
-    payment_method = models.CharField(max_length=32, blank=True)
-    payment_done = models.BooleanField(default=False)
+    payement_method = models.CharField(max_length=32, choices=PAYMENT_METHODS, default=PAYMENT_METHODS[0][1], blank=True)
+    payement_done = models.BooleanField(default=False)
 
     def __str__(self):
         return "Registration of %s for season %s" % (self.user, self.season)
