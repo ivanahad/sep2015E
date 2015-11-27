@@ -93,9 +93,11 @@
         </div>
 
         <div class="panel-body">
-          {% for p in solos %}
-          <p> {{ p }} </p>
-          {% endfor %}
+					<ul class="list-group">
+	          {% for p in solos %}
+	          <li class="list-group-item"> <a href="{% url "staff.views.particular_player" 1 p.id %}"> {{ p }}</a> </li>
+	          {% endfor %}
+					</ul>
         </div>
       </div>
       {% endif %}
