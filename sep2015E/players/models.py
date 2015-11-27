@@ -78,6 +78,7 @@ class UserRegistration(models.Model):
         (http://www.matchmakertennis.com/public/ntrp.html)
     """
     LEVEL_CHOICES = (
+        ('-','-'),
         ('C30.5', 'C30.5'),
         ('C30.4', 'C30.4'),
         ('C30.3', 'C30.3'),
@@ -104,11 +105,11 @@ class UserRegistration(models.Model):
         ('A2', 'A2'),
         ('A1', 'A1')
     )
-    
+
     user = models.ForeignKey(User)
     season = models.CharField(max_length=32)
     bbq = models.BooleanField(default=False)
-    level = models.CharField(max_length=32, choices=LEVEL_CHOICES)
+    level = models.CharField(max_length=32, default='-', choices=LEVEL_CHOICES);
     # registration details
     payment_method = models.CharField(max_length=32, blank=True)
     payment_done = models.BooleanField(default=False)
