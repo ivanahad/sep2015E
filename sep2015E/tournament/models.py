@@ -42,7 +42,10 @@ class Tournament(models.Model):
         ordering = ['name', 'category']
 
     def get_nodes(self):
-        return self.k_o_root._get_all_tree_nodes()
+        if self.k_o_root != None:
+            return self.k_o_root._get_all_tree_nodes()
+        else:
+            return []
 
     def close_registrations(self):
         if not self.is_open :
@@ -220,7 +223,7 @@ class Pool(models.Model):
     winner = models.ForeignKey('players.Pair', null=True, blank=True)
 
     leader = models.ForeignKey('players.User', null=True)
-    date = models.DateTimeField()
+    date = models.DateTimeField(null=True)
     court = models.ForeignKey('courts.Court', null=True)
 
     def compute_winner(self):
