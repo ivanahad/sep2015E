@@ -115,9 +115,10 @@ def tournamentStaff(request, id_):
             pools = [(p, PoolParticipant.objects.filter(pool=p)) \
                     for p in pools]
             nodes = []
-            for node in tournament.get_nodes():
-                if(node.match != None and node.child1 == None and node.child2 == None):
-                    nodes.append(node)
+            if not tournament.is_open:
+                for node in tournament.get_nodes():
+                    if(node.match != None and node.child1 == None and node.child2 == None):
+                        nodes.append(node)
             return render(request, 'tournament/detailStaff.html', { \
                     'trn': tournament, \
                     'parts': parts, \
