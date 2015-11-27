@@ -24,11 +24,16 @@ class Tournament(models.Model):
         ('elites', 'elites'),
         ('familles', 'tournoi des familles')
     )
+    MIXTE_CHOICES=(
+        ('M', 'masculin'),
+        ('F', 'féminin'),
+        ('Mixte', 'mixte')
+    )
     name = models.CharField(max_length=64) # p.ex. "Familles"
     category = models.CharField(max_length=64, choices=CATEGORIES_LIST, default='pré-minimes') # p.ex. "strongest"
     pool_size = models.IntegerField(default=5)
     k_o_root = models.ForeignKey('TournamentNode', null=True, blank=True)
-    mixte = models.BooleanField(default=True)
+    mixte = models.CharField(max_length=16, default="Mixte", choices=MIXTE_CHOICES)
     is_open = models.BooleanField(default=True)
     season = models.CharField(max_length=32);
 

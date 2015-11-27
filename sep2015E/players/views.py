@@ -17,15 +17,13 @@ def register(request):
         usr2 = PlayerForm(request.POST, prefix="usr2")
         reg2 = RegistrationForm(request.POST, prefix="reg2")
         pair = PairRegistrationForm(request.POST)
-        trn = OpenTournamentChoiceForm(request.POST)
 
         emailForm1 = EmailOldUserForm(prefix="email1")
         emailForm2 = EmailOldUserForm(prefix="email2")
 
         #Solo registration
         if 'solo_registration' in request.POST \
-                and usr1.is_valid() and reg1.is_valid() \
-                and trn.is_valid():
+                and usr1.is_valid() and reg1.is_valid():
             new_user1 = User( \
                     firstname = usr1.cleaned_data['firstname'], \
                     lastname = usr1.cleaned_data['lastname'], \
@@ -48,10 +46,8 @@ def register(request):
                     level = reg1.cleaned_data['level'])
             registration1.save()
 
-            solo_registration = SoloParticipant( \
-                    player = new_user1, \
-                    tournament = trn.cleaned_data['tournament'])
-            solo_registration.save()
+            assign_tournament_solo(new_user1)
+
 
             #send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
             #    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category, 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
@@ -61,7 +57,7 @@ def register(request):
         #Pair registration
         elif usr1.is_valid() and usr2.is_valid() \
                 and reg1.is_valid() and reg2.is_valid() \
-                and pair.is_valid() and trn.is_valid():
+                and pair.is_valid():
             new_user1 = User( \
                     firstname = usr1.cleaned_data['firstname'], \
                     lastname = usr1.cleaned_data['lastname'], \
@@ -113,7 +109,7 @@ def register(request):
                     comment = pair.cleaned_data['comment'])
             pair.save()
 
-            #assign_tournament(pair)
+            assign_tournament(pair)
 
             #send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
             #    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname'], 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
@@ -121,7 +117,7 @@ def register(request):
             #send_mail('Enregistrement à un tournoi', 'Bonjour '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
             #    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname'], 'info@sep2015e.com', [usr2.cleaned_data['email']], fail_silently=False)
 
-            return redirect('players.views.payement', id_user1=new_user1.pk, id_user2=new_user2.pk, 
+            return redirect('players.views.payement', id_user1=new_user1.pk, id_user2=new_user2.pk,
                 id_registration1=registration1.pk, id_registration2=id_registration2.pk, id_pair=pair.pk)
 
     else:
@@ -130,7 +126,6 @@ def register(request):
         usr2 = PlayerForm(prefix="usr2")
         reg2 = RegistrationForm(prefix="reg2")
         pair = PairRegistrationForm()
-        trn = OpenTournamentChoiceForm()
         emailForm1 = EmailOldUserForm(prefix="email1")
         emailForm2 = EmailOldUserForm(prefix="email2")
 
@@ -145,10 +140,44 @@ def register(request):
         "usr2": usr2,
         "reg2": reg2,
         "pair": pair,
-        "trn": trn,
         "email1": emailForm1,
         "email2": emailForm2
             })
+
+def assign_tournament_solo(player):
+
+    #Assign the category based on birthdate
+    current_year = datetime.now().year
+    player_birth_year = player.birthdate.year
+    smaller_difference = current_year - player_birth_year
+
+    if player.gender == "Homme":
+        mixte == "M"
+    else:
+        mixte == "F"
+
+    category = "none"
+    if smaller_difference <= 10 and smaller_difference >=9:
+        category = "preminimes"
+    elif smaller_difference <= 12 and smaller_difference >=11:
+        category = "minimes"
+    elif smaller_difference <= 14 and smaller_difference >=13:
+        category = "cadets"
+    elif smaller_difference <= 16 and smaller_difference >=15:
+        category = "scolaires"
+    elif smaller_difference <= 19 and smaller_difference >=17:
+        category = "juniors"
+    elif smaller_difference <= 40 and smaller_difference >=20:
+        category = "seniors"
+    elif smaller_difference > 40:
+        category = 'elites'
+
+    #Assign a tournament if possible
+    exist = (Tournament.objects.filter(category=category, mixte=mixte, season=settings.CURRENT_SEASON).count() != 0)
+    if exist:
+        tournament= Tournament.objects.get(category=category, mixte=mixte, season=settings.CURRENT_SEASON)
+        tp = SoloParticipant(participant=pair, tournament=tournament)
+        tp.save()
 
 def assign_tournament(pair):
     """ Assign a tournament to a pair based on their genders (if same or different)
@@ -158,7 +187,12 @@ def assign_tournament(pair):
     player2 = pair.player2
 
     #Check if mixte
-    mixte = (player1.gender == player2.gender)
+    if player1.gender != pplayer2.gender:
+        mixte = "Mixte"
+    elif player1.gender == "Homme":
+        mixte == "M"
+    else:
+        mixte == "F"
 
     #Assign the category based on birthdate
     current_year = datetime.now().year
@@ -183,6 +217,15 @@ def assign_tournament(pair):
         category = "seniors"
     elif smaller_difference > 40:
         category = 'elites'
+
+    if current_year - player1_birth_year <= 15:
+        if current_year - player2_birth_year >= 25:
+            category = "familles"
+            mixte = True
+    elif current_year - player2_birth_year <= 15:
+        if current_year - player1_birth_year >= 25:
+            category = "familles"
+            mixte = True
 
     #Assign a tournament if possible
     exist = (Tournament.objects.filter(category=category, mixte=mixte, season=settings.CURRENT_SEASON).count() != 0)
@@ -227,7 +270,7 @@ def filled_registration(request):
         usr2 = PlayerForm(prefix="usr2")
         reg2 = RegistrationForm(prefix="reg2")
         trn = OpenTournamentChoiceForm()
-        
+
         if emailForm1.is_valid():
             try:
                 oldusr = User.objects.get(email=emailForm1.cleaned_data['email'])
@@ -304,7 +347,7 @@ def payement(request, id_user1, id_registration1, id_solo, id_registration2=None
             nb_bbq = 1
         else:
             nb_bbq = 0
-    
+
     total = nb_user*20 + nb_bbq*15
 
     if request.method == 'POST':
@@ -315,10 +358,3 @@ def payement(request, id_user1, id_registration1, id_solo, id_registration2=None
         user1.save()
 
     return render(request, 'players/payement.html', {"user":id_user1, "reg":id_registration1, "solo": id_solo, "nb_user": nb_user, "nb_bbq": nb_bbq, "total": total})
-
-
-
-
-
-
-
