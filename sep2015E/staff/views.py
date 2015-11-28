@@ -22,7 +22,7 @@ from courts.models import Court
 from players.models import User, Pair, UserRegistration
 from players.forms import PlayerForm, RegistrationForm
 
-from tournament.models import TournamentParticipant
+from tournament.models import TournamentParticipant, Tournament
 
 
 
@@ -186,11 +186,23 @@ def particular_player(request, page_id, player_id):
 def particular_pair(request, id_pair):
     pair = Pair.objects.get(pk=id_pair)
     tournament = None
+    all_tournaments = Tournament.objects.all()
     if TournamentParticipant.objects.filter(participant=pair).count() != 0:
         tournament = TournamentParticipant.objects.filter(participant=pair).get().tournament
+    if request.method == 'POST':
+        new_tournament = request.POST['tournament'].strip()
+        new_tournament = Tournament.objects.get(pk=int(new_tournament))
+        if tournament != None:
+            tournament_participant = TournamentParticipant.objects.get(participant=pair, tournament=tournament)
+            tournament_participant.delete()
+        tournament_participant = TournamentParticipant(tournament=new_tournament, participant=pair)
+        tournament_participant.save()
+        tournament = new_tournament
+
     return render(request, 'staff/particular_pair.html', { \
         'pair':pair,
         'tournament':tournament,
+        'all_tournaments': all_tournaments,
         })
 
 def search(request):
