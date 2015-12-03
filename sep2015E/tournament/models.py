@@ -190,7 +190,7 @@ class TournamentParticipant(models.Model):
 class SoloParticipant(models.Model):
     """Players registered without a pair for a tournament.
     """
-    tournament = models.ForeignKey('Tournament')
+    tournament = models.ForeignKey('Tournament', null=True)
     player = models.ForeignKey('players.User')
 
     def pairing(tournament):

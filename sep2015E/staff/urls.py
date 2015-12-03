@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^mail_list$', prefix+'mail_list'),
     url(r'^get_file/(?P<id_file>\d+)$', prefix+'send_file'),
     url(r'^tournamentless_pairs/(?P<page_id>\d+)$', prefix+'tournamentless_pairs'),
+    url(r'^pairless_players/(?P<page_id>\d+)$', prefix+'pairless_players'),
 ]

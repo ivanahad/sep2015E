@@ -20,9 +20,9 @@ from staff.forms import MessageForm, MailListForm, FilesForm
 from courts.models import Court
 
 from players.models import User, Pair, UserRegistration
-from players.forms import PlayerForm, RegistrationForm
+from players.forms import PlayerForm, RegistrationForm, AssignPairForm
 
-from tournament.models import TournamentParticipant, Tournament
+from tournament.models import TournamentParticipant, Tournament, SoloParticipant
 
 
 
@@ -142,6 +142,29 @@ def players(request, page_id):
         'next':int(page_id)+1,
         })
 
+def pairless_players(request, page_id):
+    """Page listing the players registered in the event."""
+    if not request.user.is_authenticated():
+        return redirect('staff.views.login_staff')
+
+    players_per_page = 10   #Number of players displayed by page
+
+    number_players = SoloParticipant.objects.all().count()
+    number_pages = ceil(number_players/players_per_page) #Number of pages for the navbar
+
+    extremity1 = 0+(int(page_id)-1)*players_per_page    #Range
+    extremity2 = (int(page_id)*players_per_page)-1
+    players = SoloParticipant.objects.all()[extremity1:extremity2]
+
+    return render(request, 'staff/pairless_players.html', { \
+        'players':players ,
+        'page_id':int(page_id),
+        'number_pages':number_pages,
+        'n':range(1, number_pages+1),
+        'prev':int(page_id)-1,
+        'next':int(page_id)+1,
+        })
+
 def tournamentless_pairs(request, page_id):
     """Page listing the players registered in the event
         that are not assigned to a tournament."""
@@ -176,6 +199,8 @@ def particular_player(request, page_id, player_id):
     extremity1 = 0+(int(page_id)-1)*players_per_page    #Range
     extremity2 = (int(page_id)*players_per_page)-1
     players = User.objects.order_by('lastname', 'firstname').all()[extremity1:extremity2]
+    player = User.objects.filter(id=player_id).get()
+
 
     if not request.user.is_authenticated():
         return redirect('staff.views.login_staff')
@@ -185,15 +210,23 @@ def particular_player(request, page_id, player_id):
         form = PlayerForm(request.POST, player_id=player_id, instance=player)
         user_reg = get_object_or_404(UserRegistration, user=player, season=settings.CURRENT_SEASON)
         reg_form = RegistrationForm(request.POST, user_reg_id=user_reg.pk, instance=user_reg)
+        pair_form = AssignPairForm(request.POST)
+        if pair_form.is_valid():
+            other_player=pair_form.cleaned_data['other_player']
+            solo = SoloParticipant.objects.get(player=player)
+            solo.delete()
+            Pair(player1=player, player2=other_player.player, average=0, season=settings.CURRENT_SEASON).save()
         if form.is_valid():
             obj = form.save()
         if reg_form.is_valid():
             obj2 = reg_form.save()
-    player = User.objects.filter(id=player_id).get()
     player_pairs = Pair.objects.filter(season=settings.CURRENT_SEASON).filter(Q(player1=player) | Q(player2=player))
+    if player_pairs.count() == 0:
+        player_pairs=None
     user_reg = UserRegistration.objects.get(user=player, season=settings.CURRENT_SEASON)
     form = PlayerForm(player_id=player.id)
     reg_form = RegistrationForm(user_reg_id = user_reg.pk)
+    pair_form = AssignPairForm()
     return render(request, 'staff/particular_player.html', { \
         'player':player, \
         'form':form,
@@ -204,7 +237,8 @@ def particular_player(request, page_id, player_id):
         'n':range(1, number_pages+1),
         'prev':int(page_id)-1,
         'next':int(page_id)+1,
-        'reg_form': reg_form
+        'reg_form': reg_form,
+        'pair_form':pair_form
         })
 
 

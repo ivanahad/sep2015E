@@ -1,5 +1,6 @@
 from django import forms
 from players.models import User, UserRegistration, Pair
+from tournament.models import SoloParticipant
 
 class PlayerForm(forms.ModelForm):
     """Form for registering a new player and edit it."""
@@ -71,3 +72,9 @@ class PairRegistrationForm(forms.ModelForm):
 class EmailOldUserForm(forms.Form):
     """Form to recognize previous participant based on their email."""
     email = forms.EmailField(label="Email du joueur")
+
+class AssignPairForm(forms.Form):
+    other_player = forms.ModelChoiceField( \
+            queryset=SoloParticipant.objects.all(), \
+            empty_label=None, \
+        )

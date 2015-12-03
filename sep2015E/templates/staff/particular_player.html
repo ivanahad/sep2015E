@@ -278,11 +278,35 @@
 										<input type="submit" value="Enregistrer" />
 									</div>
 								</form>
+								{% if player_pairs != None %}
 									<strong>Est en pair avec:</strong>
 								<ul>
 								{% for pair in player_pairs %}
 									<li><a href="{% url "staff.views.particular_pair" pair.pk %}">{{pair.player1}} - {{pair.player2}}</a></li>
 								{% endfor%}
+
+								{% else %}
+
+								<form action="{% url "staff.views.particular_player" page_id player.id %}" method="post">
+									{% csrf_token %}
+									<div class="panel-body">
+										{{ pair_form.non_field_errors }}
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_firstname">Assigner une paire:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ pair_form.other_player }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ pair_form.other_player.errors }}
+											</div>
+										</div>
+										<input type="submit" value="Enregistrer" />
+									</div>
+								</form>
+
+								{% endif %}
 								</ul>
 							</div>
 						</div>

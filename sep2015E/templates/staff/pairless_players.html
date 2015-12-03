@@ -27,7 +27,7 @@
 							<div class="panel-body">
 								<ul class="list-group">
 								{% for player in players %}
-									<li class="list-group-item"><a href="{% url "staff.views.particular_player" page_id player.id %}">{{ player }}</a></li>
+									<li class="list-group-item"><a href="{% url "staff.views.particular_player" page_id player.player.id %}">{{ player.player }}</a></li>
 								{% endfor %}
 								</ul>
 							</div>

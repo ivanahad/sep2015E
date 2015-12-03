@@ -113,7 +113,7 @@ def register(request):
             pair.save()
 
             assign_tournament(pair)
-            
+
             return redirect('players.views.payement', id_user1=new_user1.pk, id_user2=new_user2.pk,
                 id_registration1=registration1.pk, id_registration2=registration2.pk, id_pair=pair.pk)
 
@@ -177,6 +177,9 @@ def assign_tournament_solo(player):
     if exist:
         tournament= Tournament.objects.get(category=category, mixte=mixte, season=settings.CURRENT_SEASON)
         tp = SoloParticipant(player=player, tournament=tournament)
+        tp.save()
+    else:
+        tp = SoloParticipant(player=player)
         tp.save()
 
 def assign_tournament(pair):
