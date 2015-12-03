@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from tournament.models import *
 from players.models import *
 from tournament.forms import OpenTournamentChoiceForm, CreateTournamentForm, \
-        MatchEditForm, AssignCourtForm
+        MatchEditForm, AssignCourtForm, AssignDateForm, AssignPoolLeaderForm
 
 def all(request):
     if request.method == 'POST':
@@ -205,24 +205,36 @@ def pool(request, id_tournament, id_pool):
 
     if request.method == 'POST':
         court_form = AssignCourtForm(request.POST)
+        date_form = AssignDateForm(request.POST)
+        leader_form = AssignPoolLeaderForm(request.POST, pool_id=pool.pk)
         if court_form.is_valid(): #Form to edit infos of a match
             court = court_form.cleaned_data['court']
-            print(court)
             pool.court = court
             pool.save()
             for pool_match in pool_matches:
                 pool_match.match.court = court
                 pool_match.match.save()
+        if date_form.is_valid():
+            date = date_form.cleaned_data['date']
+            pool.date = date
+            pool.save()
+        if leader_form.is_valid():
+            leader = leader_form.cleaned_data['leader']
+            pool.save()
 
     form = MatchEditForm()
     court_form = AssignCourtForm()
+    date_form = AssignDateForm()
+    leader_form = AssignPoolLeaderForm(pool_id=pool.pk)
     return render(request, 'tournament/pool.html', { \
             'trn': tournament, \
             'pool': pool, \
             'matches': matches, \
             'form' : form, \
             'winner' : winner, \
-            'court_form': court_form\
+            'court_form': court_form, \
+            'leader_form': leader_form, \
+            'date_form': date_form\
             })
 
 def get_winner(matches):
