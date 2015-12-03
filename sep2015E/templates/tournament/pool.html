@@ -120,6 +120,36 @@
           {% endfor %}
         </table>
       </div>
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row field">
+            <div class="col-sm-4">
+              <strong>Terrain actuel</strong>:
+            </div>
+            <div class="col-sm-4">
+              {{ pool.court }}
+            </div>
+          </div>
+
+          <form action="{% url "tournament.views.pool" trn.id pool.number %}" method="post">
+            {% csrf_token %}
+            <div class="row field">
+              <div class="col-sm-4">
+                <label for="id_firstname">Changer terrain:</label>
+              </div>
+              <div class="col-sm-4">
+                {{ court_form.court }}
+              </div>
+              <div class="col-sm-4 required">
+                {{ court_form.court.errors }}
+              </div>
+            </div>
+            <input type="submit" value="Enregistrer" />
+          </form>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

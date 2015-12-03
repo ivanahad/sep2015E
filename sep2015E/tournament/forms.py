@@ -1,6 +1,7 @@
 from django import forms
 from django.forms.extras.widgets import Select
 from tournament.models import Tournament, Match
+from courts.models import Court
 import tournament
 
 class OpenTournamentChoiceForm(forms.Form):
@@ -18,3 +19,9 @@ class MatchEditForm(forms.ModelForm):
     class Meta:
         model = Match
         fields=["score1", "score2", "court"]
+
+class AssignCourtForm(forms.Form):
+    court = forms.ModelChoiceField( \
+            queryset=Court.objects.all(), \
+            empty_label=None, \
+        )
