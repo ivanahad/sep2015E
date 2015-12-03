@@ -10,21 +10,17 @@
 				<strong>Liste des joueurs</strong>
 			</h2>
 			<hr>
-			<center>
-				<a href="{% url "staff.views.tournamentless_pairs" 1 %}">
-					<button type="button" class="btn btn-info">Paires dans aucun tournois</button>
-				</a>
-			</center>
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-6">
 						<div class="panel panel-default">
+
 							<!-- DISPLAY LISTING OF PLAYERS -->
 
 							<div class="panel-body">
 								<ul class="list-group">
-								{% for player in players %}
-									<li class="list-group-item"><a href="{% url "staff.views.particular_player" page_id player.id %}">{{ player }}</a></li>
+								{% for pair in pairs %}
+									<li class="list-group-item"><a href="{% url "staff.views.particular_pair" pair.pk %}">{{ pair }}</a></li>
 								{% endfor %}
 								</ul>
 							</div>
@@ -42,7 +38,7 @@
 										</li>
 										{% else %}
 										<li>
-											<a href="{% url "staff.views.players" prev %}" aria-label="Previous">
+											<a href="{% url "staff.views.tournamentless_pairs" prev %}" aria-label="Previous">
 												<span aria-hidden="true">&laquo;</span>
 											</a>
 										</li>
@@ -53,7 +49,7 @@
 										{% if i == page_id %}
 										<li class="active"><a href="#">{{i}}</a></li>
 										{% else %}
-										<li><a href="{% url "staff.views.players" i %}">{{i}}</a></li>
+										<li><a href="{% url "staff.views.tournamentless_pairs" i %}">{{i}}</a></li>
 										{% endif %}
 
 										{% endfor %}
@@ -66,7 +62,7 @@
 										</li>
 										{% else %}
 										<li>
-											<a href="{% url "staff.views.players" next %}" aria-label="Next">
+											<a href="{% url "staff.views.tournamentless_pairs" next %}" aria-label="Next">
 												<span aria-hidden="true">&raquo;</span>
 											</a>
 										</li>

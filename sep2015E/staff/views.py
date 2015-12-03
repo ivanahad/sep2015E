@@ -142,6 +142,30 @@ def players(request, page_id):
         'next':int(page_id)+1,
         })
 
+def tournamentless_pairs(request, page_id):
+    """Page listing the players registered in the event
+        that are not assigned to a tournament."""
+    if not request.user.is_authenticated():
+        return redirect('staff.views.login_staff')
+
+    pairs_per_page = 10   #Number of players displayed by page
+    tournament_participants = TournamentParticipant.objects.all()
+    number_pairs = Pair.objects.exclude(tournamentparticipant=tournament_participants).count()
+    number_pages = ceil(number_pairs/pairs_per_page) #Number of pages for the navbar
+
+    extremity1 = 0+(int(page_id)-1)*pairs_per_page    #Range
+    extremity2 = (int(page_id)*pairs_per_page)-1
+    pairs = Pair.objects.exclude(tournamentparticipant=tournament_participants)[extremity1:extremity2]
+
+    return render(request, 'staff/tournamentless_pairs.html', { \
+        'pairs':pairs ,
+        'page_id':int(page_id),
+        'number_pages':number_pages,
+        'n':range(1, number_pages+1),
+        'prev':int(page_id)-1,
+        'next':int(page_id)+1,
+        })
+
 def particular_player(request, page_id, player_id):
     """Page showing information for a particular player."""
     players_per_page = 10   #Number of players displayed by page
@@ -182,6 +206,9 @@ def particular_player(request, page_id, player_id):
         'next':int(page_id)+1,
         'reg_form': reg_form
         })
+
+
+
 
 def particular_pair(request, id_pair):
     pair = Pair.objects.get(pk=id_pair)
