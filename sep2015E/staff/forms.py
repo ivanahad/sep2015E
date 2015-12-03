@@ -25,3 +25,15 @@ class FilesForm(forms.ModelForm):
         model = Files
         exclude = ['owner']
         prefix = 'files_form'
+
+class SearchForm(forms.Form):
+    GENDER_LIST= (("A", "Mixte"), ("M", "Homme"), ("F", "Femme"))
+    BIRTHDATE_EQUALITY_LIST = ((">", "plus grand que"), ("<", "plus petit que"), ("=", "égal"))
+    PAIR_LIST=(("T", "en pair"), ("F", "solo"), ("A", "----"))
+    TOURNAMENT_LIST=(("T", "dans un tournoi"), ("F", "dans aucun tournoi"), ("A", "----"))
+    name = forms.CharField(max_length=64, required=False)
+    gender = forms.ChoiceField(choices=GENDER_LIST)
+    birthdate_equality = forms.ChoiceField(choices=BIRTHDATE_EQUALITY_LIST)
+    birthdate = forms.DateField(required=False)
+    in_pair = forms.ChoiceField(choices=PAIR_LIST)
+    in_tournament = forms.ChoiceField(choices=TOURNAMENT_LIST)

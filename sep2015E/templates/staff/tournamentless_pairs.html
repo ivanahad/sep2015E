@@ -10,6 +10,17 @@
 				<strong>Liste des joueurs</strong>
 			</h2>
 			<hr>
+			<center>
+				<a href="{% url "staff.views.players" 1 %}">
+					<button type="button" class="btn btn-info">Liste des joueurs</button>
+				</a>
+				<a href="{% url "staff.views.tournamentless_pairs" 1 %}">
+					<button type="button" class="btn btn-info">Paires dans aucun tournois</button>
+				</a>
+				<a href="{% url "staff.views.pairless_players" 1 %}">
+					<button type="button" class="btn btn-info">Joueurs dans aucunes paires</button>
+				</a>
+			</center>
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-6">

@@ -15,7 +15,7 @@ from django.conf import settings
 from datetime import datetime
 
 from staff.models import Messages, Files, Staff
-from staff.forms import MessageForm, MailListForm, FilesForm
+from staff.forms import MessageForm, MailListForm, FilesForm, SearchForm
 
 from courts.models import Court
 
@@ -215,6 +215,7 @@ def particular_player(request, page_id, player_id):
             other_player=pair_form.cleaned_data['other_player']
             solo = SoloParticipant.objects.get(player=player)
             solo.delete()
+            SoloParticipant.objects.get(player=other_player).delete()
             Pair(player1=player, player2=other_player.player, average=0, season=settings.CURRENT_SEASON).save()
         if form.is_valid():
             obj = form.save()
@@ -272,13 +273,73 @@ def search(request):
         query = request.POST['query'].strip()
         players = User.objects.filter(Q(firstname__contains=query) | Q(lastname__contains=query))
         owners = Court.objects.filter(owner__contains=query)
+        form = SearchForm()
         return render(request, 'staff/search.html', { \
             'players':players,
             'owners':owners,
             'query':query,
+            'form':form,
         })
     else:
         return redirect('staff.views.home')
+
+def advanced_search(request):
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        query=""
+        if form.is_valid():
+            users = User.objects.all()
+            owners = Court.objects.all()
+            #Filter by name
+            name = form.cleaned_data['name']
+            query=name
+            users = users.filter(Q(firstname__contains=query) | Q(lastname__contains=query))
+            owners = owners.filter(owner__contains=query)
+            #Filter by gender
+            gender = form.cleaned_data['gender']
+            if gender != 'A':
+                users=users.filter(gender=gender)
+            #Filter by birthdate
+            birthdate_equality=form.cleaned_data['birthdate_equality']
+            birthdate = form.cleaned_data['birthdate']
+            if birthdate != None:
+                if birthdate_equality == ">":
+                    users=users.filter(birthdate__gte=birthdate)
+                elif birthdate_equality == "<":
+                    users=users.filter(birthdate__lte=birthdate)
+                else:
+                    users=users.filter(birthdate=birthdate)
+            #Filter by is in pair or not
+            in_pair = form.cleaned_data['in_pair']
+            if in_pair=="T":
+                solo = SoloParticipant.objects.all()
+                users=users.exclude(soloparticipant=solo)
+            elif in_pair=="F":
+                solo = SoloParticipant.objects.all()
+                users=users.filter(soloparticipant=solo)
+            #Filter is in tournament or not
+            in_tournament= form.cleaned_data['in_tournament']
+            if in_tournament=="T":
+                tournament_participants = TournamentParticipant.objects.all()
+                pairs = Pair.objects.exclude(tournamentparticipant=tournament_participants).only('player1')
+                users=users.exclude(player1=pairs)
+                pairs = Pair.objects.exclude(tournamentparticipant=tournament_participants).only('player2')
+                users=users.exclude(player2=pairs)
+            elif in_tournament=="F":
+                tournament_participants = TournamentParticipant.objects.all()
+                pairs = Pair.objects.exclude(tournamentparticipant=tournament_participants).only('player1')
+                users=users.filter(player1=pairs)
+                pairs = Pair.objects.exclude(tournamentparticipant=tournament_participants).only('player2')
+                users=users.filter(player2=pairs)
+
+            return render(request, 'staff/search.html', { \
+                'players':users,
+                'owners':owners,
+                'query':query,
+                'form':form,
+            })
+
+    return redirect('staff.views.home')
 
 def send_file(request, id_file):
     """Send a file"""

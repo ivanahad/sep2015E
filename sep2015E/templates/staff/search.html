@@ -12,6 +12,93 @@
 			<hr>
 			<div class="panel-body">
 				<div class="row">
+					<div class="panel panel-default">
+						<div class="panel-heading"><strong>Recherche avancée</strong></div>
+						<div class="panel-body">
+
+							<form action="{% url "staff.views.advanced_search" %}" method="post">  <!-- Form to create message -->
+								{% csrf_token %}
+								<div class="panel panel-default">
+
+									<div class="panel-body">
+
+			              <div class="row field">
+			                <div class="col-sm-4">
+			                  <label> Nom : </label>
+			                </div>
+			                <div class="col-sm-4">
+			                  {{ form.name }}
+			                </div>
+			                <div class="col-sm-4 required">
+			                  {{ form.name.errors }}
+			                </div>
+			              </div>
+
+			              <div class="row field">
+			                <div class="col-sm-4">
+			                  <label> Sexe : </label>
+			                </div>
+			                <div class="col-sm-4">
+			                  {{ form.gender }}
+			                </div>
+			                <div class="col-sm-4 required">
+			                  {{ form.gender.errors }}
+			                </div>
+			              </div>
+
+										<div class="row field">
+			                <div class="col-sm-4">
+			                  <label> Date de naissance : </label>
+			                </div>
+			                <div class="col-sm-3">
+			                  {{ form.birthdate_equality }}
+			                </div>
+											<div class="col-sm-3">
+			                  {{ form.birthdate }}
+			                </div>
+			                <div class="col-sm-1 required">
+			                  {{ form.birthdate_equality.errors }}
+			                </div>
+											<div class="col-sm-1 required">
+			                  {{ form.birthdate.errors }}
+			                </div>
+			              </div>
+
+										<div class="row field">
+			                <div class="col-sm-4">
+			                  <label> En Pair : </label>
+			                </div>
+			                <div class="col-sm-4">
+			                  {{ form.in_pair }}
+			                </div>
+			                <div class="col-sm-4 required">
+			                  {{ form.in_pair.errors }}
+			                </div>
+			              </div>
+
+										<div class="row field">
+			                <div class="col-sm-4">
+			                  <label> En tournoi : </label>
+			                </div>
+			                <div class="col-sm-4">
+			                  {{ form.in_tournament }}
+			                </div>
+			                <div class="col-sm-4 required">
+			                  {{ form.in_tournament.errors }}
+			                </div>
+			              </div>
+
+									</div>
+								</div>
+
+								<input type="submit" value="Rechercher" />
+							</form>
+
+						</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
 
           <!-- DISPLAY LISTING OF PLAYERS -->
 
