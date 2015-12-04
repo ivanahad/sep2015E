@@ -20,8 +20,8 @@ class Tournament(models.Model):
     CATEGORIES_LIST=(
         ('preminimes', 'pré-minimes'),
         ('minimes', 'minimes'),
-        ('cadet', 'cadet'),
-        ('scolaire', 'scolaire'),
+        ('cadets', 'cadets'),
+        ('scolaires', 'scolaires'),
         ('junior', 'junior'),
         ('seniores', 'seniors'),
         ('elites', 'elites'),

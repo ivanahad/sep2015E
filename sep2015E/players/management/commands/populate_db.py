@@ -201,10 +201,10 @@ class Command(BaseCommand):
         CATEGORIES_LIST=[
             ('preminimes', 'pré-minimes'),
             ('minimes', 'minimes'),
-            ('cadet', 'cadet'),
-            ('scolaire', 'scolaire'),
-            ('junior', 'junior'),
-            ('seniores', 'seniors'),
+            ('cadets', 'cadets'),
+            ('scolaires', 'scolaires'),
+            ('juniors', 'juniors'),
+            ('seniors', 'seniors'),
             ('elites', 'elites'),
             ('familles', 'tournoi des familles')
         ]
@@ -246,7 +246,7 @@ class Command(BaseCommand):
         player1_birth_year = player1.birthdate.year
         player2_birth_year = player2.birthdate.year
         smaller_difference = current_year - player1_birth_year
-        if current_year - player2_birth_year < current_year - player1_birth_year:
+        if current_year - player2_birth_year > current_year - player1_birth_year:
             smaller_difference = current_year - player2_birth_year
 
         category = "none"
@@ -268,11 +268,11 @@ class Command(BaseCommand):
         if current_year - player1_birth_year <= 15:
             if current_year - player2_birth_year >= 25:
                 category = "familles"
-                mixte = True
+                mixte = "Mixte"
         elif current_year - player2_birth_year <= 15:
             if current_year - player1_birth_year >= 25:
                 category = "familles"
-                mixte = True
+                mixte = "Mixte"
 
         #Assign a tournament if possible
         exist = (Tournament.objects.filter(category=category, mixte=mixte, \
@@ -280,6 +280,7 @@ class Command(BaseCommand):
         if exist:
             return Tournament.objects.get(category=category, mixte=mixte, \
                 season=settings.CURRENT_SEASON)
+
         return None
 
     def _create_tournament_partipant(self, pair):
