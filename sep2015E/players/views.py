@@ -171,9 +171,6 @@ def assign_tournament_solo(player):
 
     #Assign a tournament if possible
     exist = (Tournament.objects.filter(category=category, mixte=mixte, season=settings.CURRENT_SEASON).count() != 0)
-    print(exist)
-    print(category)
-    print(mixte)
     if exist:
         tournament= Tournament.objects.get(category=category, mixte=mixte, season=settings.CURRENT_SEASON)
         tp = SoloParticipant(player=player, tournament=tournament)

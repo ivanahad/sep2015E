@@ -2,8 +2,12 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 from players.models import User, UserRegistration, Pair
 from courts.models import Court
+from tournament.models import Tournament, TournamentParticipant, SoloParticipant
 import random
 import linecache
+from datetime import datetime
+from datetime import date
+
 class Command(BaseCommand):
     args = '<>'
     help = 'Populate the database'
@@ -29,10 +33,10 @@ class Command(BaseCommand):
         return firstname, lastname, gender
 
     def random_birthdate(self):
-        year = str(random.randint(1970, 2005))
-        month = str(random.randint(1, 12))
-        day = str(random.randint(1, 28))
-        return year + "-" + month + "-" + day
+        year = random.randint(1970, 2007)
+        month = random.randint(1, 12)
+        day = random.randint(1, 28)
+        return date(year, month, day)
 
     def random_address_number(self):
         return str(random.randint(1, 250))
@@ -141,10 +145,12 @@ class Command(BaseCommand):
 
     #CREATE PAIR
 
-    def _create_pair(self, player1, player2):
+    def _create_pair(self, player1, player2, same_birthdate=False):
         average = 1
         season = settings.CURRENT_SEASON
-
+        if same_birthdate == True:
+            player2.birthdate = player1.birthdate
+            player2.save()
         pair = Pair(player1=player1, player2=player2, average=average, \
                 season=season)
         pair.save()
@@ -190,11 +196,169 @@ class Command(BaseCommand):
 
         return court
 
+    #CREATE TOURNAMENT
+    def _create_tournament(self, category_id, mixte_id):
+        CATEGORIES_LIST=[
+            ('preminimes', 'pré-minimes'),
+            ('minimes', 'minimes'),
+            ('cadet', 'cadet'),
+            ('scolaire', 'scolaire'),
+            ('junior', 'junior'),
+            ('seniores', 'seniors'),
+            ('elites', 'elites'),
+            ('familles', 'tournoi des familles')
+        ]
+        MIXTE_CHOICES=[
+            ('M', 'masculin'),
+            ('F', 'féminin'),
+            ('Mixte', 'mixte')
+        ]
+        category = CATEGORIES_LIST[category_id][0]
+        pool_size = 5
+        mixte = MIXTE_CHOICES[mixte_id][0]
+        season = settings.CURRENT_SEASON
+        name = "Tournoi " + category + " " + mixte
+        tournament = Tournament(name=name, category=category, pool_size=pool_size, \
+            mixte=mixte, season=season)
+        tournament.save()
+
+        return tournament
+
+    #CREATE TOURNAMENT PARTICIPANT
+
+    def assign_tournament_pair(self, pair):
+        """ Assign a tournament to a pair based on their genders (if same or different)
+            and their birthdate. The category is based on the older player.
+            It may happen that some players are not assigned tournaments (don'f fit)."""
+        player1 = pair.player1
+        player2 = pair.player2
+
+        #Check if mixte
+        if player1.gender != player2.gender:
+            mixte = "Mixte"
+        elif player1.gender == "M":
+            mixte = "M"
+        else:
+            mixte = "F"
+
+        #Assign the category based on birthdate
+        current_year = datetime.now().year
+        player1_birth_year = player1.birthdate.year
+        player2_birth_year = player2.birthdate.year
+        smaller_difference = current_year - player1_birth_year
+        if current_year - player2_birth_year < current_year - player1_birth_year:
+            smaller_difference = current_year - player2_birth_year
+
+        category = "none"
+        if smaller_difference <= 10 and smaller_difference >=9:
+            category = "preminimes"
+        elif smaller_difference <= 12 and smaller_difference >=11:
+            category = "minimes"
+        elif smaller_difference <= 14 and smaller_difference >=13:
+            category = "cadets"
+        elif smaller_difference <= 16 and smaller_difference >=15:
+            category = "scolaires"
+        elif smaller_difference <= 19 and smaller_difference >=17:
+            category = "juniors"
+        elif smaller_difference <= 40 and smaller_difference >=20:
+            category = "seniors"
+        elif smaller_difference > 40:
+            category = 'elites'
+
+        if current_year - player1_birth_year <= 15:
+            if current_year - player2_birth_year >= 25:
+                category = "familles"
+                mixte = True
+        elif current_year - player2_birth_year <= 15:
+            if current_year - player1_birth_year >= 25:
+                category = "familles"
+                mixte = True
+
+        #Assign a tournament if possible
+        exist = (Tournament.objects.filter(category=category, mixte=mixte, \
+            season=settings.CURRENT_SEASON).count() != 0)
+        if exist:
+            return Tournament.objects.get(category=category, mixte=mixte, \
+                season=settings.CURRENT_SEASON)
+        return None
+
+    def _create_tournament_partipant(self, pair):
+        tournament = self.assign_tournament_pair(pair)
+        if tournament != None:
+            participant = TournamentParticipant(tournament=tournament, \
+                participant=pair)
+            return participant
+        return None
+
+    #CREATE SOLO PARTICIPANT
+
+    def assign_tournament_solo(self, player):
+
+        #Assign the category based on birthdate
+        current_year = datetime.now().year
+        player_birth_year = player.birthdate.year
+        smaller_difference = current_year - player_birth_year
+
+        if player.gender == "M":
+            mixte = "M"
+        else:
+            mixte = "F"
+
+        category = "none"
+        if smaller_difference <= 10 and smaller_difference >=9:
+            category = "preminimes"
+        elif smaller_difference <= 12 and smaller_difference >=11:
+            category = "minimes"
+        elif smaller_difference <= 14 and smaller_difference >=13:
+            category = "cadets"
+        elif smaller_difference <= 16 and smaller_difference >=15:
+            category = "scolaires"
+        elif smaller_difference <= 19 and smaller_difference >=17:
+            category = "juniors"
+        elif smaller_difference <= 40 and smaller_difference >=20:
+            category = "seniors"
+        elif smaller_difference > 40:
+            category = 'elites'
+
+        #Assign a tournament if possible
+        exist = (Tournament.objects.filter(category=category, mixte=mixte, season=settings.CURRENT_SEASON).count() != 0)
+        if exist:
+            tournament= Tournament.objects.get(category=category, mixte=mixte, season=settings.CURRENT_SEASON)
+            tp = SoloParticipant(player=player, tournament=tournament)
+            tp.save()
+        else:
+            tp = SoloParticipant(player=player)
+            tp.save()
+        return tp
+
+    def _create_solo_participant(self, player):
+        return self.assign_tournament_solo(player)
+
     def handle(self, *args, **options):
-        user = self._create_user()
-        user_registration = self._create_user_registration(user)
-        user_bis = self._create_user()
-        user_bis_registration = self._create_user_registration(user)
-        pair = self._create_pair(user, user_bis)
-        court = self._create_court()
-        print(court)
+        print("Can take few minutes\n")
+        #Create all tournaments possible
+        print("Create tournaments\n")
+        for i in range(0, 7):
+            for j in range(0, 3):
+                self._create_tournament(i,j)
+        self._create_tournament(7, 2) #Tournoi des familles
+        #Create 20 courts
+        print("Create courts\n")
+        for i in range(0, 20):
+            self._create_court()
+        #Create 100 pairs
+        print("Create pairs\n")
+        for i in range(0, 100):
+            user = self._create_user()
+            user_registration = self._create_user_registration(user)
+            user_bis = self._create_user()
+            user_bis_registration = self._create_user_registration(user)
+            same_birthdate = random.randint(0,4) != 0
+            pair = self._create_pair(user, user_bis, same_birthdate=same_birthdate)
+            participant = self._create_tournament_partipant(pair)
+        #Create 30 solo players
+        print("Create solo players\n")
+        for i in range(0, 30):
+            user_tri = self._create_user()
+            user_tri_registration = self._create_user_registration(user_tri)
+            solo = self._create_solo_participant(user_tri)
