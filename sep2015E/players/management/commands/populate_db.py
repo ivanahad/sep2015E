@@ -269,10 +269,12 @@ class Command(BaseCommand):
             if current_year - player2_birth_year >= 25:
                 category = "familles"
                 mixte = True
+                print("familles")
         elif current_year - player2_birth_year <= 15:
             if current_year - player1_birth_year >= 25:
                 category = "familles"
                 mixte = True
+                print("familles")
 
         #Assign a tournament if possible
         exist = (Tournament.objects.filter(category=category, mixte=mixte, \
@@ -287,6 +289,7 @@ class Command(BaseCommand):
         if tournament != None:
             participant = TournamentParticipant(tournament=tournament, \
                 participant=pair)
+            participant.save()
             return participant
         return None
 
