@@ -2,6 +2,7 @@ from django import forms
 from courts.models import Court
 
 class RegisterForm(forms.ModelForm):
+    """ Form used by the template of courts registration """
     class Meta:
         model = Court
         fields = '__all__'
@@ -14,4 +15,5 @@ class RegisterForm(forms.ModelForm):
 
 
 class OwnerCourtsForm(forms.Form):
+    """ Form used by the template of courts registration for owner page (deprecated) """
 	owner = forms.CharField(label='Owner')

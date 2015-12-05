@@ -6,6 +6,8 @@ from tournament.models import Match, Tournament
 from django.core.mail import send_mail
 
 def register(request):
+    """ Method who receive requests (post/get) from register.html
+        create a court on post request """
     if request.method == 'POST':  # S'il s'agit d'une requête POST
         form = RegisterForm(request.POST, request.FILES)  # Nous reprenons les données
 
@@ -53,6 +55,8 @@ def register(request):
     return render(request, 'courts/register.html', {"form":form, "form_owner":form_owner})
 
 def byowner(request, param):
+    """ Method who receive get request from byowner.html
+        this is an owner page to get the court informations """
     court_owner = param.replace("%20", " ")
     courts = Court.objects.filter(owner=court_owner)
 

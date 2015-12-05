@@ -15,6 +15,7 @@ class Court(models.Model):
         ('autres', 'autres')
     )
     def _phone_validator(value):
+        """ Check if the phone entered by the player is correct """
         digits_count = 0
         for c in value:
             if c in string.ascii_letters:
@@ -44,4 +45,5 @@ class Court(models.Model):
     available = models.BooleanField(default=True)
 
     def __str__(self):              # __unicode__ on Python 2
+        """ to string method """
         return "%s %s %s" % (self.owner, self.address_street, self.address_number)
