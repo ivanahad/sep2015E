@@ -7,10 +7,10 @@ import string
 
 
 class User(models.Model):
-    """This class contains the recorded data on a player.
-    """
+    """This class contains the recorded data on a player."""
 
     def _phone_validator(value):
+        """ Check if the phone entered by the player is correct """
         digits_count = 0
         for c in value:
             if c in string.ascii_letters:
@@ -42,6 +42,7 @@ class User(models.Model):
                 self.firstname + self.lastname + settings.HASHKEY) % 100000000
 
     def get_level(self, season):
+        """ Get the level of a player """
         reg = UserRegistration.objects.filter(user = self).filter(season = season)
         return reg.first().level
 
