@@ -284,6 +284,7 @@ def search(request):
         return redirect('staff.views.home')
 
 def advanced_search(request):
+    """Search on almost all criterias"""
     if request.method == 'POST':
         form = SearchForm(request.POST)
         query=""

@@ -229,9 +229,7 @@ class Pool(models.Model):
     date = models.DateTimeField(null=True)
     court = models.ForeignKey('courts.Court', null=True)
 
-    def compute_winner(self):
-        pass #TODO
-
+    """ Create matches for the pool """
     def create_matches(self):
         parts = [pp.participant for pp in \
                 PoolParticipant.objects.filter(pool=self)]
@@ -245,6 +243,7 @@ class Pool(models.Model):
                 pm.pool, pm.match = self, match
                 pm.save()
 
+    """ Send email to the leader of the pool """
     def send_emails(self):
         parts = [pp.participant for pp in \
                 PoolParticipant.objects.filter(pool=self)]
@@ -308,6 +307,7 @@ class TournamentNode(models.Model):
     child1 = models.ForeignKey('self', related_name='child1_', blank=True, null=True)
     child2 = models.ForeignKey('self', related_name='child2_', blank=True, null=True)
 
+    """ Get all the nodes of a tree """
     def _get_all_tree_nodes(self):
         nodes = [self]
         for child in (self.child1, self.child2):

@@ -8,6 +8,7 @@ from tournament.forms import OpenTournamentChoiceForm, CreateTournamentForm, \
         MatchEditForm, AssignCourtForm, AssignDateForm, AssignPoolLeaderForm
 
 def all(request):
+    """ Render all the tournaments """
     if request.method == 'POST':
         new_trn = CreateTournamentForm(request.POST)
         if new_trn.is_valid():
@@ -41,6 +42,7 @@ def all(request):
                 })
 
 def allUser(request):
+    """ Render all the tournaments for a simple user (deprecated) """
     tournaments = Tournament.objects\
             .filter(season=settings.CURRENT_SEASON)
     tournaments = [{ \
@@ -59,6 +61,7 @@ def allUser(request):
             })
 
 def tournament(request, id_):
+    """ Render a the tournament for a simple user (deprecated) """
     id_ = int(id_)
     try:
         tournament = Tournament.objects.get(pk=id_)
@@ -93,6 +96,7 @@ def tournament(request, id_):
         return HttpResponseRedirect('/tournament/all')
 
 def tournamentStaff(request, id_):
+    """ Render a the tournament for the staff """
     id_ = int(id_)
     try:
         tournament = Tournament.objects.get(pk=id_)
@@ -238,6 +242,7 @@ def pool(request, id_tournament, id_pool):
             })
 
 def get_winner(matches):
+    """ Get the winner of a set of matches """
     winner = None
     for match in matches:
         if(winner == None):
@@ -248,6 +253,7 @@ def get_winner(matches):
     return winner
 
 def winned(pair, match):
+    """ Get the win score of match """
     if match.score1 == None or match.score2 == None:
         return 0
     elif pair == match.team1:
@@ -348,6 +354,7 @@ def save_match_changes(request, id_tournament, id_pool, id_match):
     return redirect('tournament.views.pool', id_tournament=id_tournament,id_pool=id_pool)
 
 def assign_pairs_for_solo_automatic(request, id_tournament):
+    """ Assign solo players for the tournament """
     tournament = Tournament.objects.get(pk=id_tournament)
     solo_players = SoloParticipant.objects.filter(tournament=tournament)
     n_solo_players = SoloParticipant.objects.filter(tournament=tournament).count()
