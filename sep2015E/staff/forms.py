@@ -27,6 +27,7 @@ class FilesForm(forms.ModelForm):
         prefix = 'files_form'
 
 class SearchForm(forms.Form):
+    """ Form for staff to use the search fonctionnality """
     GENDER_LIST= (("A", "Mixte"), ("M", "Homme"), ("F", "Femme"))
     BIRTHDATE_EQUALITY_LIST = ((">", "plus grand que"), ("<", "plus petit que"), ("=", "égal"))
     PAIR_LIST=(("T", "en pair"), ("F", "solo"), ("A", "----"))
