@@ -169,7 +169,8 @@ class Command(BaseCommand):
         ]
 
         firstname, lastname, gender = self.random_name_gender()
-        owner = firstname + " " + lastname
+        owner_firstname = firstname
+        owner_lastname = lastname
         owner_address_street = self.random_street()
         owner_address_number = self.random_address_number()
         owner_address_box = self.random_address_box()
@@ -187,11 +188,14 @@ class Command(BaseCommand):
         cover = random.randint(0,1) == 0
         available = random.randint(0,1) == 0
 
-        court = Court(owner=owner, owner_address_street=owner_address_street, \
-            owner_address_number=owner_address_number, owner_address_box=owner_address_box, \
-            city=city, zipcode=zipcode, email=email, phone=phone, address_street=address_street, \
-            address_number=address_number, address_box=address_box, ground=ground, cover=cover,\
-            available=available)
+        court = Court(owner_firstname=owner_firstname, \
+            owner_lastname=owner_lastname, \
+            owner_address_street=owner_address_street, \
+            owner_address_number=owner_address_number, \
+            owner_address_box=owner_address_box, city=city, zipcode=zipcode, \
+            email=email, phone=phone, address_street=address_street, \
+            address_number=address_number, address_box=address_box,\
+             ground=ground, cover=cover, available=available)
         court.save()
 
         return court
@@ -354,7 +358,7 @@ class Command(BaseCommand):
             user = self._create_user()
             user_registration = self._create_user_registration(user)
             user_bis = self._create_user()
-            user_bis_registration = self._create_user_registration(user)
+            user_bis_registration = self._create_user_registration(user_bis)
             same_birthdate = random.randint(0,4) != 0
             pair = self._create_pair(user, user_bis, same_birthdate=same_birthdate)
             participant = self._create_tournament_partipant(pair)
