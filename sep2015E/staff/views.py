@@ -294,7 +294,7 @@ def advanced_search(request):
             name = form.cleaned_data['name']
             query=name
             users = users.filter(Q(firstname__contains=query) | Q(lastname__contains=query))
-            owners = owners.filter(owner__contains=query)
+            owners = owners.filter(Q(owner_firstname__contains=query) | Q(owner_lastname__contains=query))
             #Filter by gender
             gender = form.cleaned_data['gender']
             if gender != 'A':
