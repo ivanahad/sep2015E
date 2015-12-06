@@ -12,6 +12,7 @@
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{amsmath,amsfonts,amssymb}
 \usepackage{hyperref}
+\usepackage{placeins}
 \lstset{
 language=Java,
 breaklines=true
@@ -51,10 +52,25 @@ breaklines=true
 \begin{document}
 \titleGM
 \section{Introduction \& Presentation of The Project}
-We will start the \textit{Phase 4} report by a summary of our meeting with the client. We will then explain how the implementation of the requirements planned for this phase is going, and give information about the evolution of the architecture of our program. For this phase, we had to submit our code to the project. It is available in section 3.3, by following our GitHub repository.
+
+Each year, the ASMAE non-profit organization organizes a tennis tournament that gathers many players during one week-end. Last September, representatives of this organization queried our help to revamp their website. This website is used for the tennis players to register themselves for several kinds of tournaments. However, their current website was old and started to show its limits.\\
+
+Thus, our goal is to create a new revamped website that allows players to register, court owners to lend their own courts for the sake of the tournament, and having a better experience of the utilization of the website, as it will need to be easy and trivial to use. One important update is to have a fully working staff part to manage the tournaments, the players, the courts, etc. \\
+
+This report will describe everything you need to know about the software in general and all the important information of how it works and how it has been built. \\
+
+We will first start by listing all the optional and mandatory  requirements that we were asked to implement and which of those have indeed been implemented. We will also add further explanation about our implementation choices for some of the requirements. \\
+
+Then we will dedicate the third section to scan through all the processes of development of the project. This section will be divided in four parts. The first subsection will be the global organization of the project and the tools that we chose to use to build the software. In the second subsection, we will present you the website in general, where we will show you everything you need to know about it, and all the important functionalities that it required to have. The third one will be a more technical part that is the programming architecture, and finally we will explain how we scheduled all the tasks that were necessary for the development of the project.\\
+
 \newpage
 \section{List of All The Requirements}
-We will now list all the elements that we were asked to implement in our software. The requirements had different priorities, divided into \textit{Must Have, Should Have, Could Have and Nice to Have}. However, rather than dividing them in those four categories, we decided to divide them into mandatory requirements and optional ones (the optional ones are in italic). We also sorted  them depending on if they're functionnal or non-functional. Note that we added some requirements not explicitly said by the clients but that we consider to be relevant for the project (such the privacy parts).
+We will now list all the elements that we were asked to implement in our software. The requirements had different priorities, divided into \textit{Must Have, Should Have, Could Have and Would Like to Have}. \\
+
+However, rather than dividing them in those four categories, we decided to divide them into mandatory requirements and optional ones (the optional ones are in italic). \\
+
+We also sorted  them depending on if they're functionnal or non-functional. Note that we added some requirements not explicitly said by the clients but that we consider to be relevant for the project (such the privacy parts).\\
+
 
 \textbf{Functional} :
 
@@ -150,25 +166,103 @@ We will now list all the elements that we were asked to implement in our softwar
 	\end{itemize}
 
 \end{itemize}
-\newpage
-\section{Development of the project and Implementation}
 
-The requirements below are the ones we planned to develop for the second phase. This time, every requirement has been implemented. \\
-\subsection{For this phase}
-	
+
+\subsection{Use cases}
+
+Here are a few use cases showing how our website will react upon receiving an action (registration of a player, registration of the owner of a court and creation of a group). Note that those use cases are subject to change when developping the project but it gives a good idea about the general process.\\
+
+\textbf{Registration of a player}
+
 \begin{itemize}
- 
-\item Files sharing between staff members (Eddy, Aurian)
-\item Communication channel between staff members (Eddy)
-\item The user can use a payment method among several options (Aurian)
-\item The system must query AFT rankings (Optional)(See below)
-\item The system can create smaller pools when it rains (Optional)(See below)
-\\
+	\item The admin enables the registration for a tournament.
+	\item The user must access the registration page.
+	\item The user fill his personal informations on the page.
+	\item Or load the from previously used email address. 
+	\item The user must enter the personal information of his tennis partner if he plays in duo.
+	\item The user gets a confirmation email. (Past this point he must contact the staff/admin to modify his information.)
+	\item The admin closes the registration just before the tournament.
 \end{itemize}
 
-It is important to note that the requirements haven't been implemented in this particular order.\\
 
-You can see in the list above who implemented which requirement(s) for this phase. 
+
+\textbf{Registration of the owner of a court}
+
+\begin{itemize}
+	\item The owner must access the registration page.
+	\item The own fill his court informations on the page.
+	\item The owner receive an email confirmation.
+	\item When the admin opens a new tournament, he will be notified of all the previously used courts and asks the owners about their availability.
+	\item The staff will check the court and mark it as suitable.
+	\item When a court is assigned to a tournament, the owner is notified by email.
+\end{itemize}
+
+
+\textbf{Creation of a group}
+
+\begin{itemize}
+	\item Once the registrations are closed, the system will generate the groups for each category.
+	\item The staff will review the generated list. If there are wishes to fulfill, the list can be manually reorganized. At this step, the staff can also contact the users with payment issues.
+	\item Once the groups are checked, the staff confirms their composition.
+	\item The system sends an email to the users to inform them of the location and time of their matches and of their payment status. The leader is also informed of what is needed of him.
+\end{itemize}
+
+\newpage
+\section{Development and Implementation}
+
+The requirements below are the ones we planned to develop for the second phase. This time, every requirement has been implemented. \\
+
+\subsection{Organisation and Tools used}
+We are briefly going to explain the way the group is going to develop the project. After being introduced to the project by our customers, we had to choose between a few development methods to use throughout the making of the software. The group decided pick the \textbf{Agile} method. \\
+
+The first step of this method is writing down user stories. These are used to present all the functionalities of the software which is the website. Afterwards, the group has to discuss about the importance and the difficulty of each user story, and then decide which of them have the top priority. \\
+
+When this is done, we will use a kanban to organize the process of the project. The kanban contains all the user stories, and is divided into the following categories : “To do, doing this iteration, done this iteration, and done”. Every member of the group picks the user stories he thinks he is able to implement, so it allows us to know which member has done each task. For the kanban we will use the \textbf{Trello} Website. \\
+
+The programming language used will be Python, with the \textbf{Django} framework. We will use the third version of Python, and the 1.8 version of Django. Lastly, we will use the \textbf{Bootstrap} framework for the design of the website ( the css part essentially). \\
+
+To easily share the project’s code, we will use a Control Version System, which is in this case \textbf{Mercurial}. Mercurial, and its underlying service called BitBucket, is preferred since it allows us to make private repositories. 
+
+We also decided to divide the project into 4 iterations, corresponding to the 4 phases presented to us. With the Agile method, there will be a working deliverable for each of these phases. Through each iteration, we will have to add up functionalities to the working project, until each of them is implemented.  \\
+
+To host a live version of the website, we used Heroku.\\
+
+There are a few reasons why we picked this way of working. First of all, this method was genuinely our first choice since it is the one we are the most comfortable with, as we have been using such a method for a few projects now. Moreover, we liked its versatility since every member of the group has to be involved in every aspect of the project. Furthermore, after each iteration, we will have a meeting with our Assistant. This meeting will allow us to get a feedback of each deliverable. The feedback received will then help us to know if changes need to be done, if there are unnecessary things, or if our project is moving towards the right direction. Finally, with the Agile method, we will first implement all the “must have” functionalities, which allow us to focus on the core of the software, and then add up the functionalities with less priority. \\
+\subsection{The Website, Its Functionalities}
+
+Here is the live version of our website : http://sep2015e.herokuapp.com.  To get admin access you should add "/admin" in the url.\\
+
+\textbf{To get access to the code of our project}, you can click on the link to our \textit{Github} repository : https://github.com/ivanahad/sep2015E\\
+
+\subsection{The Architecture}
+ORM, UML 
+
+\subsubsection{The Object-Relational Mapping}
+Fig.1 shows our ORM diagram. It gives an idea about how the different objects used by the website are linked together. We will give a brief description of what the object represents and its relations to others.\\
+
+The user represents a player participating in the tournament. It is characterized by a name, an email, an address and the level of the player (meaning how good he is at tennis).\\
+
+A pair is formed of two users. A single pair can only participate in one pool of the tournament. A pool contains pairs and their match (matchups between pairs). A match is characterized by the pairs confronting each other and the court in which they will play. The court object contains information about the court owner, the address of it and finally some comments about it like the type of surface.\\
+
+As we said, a tournament is composed of pools but also of a knock-off tournament that we called tree in our diagram. Moreover, a tournament is defined by its category. Finally, the tree is composed of nodes that is basically a pair of two users.\\
+
+A staff, similarly to a user is characterized by it's name, address, contact (phone and email) but also by it's password. Also a staff is part of group representing the actions he can do. \\
+
+A message is defined by it's author which is a staff member, by it's title and by it's content (text). A file is defined by it's title, it's owner and the file.\\
+
+This concludes the description about the ORM diagram. 
+
+\begin{figure}[ht!]
+\caption{\label{orm2} Revamped ORM Diagram}
+\includegraphics[scale=0.58, angle=90]{ormp2.PNG}
+\end{figure}
+\FloatBarrier
+\newpage
+
+\subsubsection{The Uniform Modeling Language}
+UML
+
+\subsection{Planning and Scheduling, Evolution of the Project}
 
 \subsection{Implementation \& choices}
 
@@ -208,20 +302,10 @@ Moreover, when a form is filled, there is a summary of all the player informatio
 \end{figure}
 
 Another modification is that now the payment choice is chosen after a user has entered and validated all his information.
-\subsubsection*{Bugs fixed}
-In the last sprint, it was said in the previous report that the staff member interface had a different background to differenciate the navigation between a simple user and a staff user. We actually submitted a wrong live version where this feature was not implemented yet, which is now fixed.\\
 
-One bigger issue was that we implemented a functionality that allowed to use an email so that a user doesn't have to fill all his information. By using the email, the system retrieved all the information from a past registration. However, this feature lead to information leak. From that point, we had to make a decision : we decided to send a confirmation email with a link, this link sends a token that allows the user to be recognized and to display his information. It is important to notice that in the case of a pair, only the information of the one who entered his email will be displayed, the other one will have to manually fill his form. It is a choice to have a more secured system, especially when two players are joined as a pair and if they're unknown to each other. We decided to implement this functionality in the last phase.\\
-
-Some other bugs such as getting an error when trying to modify a user while being logged as a staff member, or one player couldn’t register alone leading to an error, or when logged as staff member when clicking on a tournament it changed to a user tournament. Those problems have all been fixed as well.
-
-\subsection{The software}
+\section{The Final Product : The software as a Website}
 
 
-Here is the live version of our website : http://sep2015e.herokuapp.com.  To get admin access you should add "/admin" in the url.\\
-
-\textbf{To get access to the code of our project}, you can click on the link to our \textit{Github} repository : https://github.com/ivanahad/sep2015E\\
-\subsubsection*{How to modify a tournament}
 
 \section{For next phase}
 \subsection{Tests to improve the software}
@@ -265,71 +349,21 @@ The second sequence diagram describes the life cycle of a tournament, how player
   \includegraphics[scale=0.4]{Tournament.png}
 \end{figure}
 
+\section{Teamwork}
 
-\section{Software development method}
+In this section, we will explain how we worked as a group.\\
 
-We are briefly going to explain the way the group is going to develop the project. After being introduced to the project by our customers, we had to choose between a few development methods to use throughout the making of the project. The group then picked the \textbf{Agile} method. \\
+The main focus of the organization was the \textbf{Agile} method. As explained earlier in section 3.1, we valued this technique of work, as it allowed us to work independantly from each other. Once all the tasks were defined, each member assigned himself to implement the ones we thought he was capable of doing.\\
 
-The first step of this method is writing down user stories. These are used to present all the functionalities of the software which is the website. Afterwards, the group has to discuss about the importance and the difficulty of each user story, and then decide which of them have the top priority. \\
+However, we quickly came to the conclusion that this technique was hard to use in practice. With this method, the load of work was not identical for every member, thus some members achieved more and some members couldn't keep up with the pace and the progress of the project. This was also due to the fact that the communication between the members was very sloppy. We must have been more strict about the deadlines by fixing some intermediate once. The lack of communication once lead us to forget submitting one of our intermediate reports.\\
 
-When this is done, we will use a kanban to organize the process of the project. The kanban contains all the user stories, and is divided into the following categories : “To do, doing this iteration, done this iteration, and done”. Every member of the group picks the user stories he thinks he is able to implement, so it allows us to know which member has done each task. For the kanban we will use the Trello Website. \\
+There was also a lack of intermediate meetings between the members that would have helped us see the progress of the project. Those meetings could have helped the members that had difficulties acheving some of their tasks. Moreover, they would have helped us keep our focus on the important things so that we wouldn't start going towards a wrong direction. \\
 
-The programming language used will be Python, with the \textbf{Django} framework. We will use the third version of Python, and the 1.8 version of Django. Lastly, we will use the \textbf{Bootstrap} framework for the design of the website ( the css part essentially). \\
-
-To easily share the project’s code, we will use a Control Version System, which is in this case \textbf{Mercurial}. Mercurial, and its underlying service called BitBucket, is preferred since it allows us to make private repositories. 
-
-We also decided to divide the project into 4 iterations, corresponding to the 4 phases presented to us. With the Agile method, there will be a working deliverable for each of these phases. Through each iteration, we will have to add up functionalities to the working project, until each of them is implemented.  \\
-
-There are a few reasons why we picked this way of working. First of all, this method was genuinely our first choice since it is the one we are the most comfortable with, as we have been using such a method for a few projects now. Moreover, we liked its versatility since every member of the group has to be involved in every aspect of the project. Furthermore, after each iteration, we will have a meeting with our Assistant. This meeting will allow us to get a feedback of each deliverable. The feedback received will then help us to know if changes need to be done, if there are unnecessary things, or if our project is moving towards the right direction. Finally, with the Agile method, we will first implement all the “must have” functionalities, which allow us to focus on the core of the software, and then add up the functionalities with less priority. \\
-
-\section{Planning}
+At the end of the day, we still managed to make a fully workable software, but we think we could have been more focused on those details to help us optimize our work. However, the team got along very well, there was no friction between the members, and the atmosphere was always very good.\\
 
 
-
-\section{Requirement analysis}
-
-
-\section{Use cases}
-
-Here are a few use cases showing how our website will react upon receiving an action (registration of a player, registration of the owner of a court and creation of a group). Note that those use cases are subject to change when developping the project but it gives a good idea about the general process.\\
-
-\textbf{Registration of a player}
-
-\begin{itemize}
-	\item The admin enables the registration for a tournament.
-	\item The user must access the registration page.
-	\item The user fill his personal informations on the page.
-	\item Or load the from previously used email address. 
-	\item The user must enter the personal information of his tennis partner if he plays in duo.
-	\item The user gets a confirmation email. (Past this point he must contact the staff/admin to modify his information.)
-	\item The admin closes the registration just before the tournament.
-\end{itemize}
-
-
-
-\textbf{Registration of the owner of a court}
-
-\begin{itemize}
-	\item The owner must access the registration page.
-	\item The own fill his court informations on the page.
-	\item The owner receive an email confirmation.
-	\item When the admin opens a new tournament, he will be notified of all the previously used courts and asks the owners about their availability.
-	\item The staff will check the court and mark it as suitable.
-	\item When a court is assigned to a tournament, the owner is notified by email.
-\end{itemize}
-
-
-\textbf{Creation of a group}
-
-\begin{itemize}
-	\item Once the registrations are closed, the system will generate the groups for each category.
-	\item The staff will review the generated list. If there are wishes to fulfill, the list can be manually reorganized. At this step, the staff can also contact the users with payment issues.
-	\item Once the groups are checked, the staff confirms their composition.
-	\item The system sends an email to the users to inform them of the location and time of their matches and of their payment status. The leader is also informed of what is needed of him.
-\end{itemize}
 
 \section{Conclusion}
 
-For this phase, we modified our software according to our meeting. We mainly focused on correcting bugs and making the website more user-friendly.
 
 \end{document}
