@@ -7,14 +7,15 @@ class Court(models.Model):
     It also includes informations such as how the court can be used,
     what his type is and who is the owner."""
     GROUND_TYPES=(
-        ('brique', 'brique'),
-        ('beton', 'béton'),
-        ('synthetique', 'synthétique'),
-        ('terre battue', 'terre battue'),
-        ('quick', 'quick'),
-        ('autres', 'autres')
+        ('Brique', 'Brique'),
+        ('Béton', 'Béton'),
+        ('Synthetique', 'Synthétique'),
+        ('Terre battue', 'Terre battue'),
+        ('Quick', 'Quick'),
+        ('Autres', 'Autres')
     )
     def _phone_validator(value):
+        """ Check if the phone entered by the player is correct """
         digits_count = 0
         for c in value:
             if c in string.ascii_letters:
@@ -24,7 +25,8 @@ class Court(models.Model):
         if digits_count < 9:
             raise ValidationError("Phone number %s should contain at least 9 digits" % value)
 
-    owner = models.CharField(max_length=128)
+    owner_firstname = models.CharField(max_length=128)
+    owner_lastname = models.CharField(max_length=128)
     owner_address_street = models.CharField(max_length=128)
     owner_address_number = models.CharField(max_length=8)
     owner_address_box = models.CharField(max_length=8, null=True, blank=True)
@@ -44,4 +46,5 @@ class Court(models.Model):
     available = models.BooleanField(default=True)
 
     def __str__(self):              # __unicode__ on Python 2
-        return "%s %s %s" % (self.owner, self.address_street, self.address_number)
+        """ to string method """
+        return "%s %s %s %s" % (self.owner_firstname, self.owner_lastname, self.address_street, self.address_number)

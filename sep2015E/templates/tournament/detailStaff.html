@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block title %}
-<title>Charles de Lorraine - Details of
+<title>Charles de Lorraine - Détails de
   {{ trn.name }} {{ trn.category }}
 </title>
 {% endblock %}
@@ -28,7 +28,7 @@
 		<div class="col-lg-12">
 			<hr>
 			<h2 class="intro-text text-center">
-         		Détails du tournoi {{ trn.name }} catégorie {{ trn.category }}
+         		Détails du tournoi <strong>{{ trn.name }}</strong> catégorie <strong>{{ trn.category }}</strong>
 			</h2>
 			<hr>
 
@@ -101,7 +101,7 @@
         </div>
 				<div class="panel-footer">
 					<a href="{% url "tournament.views.assign_pairs_for_solo_automatic" trn.pk %}">
-						<button type="button" class="btn btn-info">Créer paires automatiquement</button>
+						<button type="button" class="btn btn-warning">Créer paires automatiquement</button>
 					</a>
 				</div>
       </div>
@@ -158,7 +158,7 @@
         <div class="panel-body">
           <form action="{% url "tournament.views.tournament" trn.id %}" method="post">
             {% csrf_token %}
-            <input type="submit" value="Lancer le tournoi" onclick="return confirm('Etes vous sûr ? Une fois que le tournoi lancé, plus aucun joueur ne pourra s'y inscrire.')" name="close_tournament"/>
+            <input type="submit" value="Lancer le tournoi" class="btn btn-warning" onclick="return confirm('Etes vous sûr ? Une fois que le tournoi lancé, plus aucun joueur ne pourra s'y inscrire.')" name="close_tournament"/>
           </form>
         </div>
       </div>

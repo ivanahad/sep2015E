@@ -17,7 +17,8 @@ from datetime import datetime
 #    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname'], 'info@sep2015e.com', [usr2.cleaned_data['email']], fail_silently=False)
 
 def register(request):
-    """Page for players registrations. We permit pairs to register or solo players."""
+    """ Method who receive requests (post/get) from register.html
+        create a player on post request """
     if request.method == 'POST':  # S'il s'agit d'une requête POST
         usr1 = PlayerForm(request.POST, prefix="usr1")
         reg1 = RegistrationForm(request.POST, prefix="reg1")
@@ -142,7 +143,7 @@ def register(request):
             })
 
 def assign_tournament_solo(player):
-
+    """ Register a player solo for a tournament if it exists based on his gender and age"""
     #Assign the category based on birthdate
     current_year = datetime.now().year
     player_birth_year = player.birthdate.year
@@ -235,6 +236,7 @@ def assign_tournament(pair):
         tp.save()
 
 def unregister(request):
+    """ Request to delete all the data of a player on the database """
     form = EmailOldUserForm()
 
     if request.method == 'POST':
@@ -252,6 +254,7 @@ def unregister(request):
             })
 
 def unregister_confirm(request):
+    """ Confirmation to delete all the data of a player on the database """
     user_pk = request.GET.get('user', -1)
     token = request.GET.get('token', -1)
     user = User.objects.get(pk=int(user_pk))
@@ -327,7 +330,8 @@ def filled_registration(request):
 
 
 def payement(request, id_user1, id_registration1, id_registration2, id_user2, id_pair):
-
+    """ Method who receive requests (post/get) from payment.html
+        create a user on post request """
     user1 = UserRegistration.objects.get(pk=id_registration1)
     if int(id_user2) != -1:
         nb_user = 2

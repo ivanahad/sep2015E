@@ -272,7 +272,7 @@ def search(request):
     if request.method == 'POST':
         query = request.POST['query'].strip()
         players = User.objects.filter(Q(firstname__contains=query) | Q(lastname__contains=query))
-        owners = Court.objects.filter(owner__contains=query)
+        owners = Court.objects.filter(Q(owner_firstname__contains=query) | Q(owner_lastname__contains=query))
         form = SearchForm()
         return render(request, 'staff/search.html', { \
             'players':players,
@@ -284,6 +284,7 @@ def search(request):
         return redirect('staff.views.home')
 
 def advanced_search(request):
+    """Search on almost all criterias"""
     if request.method == 'POST':
         form = SearchForm(request.POST)
         query=""
@@ -294,7 +295,7 @@ def advanced_search(request):
             name = form.cleaned_data['name']
             query=name
             users = users.filter(Q(firstname__contains=query) | Q(lastname__contains=query))
-            owners = owners.filter(owner__contains=query)
+            owners = owners.filter(Q(owner_firstname__contains=query) | Q(owner_lastname__contains=query))
             #Filter by gender
             gender = form.cleaned_data['gender']
             if gender != 'A':

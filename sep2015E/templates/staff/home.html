@@ -48,7 +48,7 @@
 								</div>
 							</div>
 						</div>
-						<input type="submit" value="Envoyer" name="type_files"/>
+						<input type="submit" value="Envoyer" name="type_files" class="btn btn-warning"/>
 					</form>
 				</div>
 			</div>
@@ -85,76 +85,77 @@
 				<strong>Messages</strong>
 			</h2>
 			<hr>
-			<!-- Write a message -->
-			<div class=col-md-6>
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<form id="message" action="{% url "staff.views.home" %}" method="post">  <!-- Form to create message -->
-							{% csrf_token %}
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">Ecrire</h4>
-								</div>
-								<div class="panel-body">
-									{{ form_msg.non_field_errors }}
-									<div class="row field">
-										<div class="col-sm-4">
-											<label for="id_title"> Titre :</label>
-										</div>
-										<div class="col-sm-4">
-											{{ form_msg.title }}
-										</div>
-										<div class="col-sm-4 required">
-											{{ form_msg.title.errors }}
-										</div>
+		</div>
+
+		<!-- Write a message -->
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<form id="message" action="{% url "staff.views.home" %}" method="post">  <!-- Form to create message -->
+						{% csrf_token %}
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">Ecrire</h4>
+							</div>
+							<div class="panel-body">
+								{{ form_msg.non_field_errors }}
+								<div class="row field">
+									<div class="col-sm-4">
+										<label for="id_title"> Titre :</label>
 									</div>
-									<div class="row field">
-										<div class="col-sm-4">
-											<label for="id_message"> Message :</label>
-										</div>
-										<div class="col-sm-4">
-											{{ form_msg.message }}
-										</div>
-										<div class="col-sm-4 required">
-											{{ form_msg.message.errors }}
-										</div>
+									<div class="col-sm-4">
+										{{ form_msg.title }}
+									</div>
+									<div class="col-sm-4 required">
+										{{ form_msg.title.errors }}
+									</div>
+								</div>
+								<div class="row field">
+									<div class="col-sm-4">
+										<label for="id_message"> Message :</label>
+									</div>
+									<div class="col-sm-4">
+										{{ form_msg.message }}
+									</div>
+									<div class="col-sm-4 required">
+										{{ form_msg.message.errors }}
 									</div>
 								</div>
 							</div>
-							<input type="submit" value="Envoyer" name="type_msg"/>
-						</form>
+						</div>
+						<input type="submit" value="Envoyer" name="type_msg" class="btn btn-warning"/>
+					</form>
+				</div>
+			</div>
+			<br>
+			<center><a class="btn btn-info btn-lg" href="{% url "staff.views.mail_list" %}" >Envoyer un message aux joueurs</a></center>
+		</div>
+		<!-- List of messages-->
+		<div class="col-md-6">
+			{% if messages.count > 0 %}
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<table class="table">
+							{% for msg in messages %}
+							<tr>
+								<td>
+									<a href="#msg_{{msg.pk}}" data-toggle="collapse"
+									aria-expanded="false" aria-controls="msg_{{msg.pk}}">
+									{{ msg.title }}
+									</a>
+								</td>
+								<td>by {{msg.author.username}}</td>
+								<div class="collapse" id="msg_{{msg.pk}}">
+									<div class="well">
+									{{msg.message}}
+									</div>
+								</div>
+							</tr>
+							{% endfor %}
+						</table>
 					</div>
 				</div>
-				<br>
-				<center><a class="btn btn-info btn-lg" href="{% url "staff.views.mail_list" %}" >Envoyer un message aux joueurs</a></center>
-			</div>
-			<!-- List of messages-->
-			<div class=col-md-6>
-				{% if messages.count > 0 %}
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<table class="table">
-								{% for msg in messages %}
-								<tr>
-									<td>
-										<a href="#msg_{{msg.pk}}" data-toggle="collapse"
-										aria-expanded="false" aria-controls="msg_{{msg.pk}}">
-										{{ msg.title }}
-										</a>
-									</td>
-									<td>by {{msg.author.username}}</td>
-									<div class="collapse" id="msg_{{msg.pk}}">
-										<div class="well">
-										{{msg.message}}
-										</div>
-									</div>
-								</tr>
-								{% endfor %}
-							</table>
-						</div>
-					</div>
-				{% endif %}
-			</div>
+			{% endif %}
 		</div>
 	</div>
 </div>

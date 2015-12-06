@@ -1,7 +1,7 @@
 {% extends 'site_template.html' %}
 
 {% block title %}
-<title>Courts</title>
+<title>Terrains</title>
 {% endblock %}
 
 {% block content %}
@@ -10,7 +10,7 @@
 		<div class="col-lg-12">
 			<hr>
 			<h2 class="intro-text text-center">{{ court_owner }}
-				<strong>courts</strong>
+				<strong>Terrains</strong>
 			</h2>
 			<hr>
 
@@ -30,11 +30,11 @@
 				{% for j in i %}
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4 class="panel-title"><b>Court:</b> {{ j.court.address }}</h4>
+						<h4 class="panel-title"><b>Terrain:</b> {{ j.court.address }}</h4>
 					</div>
 					<div class="panel-body">
-						<p> <b>Team 1:</b> {{ j.team1 }} </p>
-						<p> <b>Team 2:</b> {{ j.team2 }} </p>
+						<p> <b>Equipe 1:</b> {{ j.team1 }} </p>
+						<p> <b>Equipe 2:</b> {{ j.team2 }} </p>
 					</div>
 				</div>
 				{% endfor %}

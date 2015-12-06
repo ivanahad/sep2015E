@@ -20,34 +20,32 @@
 
 						<div class="panel-body">
 
-              <div class="row field">
-                <div class="col-sm-4">
-                  <label> {{ form.subject.label }} : </label>
-                </div>
-                <div class="col-sm-4">
-                  {{ form.subject }}
-                </div>
-                <div class="col-sm-4 required">
-                  {{ form.subject.errors }}
-                </div>
-              </div>
+			              <div class="row field">
+			                <div class="col-sm-4">
+			                  <label> {{ form.subject.label }} : </label>
+			                </div>
+			                <div class="col-sm-4">
+			                  {{ form.subject }}
+			                </div>
+			                <div class="col-sm-4 required">
+			                  {{ form.subject.errors }}
+			                </div>
+			              </div>
 
-              <div class="row field">
-                <div class="col-sm-4">
-                  <label> {{ form.content.label }} : </label>
-                </div>
-                <div class="col-sm-4">
-                  {{ form.content }}
-                </div>
-                <div class="col-sm-4 required">
-                  {{ form.content.errors }}
-                </div>
-              </div>
-
+			            	<div class="row field">
+			            		<div class="col-sm-4">
+			                		<label> {{ form.content.label }} : </label>
+			                	</div>
+				                <div class="col-sm-4">
+				                  {{ form.content }}
+				                </div>
+				                <div class="col-sm-4 required">
+				                  {{ form.content.errors }}
+				                </div>
+			            	</div>
 						</div>
 					</div>
-
-					<input type="submit" value="Envoyer" />
+					<input type="submit" value="Envoyer" class="btn btn-warning"/>
 				</form>
 
 			</div>

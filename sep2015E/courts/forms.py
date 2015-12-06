@@ -1,6 +1,7 @@
 from django import forms
 from courts.models import Court
 
+""" Form used by the template of courts registration """
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = Court
@@ -12,6 +13,6 @@ class RegisterForm(forms.ModelForm):
                 'zipcode': forms.TextInput()
             }
 
-
+""" Form used by the template of courts registration for owner page (deprecated) """
 class OwnerCourtsForm(forms.Form):
 	owner = forms.CharField(label='Owner')
