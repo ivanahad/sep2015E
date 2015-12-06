@@ -7,12 +7,12 @@ class Court(models.Model):
     It also includes informations such as how the court can be used,
     what his type is and who is the owner."""
     GROUND_TYPES=(
-        ('brique', 'Brique'),
-        ('beton', 'Béton'),
-        ('synthetique', 'Synthétique'),
-        ('terre battue', 'Terre battue'),
-        ('quick', 'Quick'),
-        ('autres', 'Autres')
+        ('Brique', 'Brique'),
+        ('Béton', 'Béton'),
+        ('Synthetique', 'Synthétique'),
+        ('Terre battue', 'Terre battue'),
+        ('Quick', 'Quick'),
+        ('Autres', 'Autres')
     )
     def _phone_validator(value):
         """ Check if the phone entered by the player is correct """
