@@ -25,19 +25,31 @@
 								<div class=panel-body>
 									<div class="row field">
 										<div class="col-sm-4">
-											<label for="id_owner">Propriétaire:</label>
+											<label for="id_owner">Prénom:</label>
 										</div>
 										<div class="col-sm-4">
-											{{ form.owner }}
+											{{ form.owner_firstname }}
 										</div>
 										<div class="col-sm-4 required">
-											{{ form.owner.errors }}
+											{{ form.owner_firstname.errors }}
 										</div>
 									</div>
 
 									<div class="row field">
 										<div class="col-sm-4">
-											<label for="id_address">Adresse du propriétaire:</label>
+											<label for="id_owner">Nom:</label>
+										</div>
+										<div class="col-sm-4">
+											{{ form.owner_lastname }}
+										</div>
+										<div class="col-sm-4 required">
+											{{ form.owner_lastname.errors }}
+										</div>
+									</div>
+
+									<div class="row field">
+										<div class="col-sm-4">
+											<label for="id_address">Adresse:</label>
 										</div>
 										<div class="col-sm-4">
 											{{ form.owner_address_street }}
@@ -135,7 +147,7 @@
 								<div class=panel-body>
 									<div class="row field">
 										<div class="col-sm-4">
-											<label for="id_ground">Adresse du terrain:</label>
+											<label for="id_ground">Adresse:</label>
 										</div>
 										<div class="col-sm-4">
 											{{ form.address_street }}
