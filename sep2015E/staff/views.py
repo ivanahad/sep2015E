@@ -272,7 +272,7 @@ def search(request):
     if request.method == 'POST':
         query = request.POST['query'].strip()
         players = User.objects.filter(Q(firstname__contains=query) | Q(lastname__contains=query))
-        owners = Court.objects.filter(owner__contains=query)
+        owners = Court.objects.filter(Q(owner_firstname__contains=query) | Q(owner_lastname__contains=query))
         form = SearchForm()
         return render(request, 'staff/search.html', { \
             'players':players,
