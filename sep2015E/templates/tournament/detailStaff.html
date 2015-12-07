@@ -116,6 +116,77 @@
         <div class="panel-body">
           	<div id="bracket"></div>
         </div>
+		<div class="panel-footer">
+			<div class="input-group-btn">
+			        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Modifier match<span class="caret"></span></button>
+			        <ul class="dropdown-menu">
+						{% for node in nodes %}
+							<li><a href="#" data-toggle="modal" data-target="#matchModal" data-match-id={{ node.match.id }}>{{ node.match.team1 }} - {{ node.match.team2 }}</a></li>
+						{% endfor %}
+			        </ul>
+			      </div>
+			<div id="matchModal" class="modal fade" role="dialog">
+	            <div class="modal-dialog">
+	              <div class="modal-content">
+	                <div class="modal-header">
+	                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+	                  <h4 class="modal-title">Modifiez match</h4>
+	                </div>
+	                <div class="modal-body">
+	                  <form action="{% url "tournament.views.save_match_changes_bracket" trn.pk %}" method="post">
+	                    {% csrf_token %}
+	                    <div class="row field">
+	                      <div class="col-sm-4">
+							<input type="hidden" name="matchId" value=""/>
+	                        <label for="id_firstname">Score paire 1:</label>
+	                      </div>
+	                      <div class="col-sm-4">
+	                        {{ form.score1 }}
+	                        {% if nodes.0.match.score1 != None %}
+	                          {{nodes.0.match.score1}}
+	                        {% endif %}
+	                      </div>
+	                      <div class="col-sm-4 required">
+	                        {{ form.score1.errors }}
+	                      </div>
+	                    </div>
+
+	                    <div class="row field">
+	                      <div class="col-sm-4">
+	                        <label for="id_firstname">Score paire 2:</label>
+	                      </div>
+	                      <div class="col-sm-4">
+	                        {{ form.score2 }}
+	                        {% if nodes.0.match.score2 != None %}
+	                          {{nodes.0.match.score2}}
+	                        {% endif %}
+	                      </div>
+	                      <div class="col-sm-4 required">
+	                        {{ form.score2.errors }}
+	                      </div>
+	                    </div>
+
+	                    <div class="row field">
+	                      <div class="col-sm-4">
+	                        <label for="id_firstname">Terrain:</label>
+	                      </div>
+	                      <div class="col-sm-4">
+	                        {{ form.court }}
+	                      </div>
+	                      <div class="col-sm-4 required">
+	                        {{ form.court.errors }}
+	                      </div>
+	                    </div>
+	                    <input type="submit" value="Enregistrer" class="btn btn-warning" />
+	                  </form>
+	                  <div class="modal-footer">
+	                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+		</div>
       </div>
 
       <!-- Pools -->
@@ -174,6 +245,12 @@
 {% block script %}
 
 	<script>
+		$('#matchModal').on('show.bs.modal', function(e) {
+		    var matchId = $(e.relatedTarget).data('match-id');
+		    $(e.currentTarget).find('input[name="matchId"]').val(matchId);
+		});
+	</script>
+	<script>
 	var pools = [];
 	var scores = [];
 	var pair = [];
@@ -225,6 +302,10 @@
 	    var data = container.bracket('data')
 	    $('#dataOutput').text(jQuery.toJSON(data))
 	  })
+	
 	</script>
+
+	<!-- Bootstrap Core JavaScript -->
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
 
 {% endblock %}

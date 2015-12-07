@@ -25,6 +25,17 @@ class MatchEditForm(forms.ModelForm):
         model = Match
         fields=["score1", "score2", "court"]
 
+class BracketMatchEditForm(forms.ModelForm):
+    """ Form to edit a match """
+    matchId = forms.IntegerField()
+    
+    class Meta:
+        model = Match
+        fields=["score1", "score2", "court"]
+    def save(self, commit=True):
+        # do something with self.cleaned_data['temp_id']
+        return super(BracketMatchEditForm, self).save(commit=commit)
+
 class AssignCourtForm(forms.Form):
     """ Form to assign a court to a match """
     court = forms.ModelChoiceField( \

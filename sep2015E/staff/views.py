@@ -246,6 +246,7 @@ def particular_player(request, page_id, player_id):
 
 
 def particular_pair(request, id_pair):
+    """Page showing information for a particular pair."""
     pair = Pair.objects.get(pk=id_pair)
     tournament = None
     all_tournaments = Tournament.objects.all()

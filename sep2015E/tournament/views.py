@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from tournament.models import *
 from players.models import *
 from tournament.forms import OpenTournamentChoiceForm, CreateTournamentForm, \
-        MatchEditForm, AssignCourtForm, AssignDateForm, AssignPoolLeaderForm
+        MatchEditForm, AssignCourtForm, AssignDateForm, AssignPoolLeaderForm, BracketMatchEditForm
 
 def all(request):
     """ Render all the tournaments """
@@ -123,12 +123,14 @@ def tournamentStaff(request, id_):
                 for node in tournament.get_nodes():
                     if(node.match != None and node.child1 == None and node.child2 == None):
                         nodes.append(node)
+            form = BracketMatchEditForm()
             return render(request, 'tournament/detailStaff.html', { \
                     'trn': tournament, \
                     'parts': parts, \
                     'nbr_p': len(parts), \
                     'solos': solos, \
                     'nbr_s': len(solos), \
+                    'form' : form, \
                     'pools': pools, \
                     'nodes': nodes, \
                     'current_url': request.get_full_path(), \
@@ -351,7 +353,25 @@ def save_match_changes(request, id_tournament, id_pool, id_match):
                 match.score2 = score2
             match.court = court
             match.save()
-    return redirect('tournament.views.pool', id_tournament=id_tournament,id_pool=id_pool)
+    return redirect('tournament.views.pool', id_tournament=id_tournament, id_pool=id_pool)
+
+def save_match_changes_bracket(request, id_tournament):
+    """Save the changes when editing the match and redirect to the tournament where the match has been edited."""
+    if request.method == 'POST':
+        form = BracketMatchEditForm(request.POST)
+        if form.is_valid():
+            score1 = form.cleaned_data['score1']
+            score2 = form.cleaned_data['score2']
+            court = form.cleaned_data['court']
+            match = Match.objects.filter(id=form.cleaned_data['matchId'])
+            match = match.get()
+            if score1 != None:
+                match.score1 = score1
+            if score2 != None:
+                match.score2 = score2
+            match.court = court
+            match.save()
+    return redirect('tournament.views.tournamentStaff', id_=id_tournament)
 
 def assign_pairs_for_solo_automatic(request, id_tournament):
     """ Assign solo players for the tournament """
