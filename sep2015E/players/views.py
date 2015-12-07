@@ -27,7 +27,6 @@ def register(request):
         pair = PairRegistrationForm(request.POST)
 
         emailForm1 = EmailOldUserForm(prefix="email1")
-        emailForm2 = EmailOldUserForm(prefix="email2")
 
         #Solo registration
         if 'solo_registration' in request.POST \
@@ -125,7 +124,6 @@ def register(request):
         reg2 = RegistrationForm(prefix="reg2")
         pair = PairRegistrationForm()
         emailForm1 = EmailOldUserForm(prefix="email1")
-        emailForm2 = EmailOldUserForm(prefix="email2")
 
         trn_open = Tournament.objects.filter(is_open=True).count()
 
@@ -139,7 +137,6 @@ def register(request):
         "reg2": reg2,
         "pair": pair,
         "email1": emailForm1,
-        "email2": emailForm2
             })
 
 def assign_tournament_solo(player):
@@ -285,7 +282,6 @@ def filled_registration(request):
                         "reg2": reg2,
                         "trn": trn,
                         "email1": emailForm1,
-                        "email2": emailForm2
                         })
             send_mail('Enregistrement tournoi Asmae', 'Confirmez votre inscription au tournoi ici : http://'+request.META['HTTP_HOST']+ \
                 '/players/fregister?email=%s&token=%s' % (oldusr.email, str(hash(oldusr))), 'info@sep2015e.com', [emailForm1.cleaned_data['email']], fail_silently=False)
@@ -297,7 +293,6 @@ def filled_registration(request):
                 "reg2": reg2,
                 "trn": trn,
                 "email1": emailForm1,
-                "email2": emailForm2
                 })
     else:
         email = request.GET.get('email', None)
@@ -315,7 +310,6 @@ def filled_registration(request):
         reg2 = RegistrationForm(prefix="reg2")
         trn = OpenTournamentChoiceForm()
         emailForm1 = EmailOldUserForm(prefix="email1")
-        emailForm2 = EmailOldUserForm(prefix="email2")
         return render(request, 'players/register.html', {
             "usr1": usr1,
             "reg1": reg1,
@@ -323,7 +317,6 @@ def filled_registration(request):
             "reg2": reg2,
             "trn": trn,
             "email1": emailForm1,
-            "email2": emailForm2
             })
 
     return redirect('players.views.register')
