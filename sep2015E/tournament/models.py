@@ -203,6 +203,7 @@ class SoloParticipant(models.Model):
             new_pair = players.models.Pair( \
                     player1 = solo[i], \
                     player2 = solo[i+1], \
+                    average = 0, \
                     season = tournament.season)
             new_pair.save()
 
