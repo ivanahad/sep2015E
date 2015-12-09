@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^home$', prefix+'home'),
     url(r'^courts$', prefix+'courts'),
     url(r'^search$', prefix+'search'),
+    url(r'^profile$', prefix+'edit_profile'),
     url(r'^advanced_search$', prefix+'advanced_search'),
     url(r'^players/(?P<page_id>\d+)$', prefix+'players'),
     url(r'^players/(?P<page_id>\d+)/(?P<player_id>\d+)$', prefix+'particular_player'),

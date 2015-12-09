@@ -15,7 +15,8 @@ from django.conf import settings
 from datetime import datetime
 
 from staff.models import Messages, Files, Staff
-from staff.forms import MessageForm, MailListForm, FilesForm, SearchForm
+from staff.forms import MessageForm, MailListForm, FilesForm, SearchForm, \
+            StaffEditForm, UserDjangoEditForm
 
 from courts.models import Court
 
@@ -342,6 +343,37 @@ def advanced_search(request):
             })
 
     return redirect('staff.views.home')
+
+def edit_profile(request):
+    user_id = request.user.pk
+    staff = Staff.objects.get(user__pk=user_id)
+    if request.method == 'POST':
+        form = StaffEditForm(request.POST)
+        form_user = UserDjangoEditForm(request.POST, instance=staff.user)
+        print(form_user)
+        if form.is_valid():
+            staff.address = form.cleaned_data['address']
+            staff.city = form.cleaned_data['city']
+            staff.country = form.cleaned_data['country']
+            staff.zipcode = form.cleaned_data['zipcode']
+            staff.phone = form.cleaned_data['phone']
+            staff.save()
+        if form_user.is_valid():
+            print("success")
+            staff.user.username = form_user.cleaned_data['username']
+            staff.user.first_name = form_user.cleaned_data['first_name']
+            staff.user.last_name = form_user.cleaned_data['last_name']
+            staff.user.save()
+            staff.save()
+    staffs = Staff.objects.all().exclude(user__pk=user_id)
+    form = StaffEditForm(user_id=user_id)
+    form_user = UserDjangoEditForm(user_id=user_id)
+
+    return render(request, 'staff/profile.html', {\
+        'staffs':staffs,
+        'form':form,
+        'form_user':form_user,
+        })
 
 def send_file(request, id_file):
     """Send a file"""
