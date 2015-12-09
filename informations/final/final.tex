@@ -50,7 +50,13 @@ breaklines=true
 \clearpage
 \setcounter{page}{0}
 \begin{document}
+
+
 \titleGM
+\tableofcontents
+\newpage
+populate live version, maybe create logins for the staff\\
+
 \section{Introduction \& Presentation of The Project}
 
 Each year, the ASMAE non-profit organization organizes a tennis tournament that gathers many players during one week-end. Last September, representatives of this organization queried our help to revamp their website. This website is used for the tennis players to register themselves for several kinds of tournaments. However, their current website was old and started to show its limits.\\
@@ -69,14 +75,14 @@ We will now list all the elements that we were asked to implement in our softwar
 
 However, rather than dividing them in those four categories, we decided to divide them into mandatory requirements and optional ones (the optional ones are in italic). \\
 
-We also sorted  them depending on if they're functionnal or non-functional. Note that we added some requirements not explicitly said by the clients but that we consider to be relevant for the project (such the privacy parts).\\
+We also sorted  them depending on if they're functionnal or non-functional. Note that we added some requirements not explicitly said by the clients but that we consider to be relevant for the project (such the privacy parts).The \textit{non-functional} requirements answer to the question "how should it be done" while the \textit{functional} ones represent actual functionalities.\\
 
+Notice that all the \textit{Must Have} requirements have been implemented. For the \textit{Would Like to Have} requirements, we thought they required too much time and we decided to focus on the top priority requirements. Among the \textit{Should Have} requirements, the automatic generation of knock-off has been implmemented. QUID DES COULD HAVE ET SHOULD HAVE?\\
+\subsection*{Functional}
 
-\textbf{Functional} :
-
-\begin{itemize}
-
-	\item User : 
+\subsubsection*{User}
+	
+	These requirements describe functionalities for a player that wants to take part in one of the tournaments. Among them, a user must be able to enter his information in a form containing all the important fields, to register for a tournament, to register one of his courts if he is an owner, etc.\\
 	
 	\begin{itemize}
 		\item The user can enter his data (including special characters) 
@@ -90,7 +96,8 @@ We also sorted  them depending on if they're functionnal or non-functional. Note
 		\item The user can leave a comment when registering
 	\end{itemize}
 
-    \item Admin : 
+\subsubsection*{Administrator}
+    Here, we have the requirements that concern all the abilities that an administrator account must have. More generally, an administrator must be able to control most of the website, that is the registrations, the other admin accounts, staff accounts, etc. An administrator must also have the ability to manage tournaments in general. An administrator account has more rights than staff accounts, as they must manage almost every aspect of the website.\\ 
     
     \begin{itemize}
     	\item An admin can start or close a tournament
@@ -101,7 +108,8 @@ We also sorted  them depending on if they're functionnal or non-functional. Note
 
     \end{itemize}
     
-    \item Staff : 
+\subsubsection*{Staff} 
+    A staff account is used by the members of the ASMAE organisation. They make sure the tournaments are going as expected, they send important information to the players for their matches, they can assign courts to players, etc. For example, we made it possible for staff members to  broadcast a message to all participants so that they can send new information and reminders about the tournaments.\\\\
     
     \begin{itemize}
     	\item After a pool has been generated, a staff member can manually reorganize it
@@ -117,8 +125,8 @@ We also sorted  them depending on if they're functionnal or non-functional. Note
 		\item \textit{Communication channel between staff members}
     \end{itemize}
     
-     \item System :   
-     
+\subsubsection*{System}   
+     This represents the functionalities of the website.
     \begin{itemize}
     	\item \textit{The system can create pools and match ups}
 		\item \textit{The system must confirm email addresses}
@@ -126,27 +134,24 @@ We also sorted  them depending on if they're functionnal or non-functional. Note
 		\item \textit{The system can create smaller pools when it rains}
     \end{itemize}
     
-\end{itemize}
-
-\textbf{Nonfunctional} :
-\begin{itemize}
+\subsection*{Non-Functional}
 
 
-	\item Interface :
+\subsubsection*{Interface}
 	
 	\begin{itemize}
 		\item The interface must be user friendly
 		\item \textit{The interface must be mobile friendly}
 	\end{itemize}
 
-	\item Documentation :
+\subsubsection*{Documentation}
 	
 	\begin{itemize}
 		\item The software must be well documented
 
 	\end{itemize}
 	
-    Privacy :
+\subsubsection*{Privacy}
     
     \begin{itemize}
     	\item Turn off indexation of private data
@@ -155,7 +160,7 @@ We also sorted  them depending on if they're functionnal or non-functional. Note
 
 
 
-\item Reasons to use a new software :
+\subsubsection*{Reasons to use a new software}
 
 
 	\begin{itemize}
@@ -165,47 +170,6 @@ We also sorted  them depending on if they're functionnal or non-functional. Note
 		\item More flexibility for users such as solo enrollment
 	\end{itemize}
 
-\end{itemize}
-
-
-\subsection{Use cases}
-
-Here are a few use cases showing how our website will react upon receiving an action (registration of a player, registration of the owner of a court and creation of a group). Note that those use cases are subject to change when developping the project but it gives a good idea about the general process.\\
-
-\textbf{Registration of a player}
-
-\begin{itemize}
-	\item The admin enables the registration for a tournament.
-	\item The user must access the registration page.
-	\item The user fill his personal informations on the page.
-	\item Or load the from previously used email address. 
-	\item The user must enter the personal information of his tennis partner if he plays in duo.
-	\item The user gets a confirmation email. (Past this point he must contact the staff/admin to modify his information.)
-	\item The admin closes the registration just before the tournament.
-\end{itemize}
-
-
-
-\textbf{Registration of the owner of a court}
-
-\begin{itemize}
-	\item The owner must access the registration page.
-	\item The own fill his court informations on the page.
-	\item The owner receive an email confirmation.
-	\item When the admin opens a new tournament, he will be notified of all the previously used courts and asks the owners about their availability.
-	\item The staff will check the court and mark it as suitable.
-	\item When a court is assigned to a tournament, the owner is notified by email.
-\end{itemize}
-
-
-\textbf{Creation of a group}
-
-\begin{itemize}
-	\item Once the registrations are closed, the system will generate the groups for each category.
-	\item The staff will review the generated list. If there are wishes to fulfill, the list can be manually reorganized. At this step, the staff can also contact the users with payment issues.
-	\item Once the groups are checked, the staff confirms their composition.
-	\item The system sends an email to the users to inform them of the location and time of their matches and of their payment status. The leader is also informed of what is needed of him.
-\end{itemize}
 
 \newpage
 \section{Development and Implementation}
@@ -213,30 +177,106 @@ Here are a few use cases showing how our website will react upon receiving an ac
 The requirements below are the ones we planned to develop for the second phase. This time, every requirement has been implemented. \\
 
 \subsection{Organisation and Tools used}
+
 We are briefly going to explain the way the group is going to develop the project. After being introduced to the project by our customers, we had to choose between a few development methods to use throughout the making of the software. The group decided pick the \textbf{Agile} method. \\
 
 The first step of this method is writing down user stories. These are used to present all the functionalities of the software which is the website. Afterwards, the group has to discuss about the importance and the difficulty of each user story, and then decide which of them have the top priority. \\
 
-When this is done, we will use a kanban to organize the process of the project. The kanban contains all the user stories, and is divided into the following categories : “To do, doing this iteration, done this iteration, and done”. Every member of the group picks the user stories he thinks he is able to implement, so it allows us to know which member has done each task. For the kanban we will use the \textbf{Trello} Website. \\
+When this is done, we will use a kanban to organize the process of the project. The kanban contains all the user stories, and is divided into the following categories : “To do, doing this iteration, done this iteration, and done”. Every member of the group picks the user stories he thinks he is able to implement, so it allows us to know which member has done each task. For the kanban we will use the \textbf{Trello} Website (www.trello.com). \\
 
-The programming language used will be Python, with the \textbf{Django} framework. We will use the third version of Python, and the 1.8 version of Django. Lastly, we will use the \textbf{Bootstrap} framework for the design of the website ( the css part essentially). \\
+The programming language used will be Python, with the \textbf{Django} framework.\\
 
-To easily share the project’s code, we will use a Control Version System, which is in this case \textbf{Mercurial}. Mercurial, and its underlying service called BitBucket, is preferred since it allows us to make private repositories. 
+ We will use the third version of Python, and the 1.8 version of Django. Lastly, we will use the \textbf{Bootstrap} framework for the design of the website ( the css part essentially). \\
+
+To easily share the project’s code, we will use a Control Version System, which is in this case \textbf{Git}. Git, and its underlying service called GitHub(www.github.com), is preferred since it allows us to make private repositories. 
 
 We also decided to divide the project into 4 iterations, corresponding to the 4 phases presented to us. With the Agile method, there will be a working deliverable for each of these phases. Through each iteration, we will have to add up functionalities to the working project, until each of them is implemented.  \\
 
-To host a live version of the website, we used Heroku.\\
+To host a live version of the website, we used Heroku (www.heroku.com).\\
 
 There are a few reasons why we picked this way of working. First of all, this method was genuinely our first choice since it is the one we are the most comfortable with, as we have been using such a method for a few projects now. Moreover, we liked its versatility since every member of the group has to be involved in every aspect of the project. Furthermore, after each iteration, we will have a meeting with our Assistant. This meeting will allow us to get a feedback of each deliverable. The feedback received will then help us to know if changes need to be done, if there are unnecessary things, or if our project is moving towards the right direction. Finally, with the Agile method, we will first implement all the “must have” functionalities, which allow us to focus on the core of the software, and then add up the functionalities with less priority. \\
 \subsection{The Website, Its Functionalities}
 
-Here is the live version of our website : http://sep2015e.herokuapp.com.  To get admin access you should add "/admin" in the url.\\
+In this section, we will show you the fully built website and we will explain everything you need to know about its functionalities. We will seperately explain the functionalities with the help of screenshots and sequence diagrams. To get a look at the live version of our website, you can click here : http://sep2015e.herokuapp.com. To get admin access you should add "/admin" in the url.\\
+
+
+
+\subsection*{Registration of a player}
+
+%\begin{figure}[h]
+% \caption{\label{register} Registration form}
+%  \includegraphics[scale=0.7]{recap.png}
+%\end{figure}
+
+The first main and most important functionality of the website is the registration of a player, as the users will usually visit the website to to do and to assign themselves to a tournament.\\
+
+To do so, a user must fill in the form with all the required fields, as you can see in the screenshot above(REF NECESSARY). Once this is done, the system will check if all the mandatory fields have been filled. If not, some warning will appear to precise which field must be correctly filled. Once all the fields are correct, the user is redirected to a page that shows a summary of all the payments for him, allowing him to check what he is going to pay afterwards.. It is important to note that we have implemented a smart registration, where a player is automatically assigned to a tournament according to his information. In figure \ref{recap}, you can see an example of how the information is presented after validation. Also note that the payment choice is chosen after a user has entered and validated all his information.\\
+
+If a member is registered alone for a tournament, a staff member can eventually match him with another member that is alone.\\
+
+The user can also re-use old data linked to his email address to automatically fill a registration form. To implement this, we added a link on the registration forms so that previous participants can use their old information for new ones. All they have to do is give  their previously used address. Another use of the email address of a user is when a participant submits his registration form, the software sends an automatic email to confirm that the player has a valid email address.\\
+
+To make it possible for a user to look for other users or to check the list of all the available courts, we added a functionality that allows to look for players and courts, but also pairs. We then added a list of all the players and all the courts.(SCREEN)\\
+
+We have built a sequence diagram, at figure \ref{playerseq}, that illustrates how the registration of a player goes.\\
+\begin{figure}[h]
+  \caption{\label{recap} Summary of player information}
+  \includegraphics[scale=0.7]{recap.png}
+\end{figure}
+
+\begin{figure}
+
+   \caption{\label{playerseq} Sequence diagram}
+  \includegraphics[scale=0.4]{Inscription.png}
+\end{figure}
+\FloatBarrier
+\newpage
+
+\subsection*{Staff Role}
+
+(staff peut gérer les joueurs, les éditer, voir les paires, tout le côté manuel)
+
+Tout ce qu'il peut faire manuellement
+On verra si on ajoute tout ça ou pas.
+\subsection*{Tournaments managing}
+
+
+A staff member can visualize and print the evolution of the tournament in a fashionable and displayable form (both graphic and text), step by step, using the knockoff, and print the pool matchup sheet. When closing the registration for a tournament, a pdf is generated with all the pools. It was done this way so that the visitors can print the pdf themselves. Plus, the pdf is only generated once. The staff members can see on the website the pools and the corresponding fixtures, they can also edit the matches, as they have a global view of the pools. \\
+
+Upon encoding all the scores of the matches in a pool, the winner of this group is displayed in green and the knock-off tournament is created in the database. Plus, it is now possible to see the bracket with a pretty graphical version. The players that are the winners of a group will then get to the bracket. The scores are, for now, only editable by an admin account. Another feature that was added is that a user can now delete his own email address from the database, so that he can delete his own information on his own.\\
+
+The sequence diagram at figure \ref{tournseq} illustrates better how the life cycle of a tournament is. More generally, it shows how players are added into groups, how the knock-off tournament is created, how the tournament is created, etc.\\
+
+\begin{figure}[h]
+   \caption{\label{tournseq} Sequence diagram for tournament}
+  \includegraphics[scale=0.4]{Tournament.png}
+\end{figure}
+\FloatBarrier
+\newpage
+\subsubsection*{File Sharing and Communication between staff members}
+
+In this section, we will describe a functionality that allows a good communication between the staff members, as requested. The website contains a page in which we implemented a functionality that allows to exchange messages. We also added a feature that allows to share files that they can upload/download. The staff members already have other means to communicate, so these two features should mostly be used for very important announcements. They are available on a dedicated page. You can see in figure \ref{annonce} below how a staff member can put an announcement, and how one can upload files in figure \ref{file} \\
+
+\begin{figure}[h]
+  \caption{\label{annonce} Announcement creation}
+  \includegraphics[scale=0.7]{annonce.png}
+\end{figure}
+\begin{figure}[h]
+  \caption{\label{file} File sharing}
+  \includegraphics[scale=0.7]{fichier.png}
+\end{figure}
+
+ 
+\subsection*{Owner Court Registration}
+\subsection*{Administration part}
+An admin can create an admin account, an admin can modify his credentials, an admin can create a staff account, An admin can delete an account. Those three requirements are done by default by Django.\\
+\subsection{The Architecture}
+This section will be dedicated to explain the more technical parts of our software and its underlying programming particularities. It will be divided in two parts. The first one will give further details about how tournaments, players, users, courts, and other important objects are represented in the database, and how those objects are linked together. The second one even more technical, as it explains how the software is structured, and how our team programmed all the important parts to build the website.\\
+
 
 \textbf{To get access to the code of our project}, you can click on the link to our \textit{Github} repository : https://github.com/ivanahad/sep2015E\\
 
-\subsection{The Architecture}
-ORM, UML 
-
+\newpage
 \subsubsection{The Object-Relational Mapping}
 Fig.1 shows our ORM diagram. It gives an idea about how the different objects used by the website are linked together. We will give a brief description of what the object represents and its relations to others.\\
 
@@ -250,104 +290,27 @@ A staff, similarly to a user is characterized by it's name, address, contact (ph
 
 A message is defined by it's author which is a staff member, by it's title and by it's content (text). A file is defined by it's title, it's owner and the file.\\
 
-This concludes the description about the ORM diagram. 
+This concludes the description of our ORM diagram. 
 
 \begin{figure}[ht!]
 \caption{\label{orm2} Revamped ORM Diagram}
 \includegraphics[scale=0.58, angle=90]{ormp2.PNG}
 \end{figure}
 \FloatBarrier
-\newpage
+
 
 \subsubsection{The Uniform Modeling Language}
 UML
 
-\subsection{Planning and Scheduling, Evolution of the Project}
+\subsection{Evolution of the Project}
 
-\subsection{Implementation \& choices}
+In this section, we will briefly describe the progress of the website through four phases.\\
 
-Here are a few other features that we implemented during this phase. \\
+First off, we gathered to speak about the project in general. During the first meeting, we had to decide which tools we were going to use and how we were going to program our website (mainly the programming languages to be used). The summary of what we decided is in section 3.1.\\
 
-Upon encoding all the scores of the matches in a pool, the winner of this group is displayed in green and the knock-off tournament is created in the database. Plus, it is now possible to see the bracket with a pretty graphical version. The players that are the winners of a group will then get to the bracket. The scores are, for now, only editable by an admin account. Another feature that was added is that a user can now delete his own email address from the database, so that he can delete his own information on his own.\\
+After decided all the key elements for the project, we started programming the software. We implemented what we considered to be the base of the project so that we have something to start with. This consisted of the creation of the different pages needed to register a player, a court and the staff and admin pages. The database was also created with the different tables for the user, the staff, etc. We chose a template design that was subject to change all along the project.\\
 
-For the implementation of \textit{"The system must query AFT rankings" and "The system can create smaller pools when it rains"}, as these two functionalities were optional, we decided not to implement them. It thought it would take too much time to do so, and that implementing wouldn't be a great benefit after all.\\
-
-As you can see, there weren't many requirements as scheduled for this phase. As stated in the previous report, this phase was much more dedicated to improving some underlying functionalities of the website to make it easier to use.
-
-\subsubsection*{Implementations according to meeting with client}
-
-First of all, as requested, we implemented a system that allows to exchange messages. We also added a system that allows to share files that they can upload/download. The staff members already have other means to communicate, so these two features are important for very important announcements. They are available on a dedicated page. You can see in figure \ref{annonce} below how a staff member can put an announcement, and how one can upload files in figure \ref{file} \\
-\begin{figure}[h]
-  \caption{\label{annonce} Announcement creation}
-  \includegraphics[scale=0.7]{annonce.png}
-\end{figure}
-\begin{figure}[h]
-  \caption{\label{file} File sharing}
-  \includegraphics[scale=0.7]{fichier.png}
-\end{figure}
-
-
-It is also now possible to modify the pools by taking into account the commentaries made.\\
-
-We also added a functionality that allows to look for players and courts, but also pairs. We then added a list of all the players and all the courts.
-
-\subsubsection*{Changes during registration}
-Secondly, we focused on modifying the registration of a player, as it was asked by the client. We have implemented the smart registration, where a player is automatically assigned to a tournament according to his information.\\
-
-Moreover, when a form is filled, there is a summary of all the player information, allowing him to check what he is going to pay afterwards. You can see in figure \ref{recap} how the information is presented after validation.
-
-\begin{figure}[h]
-  \caption{\label{recap} Summary of player information}
-  \includegraphics[scale=0.7]{recap.png}
-\end{figure}
-
-Another modification is that now the payment choice is chosen after a user has entered and validated all his information.
-
-\section{The Final Product : The software as a Website}
-
-
-
-\section{For next phase}
-\subsection{Tests to improve the software}
-To improve our software, we are going to ask random people to test the website to see if it is user-friendly and easy to use, and then we will proceed to modify it accordingly.\\
-
-We will also navigate randomly to search for bugs and strange behaviors that may arise after modifications of the database.\\
- 
-We will also test our website on different monitors with different screen sizes to see if it fits the window correctly.\\
-
-\subsection{Documentation}
-The documentation will be one of our main focuses. It will be divided into two parts: the first will be dedicated for the staff and admin and the second for the maintainer of the website. For the admin and staffs, the documentation will be a guide on how to navigate on the website and on how to basic stuffs like as modifying a pool, editing a player, etc. This documentation will be found on a wiki but links will be on the website to directly access the content specific to a part of the website. For the maintainer of the code, the documentation will be more technical. We will explain our implementaion, what we use and how we do it. 
-
-
-
-\newpage
-\section{Architecture discussion, choices \& UML Diagram}
-
-You can see our UML diagram in Figure 4. Since the last phase, we changed.\\
-
-In the architecture, in this phase, there isn't much that has changed. However, one big change is that we added many methods that now allow to modify information about users, courts, tournaments, etc. Making things changeable manually was one of our main coucerns for this phase, as it was requested by the client.
-
-\begin{figure}[b]
-	\centering
- 	\caption{\label{uml} UML diagram}
-	\includegraphics[scale=0.2]{Class.png}
-\end{figure}
-
-\subsection*{Sequences diagram}
-
-You can see in figure \ref{playerseq} the sequence diagram for how a player registers to a tournament with an email confirmation. It has been updated since the last phase's report.
-
-\begin{figure}[position]
-   \caption{\label{playerseq} Sequence diagram}
-  \includegraphics[scale=0.4]{Inscription.png}
-\end{figure}
-
-The second sequence diagram describes the life cycle of a tournament, how players are added into groups, how the knock-off tournament is created, how the tournament is created, etc. 
-
-\begin{figure}[position]
-   \caption{\label{tournseq} Sequence diagram for tournament}
-  \includegraphics[scale=0.4]{Tournament.png}
-\end{figure}
+For the rest of the development, our task was to fix all the bugs and to drastically improve the design to make the website more appealing. We spent the last few weeks making sure everything was working correctly, and we also wrote some scripts to automatically test the website. We wrote some documentation for some of the main functionalities of the website to help the users have a better exprience while using our website and to also exlpain the code of our website.
 
 \section{Teamwork}
 
@@ -361,7 +324,7 @@ There was also a lack of intermediate meetings between the members that would ha
 
 At the end of the day, we still managed to make a fully workable software, but we think we could have been more focused on those details to help us optimize our work. However, the team got along very well, there was no friction between the members, and the atmosphere was always very good.\\
 
-
+\section{Advantages of Our Website}
 
 \section{Conclusion}
 
