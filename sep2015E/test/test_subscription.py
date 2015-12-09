@@ -19,6 +19,8 @@ class VisitorPosts(TestCase):
         c.zipcode = "1348"
         c.email = "sep2015e@yopmail.com"
         c.phone = "0478841254"
+        c.level = "C.13"
+        c.bbq = True
         response = c.post('http://127.0.0.1:8000/players/register')
         self.assertEqual(response.status_code, 200, \
             "Error: Test players register post return " + \
