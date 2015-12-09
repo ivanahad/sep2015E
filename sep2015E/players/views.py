@@ -27,7 +27,6 @@ def register(request):
         pair = PairRegistrationForm(request.POST)
 
         emailForm1 = EmailOldUserForm(prefix="email1")
-
         #Solo registration
         if 'solo_registration' in request.POST \
                 and usr1.is_valid() and reg1.is_valid():
