@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 import string
 
@@ -45,6 +46,15 @@ class Court(models.Model):
     comment_desiderata = models.TextField(default="", blank=True)
     available = models.BooleanField(default=True)
 
+    log = models.TextField(default="", blank=True)
+
     def __str__(self):              # __unicode__ on Python 2
         """ to string method """
         return "%s %s %s %s" % (self.owner_firstname, self.owner_lastname, self.address_street, self.address_number)
+
+    def add_log(self, message):
+        """
+        Add the message to the logs with a timestamp.
+        """
+        self.log += str(datetime.now()) + " " + message + "\n"
+        self.save()

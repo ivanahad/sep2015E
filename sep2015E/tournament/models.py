@@ -12,6 +12,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 import players.models
 import math
+from datetime import datetime
 
 class Tournament(models.Model):
     """This class defines a unique tournament.
@@ -40,8 +41,15 @@ class Tournament(models.Model):
     is_open = models.BooleanField(default=True)
     season = models.CharField(max_length=32);
 
+    log = models.TextField(default="", blank=True)
+
     class Meta:
         ordering = ['name', 'category']
+
+    def add_log(self, message):
+        """ Add message to the logs with a timestamp."""
+        self.log += str(datetime.now()) + " " + message + "\n"
+        self.save()
 
     def get_nodes(self):
         if self.k_o_root != None:
