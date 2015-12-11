@@ -241,11 +241,11 @@ def particular_player(request, page_id, player_id):
         reg_form = RegistrationForm(request.POST, user_reg_id=user_reg.pk, instance=user_reg)
         pair_form = AssignPairForm(request.POST)
         if pair_form.is_valid():
-            other_player=pair_form.cleaned_data['other_player']
+            other_player=pair_form.cleaned_data['other_player'].player
             solo = SoloParticipant.objects.get(player=player)
             solo.delete()
             SoloParticipant.objects.get(player=other_player).delete()
-            Pair(player1=player, player2=other_player.player, average=0, season=settings.CURRENT_SEASON).save()
+            Pair(player1=player, player2=other_player, average=0, season=settings.CURRENT_SEASON).save()
             user_id = request.user.pk
             user = Django_User.objects.get(pk=user_id)
             log_message = user.first_name + " " + user.last_name + "assigned to a pair on " + time.strftime("%c") + "\n"
