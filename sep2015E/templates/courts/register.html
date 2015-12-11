@@ -183,6 +183,18 @@
 
 									<div class="row field">
 										<div class="col-sm-4">
+											<label for="id_ground">Accessible:</label>
+										</div>
+										<div class="col-sm-4">
+											{{ form.available }}
+										</div>
+										<div class="col-sm-4 required">
+											{{ form.available.errors }}
+										</div>
+									</div>
+
+									<div class="row field">
+										<div class="col-sm-4">
 											<label for="id_ground">Sol:</label>
 										</div>
 										<div class="col-sm-4">

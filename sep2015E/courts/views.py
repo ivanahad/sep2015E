@@ -30,7 +30,7 @@ def register(request):
                     image = form.cleaned_data['image'],
                     comment_access = form.cleaned_data['comment_access'],
                     comment_desiderata = form.cleaned_data['comment_desiderata'],
-                    available = True)
+                    available = form.cleaned_data['available'])
             new_court.save()
 
             send_mail('Your owner page', 'You will find informations about your court here : http://'+request.META['HTTP_HOST']+ \

@@ -15,6 +15,8 @@ class Court(models.Model):
         ('Quick', 'Quick'),
         ('Autres', 'Autres')
     )
+
+    ACCESS=(('Samedi', 'Samedi'), ('Dimanche', 'Dimanche'), ('Samedi et dimanche', 'Samedi et dimanche'))
     def _phone_validator(value):
         """ Check if the phone entered by the player is correct """
         digits_count = 0
@@ -44,7 +46,7 @@ class Court(models.Model):
     image = models.ImageField(null=True, blank=True)
     comment_access = models.TextField(default="", blank=True)
     comment_desiderata = models.TextField(default="", blank=True)
-    available = models.BooleanField(default=True)
+    available = models.CharField(max_length=64, choices=ACCESS)
 
     log = models.TextField(default="", blank=True)
 
