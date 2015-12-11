@@ -45,9 +45,6 @@
 							{% csrf_token %}
 							<input type="radio" name="payement_method" value="Maestro"><img src="{% static "img/maestro.png" %}">
 								<p class="desc_methode">Que j'effectue avant  le jeudi 9 septembre sur le numéro de compte BNP BE32 2100 1574 7802.</p><p>Communication : le(s) nom(s) de l'incription</p><br>
-							<input type="radio" name="payement_method" value="Mastercard"><img src="{% static "img/mastercard.png" %}"><br>
-							<input type="radio" name="payement_method" value="Paypal"><img src="{% static "img/paypal.png" %}">
-							<br>
 							<input type="radio" name="payement_method" value="Visa"><img src="{% static "img/visa.png" %}">
 								<p class="desc_methode">Dont je communiquerais les détails (numéro et date d'expiration) par téléphone au 02/742 03 06.</p><p>Communication : le(s) nom(s) de l'incription</p><br>
 							<input type="radio" name="payement_method" value="Cash"><img src="{% static "img/cash.png" %}">
@@ -56,7 +53,7 @@
 					</div>
 
 				</div>
-				<center><input form="payement" type="submit" value="Supprimer mon inscription" name="delete" class="btn btn-warning"/>
+				<center><input form="payement" type="submit" value="Supprimer mon inscription" name="delete" class="btn btn-default"/>
 				<input form="payement" type="submit" value="Valider mon inscription" class="btn btn-warning"/></center>
 			</div>
 		</div>

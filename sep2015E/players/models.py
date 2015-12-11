@@ -109,9 +109,7 @@ class UserRegistration(models.Model):
         ('A1', 'A1')
     )
 
-    PAYMENT_METHODS = (("Cash","Cash"), ("Visa","Visa"), \
-        ("Bancontact","Bancontact"), ("MasterCard","MasterCard"), \
-        ("Paypal","Paypal"))
+    PAYMENT_METHODS = (("Cash","Cash"), ("Visa","Visa"), ("Maestro","Maestro"))
     
     user = models.ForeignKey(User)
     season = models.CharField(max_length=32)

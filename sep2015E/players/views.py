@@ -9,13 +9,6 @@ from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 
-
-#send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
-#    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname'], 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
-
-#send_mail('Enregistrement à un tournoi', 'Bonjour '+usr2.cleaned_data['firstname']+' '+usr2.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
-#    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category+' avec votre partenaire '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname'], 'info@sep2015e.com', [usr2.cleaned_data['email']], fail_silently=False)
-
 def register(request):
     """ Method who receive requests (post/get) from register.html
         create a player on post request """
@@ -373,12 +366,18 @@ def payement(request, id_user1, id_registration1, id_registration2, id_user2, id
             user1.payement_method = payement_method
             user1.save()
 
-            #send_mail('Enregistrement à un tournoi', 'Bonjour '+usr1.cleaned_data['firstname']+' '+usr1.cleaned_data['lastname']+',\n\nAsmae vous confirme que vous avez bien été inscrit au tournoi ' \
-            #    +trn.cleaned_data['tournament'].name+' '+trn.cleaned_data['tournament'].category, 'info@sep2015e.com', [usr1.cleaned_data['email']], fail_silently=False)
+            usr1 = User.objects.get(pk=id_user1)
+            send_mail('Confirmation d\'inscription', 'Bonjour '+usr1.firstname+' '+usr1.lastname+',\n\nAsmae vous confirme votre inscription au tournoi. \n\nCordialement,\n\nL\'equipe d\'ASMAE', \
+                'info@sep2015e.com', [usr1.email], fail_silently=False)
 
             if int(id_user2) != -1:
                 user2.payement_method = payement_method
                 user2.save()
+
+                usr2 = User.objects.get(pk=id_user2)
+                send_mail('Confirmation d\'inscription', 'Bonjour '+usr2.firstname+' '+usr2.lastname+',\n\nAsmae vous confirme votre inscription au tournoi. \n\nCordialement,\n\nL\'equipe d\'ASMAE', \
+                'info@sep2015e.com', [usr2.email], fail_silently=False)
+
             return render(request, 'players/registration_success.html')
 
     return render(request, 'players/payement.html', {
