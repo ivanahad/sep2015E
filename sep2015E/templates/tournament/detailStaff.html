@@ -5,20 +5,21 @@
 <script type="text/javascript" src="{% static "js/jquery-1.11.3.min.js" %}"></script>
 <script type="text/javascript" src="{% static "js/jquery.bracket.min.js" %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static "css/jquery.bracket.min.css" %}" />
+
 {% endblock %}
 
 {% block nav %}
-	<li><a href="{% url "staff.views.home" %}">Acceuil</a></li>
-	<li><a href="{% url "staff.views.players" %}">Joueurs</a></li>
-	<li><a href="{% url "staff.views.courts" %}">Terrains</a></li>
-	<li><a href="{% url "tournament.views.all" %}">Tournois</a></li>
-	<li><a href="https://github.com/ivanahad/sep2015E/wiki">Wiki</a></li>
-	<li><a href="{% url "staff.views.logout_staff" %}">Logout</a></li>
+<li><a href="{% url "staff.views.home" %}">Acceuil</a></li>
+<li><a href="{% url "staff.views.players" %}">Joueurs</a></li>
+<li><a href="{% url "staff.views.courts" %}">Terrains</a></li>
+<li><a href="{% url "tournament.views.all" %}">Tournois</a></li>
+<li><a href="https://github.com/ivanahad/sep2015E/wiki">Wiki</a></li>
+<li><a href="{% url "staff.views.logout_staff" %}">Logout</a></li>
 {% endblock %}
 
 {% block title %}
 <title>Charles de Lorraine - Détails de
-  {{ trn.name }} {{ trn.category }}
+	{{ trn.name }} {{ trn.category }}
 </title>
 {% endblock %}
 
@@ -28,21 +29,21 @@
 		<div class="col-lg-12">
 			<hr>
 			<h2 class="intro-text text-center">
-         		Détails du tournoi <strong>{{ trn.name }}</strong> catégorie <strong>{{ trn.category }}</strong>
+				Détails du tournoi <strong>{{ trn.name }}</strong> catégorie <strong>{{ trn.category }}</strong>
 			</h2>
 			<hr>
 
 			<!-- DETAILS ON TOURNAMENT -->
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title"> Informations </h3>
-        </div>
+			<div class="panel panel-default hidden-print">
+				<div class="panel-heading">
+					<h3 class="panel-title"> Informations </h3>
+				</div>
 
-        <div class="panel-body">
+				<div class="panel-body">
 					<table class="table">
 						<tr>
 							<td> Mixte:</td>
-							 <td>{{ trn.mixte }} </td>
+							<td>{{ trn.mixte }} </td>
 						</tr>
 						<tr>
 							<td> Saison: </td>
@@ -50,190 +51,202 @@
 						</tr>
 						<tr>
 							<td> Nombre de paires enregistrées:</td>
-							 <td>{{ nbr_p }} </td>
+							<td>{{ nbr_p }} </td>
 						</tr>
 						{% if trn.is_open %}
 						<tr>
 							<td> Nombre de participants solo:</td>
-							 <td>{{ nbr_s }} </td>
+							<td>{{ nbr_s }} </td>
 						</tr>
 						{% endif %}
 						<tr>
 							<td> Joueurs par pool:</td>
-							 <td>{{ trn.pool_size }} </td>
+							<td>{{ trn.pool_size }} </td>
 						</tr>
 						<tr>
 							<td> Inscriptions ouvertes:</td>
-							 <td>{{ trn.is_open }} </td>
+							<td>{{ trn.is_open }} </td>
 						</tr>
-				</table>
-        </div>
-      </div>
+						<tr>
+							<td> Staff en charge:</td>
+							<td>{{ trn.staff }} </td>
+						</tr>
+					</table>
+				</div>
+			</div>
 
-      <!-- Registered pairs -->
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title"> Paires inscrites </h3>
-        </div>
+			<!-- Registered pairs -->
+			<div class="panel panel-default hidden-print">
+				<div class="panel-heading">
+					<h3 class="panel-title"> Paires inscrites </h3>
+				</div>
 
-        <div class="panel-body">
+				<div class="panel-body">
 					<ul class="list-group">
-          {% for p in parts %}
-          	<li class="list-group-item"> <a href="{% url "staff.views.particular_pair" p.pk %}">{{ p.player1 }} - {{ p.player2 }}</a> </li>
-          {% endfor %}
+						{% for p in parts %}
+						<li class="list-group-item"> <a href="{% url "staff.views.particular_pair" p.pk %}">{{ p.player1 }} - {{ p.player2 }}</a> </li>
+						{% endfor %}
 					</ul>
-        </div>
-      </div>
+				</div>
+			</div>
 
-      <!-- Solo players -->
-      {% if trn.is_open %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title"> Participants solo </h3>
-        </div>
+			<!-- Solo players -->
+			{% if trn.is_open %}
+			<div class="panel panel-default ">
+				<div class="panel-heading">
+					<h3 class="panel-title"> Participants solo </h3>
+				</div>
 
-        <div class="panel-body">
+				<div class="panel-body">
 					<ul class="list-group">
-	          {% for p in solos %}
-	          <li class="list-group-item"> <a href="{% url "staff.views.particular_player" 1 p.id %}"> {{ p }}</a> </li>
-	          {% endfor %}
+						{% for p in solos %}
+						<li class="list-group-item"> <a href="{% url "staff.views.particular_player" 1 p.id %}"> {{ p }}</a> </li>
+						{% endfor %}
 					</ul>
-        </div>
+				</div>
 				<div class="panel-footer">
 					<a href="{% url "tournament.views.assign_pairs_for_solo_automatic" trn.pk %}">
 						<button type="button" class="btn btn-warning">Créer paires automatiquement</button>
 					</a>
 				</div>
-      </div>
-      {% endif %}
+			</div>
+			{% endif %}
 
-	  <!-- Bracket -->
-	  <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title"> Bracket </h3>
-        </div>
+			<!-- Bracket -->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title"> Bracket </h3>
+				</div>
 
-        <div class="panel-body">
-          	<div id="bracket"></div>
-        </div>
-		<div class="panel-footer">
-			<div class="input-group-btn">
-			        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Modifier match<span class="caret"></span></button>
-			        <ul class="dropdown-menu">
-						{% for node in nodes %}
+				<div class="panel-body">
+					<div id="bracket"></div>
+				</div>
+				<div class="panel-footer hidden-print">
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Modifier match<span class="caret"></span></button>
+
+						<a href="javascript:window.print()">
+								<button type="button" class="btn btn-warning"> Imprimer</button>
+						</a>
+						<ul class="dropdown-menu">
+							{% for node in nodes %}
 							<li><a href="#" data-toggle="modal" data-target="#matchModal" data-match-id={{ node.match.id }}>{{ node.match.team1 }} - {{ node.match.team2 }}</a></li>
-						{% endfor %}
-			        </ul>
-			      </div>
-			<div id="matchModal" class="modal fade" role="dialog">
-	            <div class="modal-dialog">
-	              <div class="modal-content">
-	                <div class="modal-header">
-	                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-	                  <h4 class="modal-title">Modifiez match</h4>
-	                </div>
-	                <div class="modal-body">
-	                  <form action="{% url "tournament.views.save_match_changes_bracket" trn.pk %}" method="post">
-	                    {% csrf_token %}
-	                    <div class="row field">
-	                      <div class="col-sm-4">
-							<input type="hidden" name="matchId" value=""/>
-	                        <label for="id_firstname">Score paire 1:</label>
-	                      </div>
-	                      <div class="col-sm-4">
-	                        {{ form.score1 }}
-	                        {% if nodes.0.match.score1 != None %}
-	                          {{nodes.0.match.score1}}
-	                        {% endif %}
-	                      </div>
-	                      <div class="col-sm-4 required">
-	                        {{ form.score1.errors }}
-	                      </div>
-	                    </div>
-
-	                    <div class="row field">
-	                      <div class="col-sm-4">
-	                        <label for="id_firstname">Score paire 2:</label>
-	                      </div>
-	                      <div class="col-sm-4">
-	                        {{ form.score2 }}
-	                        {% if nodes.0.match.score2 != None %}
-	                          {{nodes.0.match.score2}}
-	                        {% endif %}
-	                      </div>
-	                      <div class="col-sm-4 required">
-	                        {{ form.score2.errors }}
-	                      </div>
-	                    </div>
-
-	                    <div class="row field">
-	                      <div class="col-sm-4">
-	                        <label for="id_firstname">Terrain:</label>
-	                      </div>
-	                      <div class="col-sm-4">
-	                        {{ form.court }}
-	                      </div>
-	                      <div class="col-sm-4 required">
-	                        {{ form.court.errors }}
-	                      </div>
-	                    </div>
-	                    <input type="submit" value="Enregistrer" class="btn btn-warning" />
-	                  </form>
-	                  <div class="modal-footer">
-	                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	                  </div>
-	                </div>
-	              </div>
-	            </div>
-	          </div>
-		</div>
-      </div>
-
-      <!-- Pools -->
-      {% if not trn.is_open %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title"> Pools </h3>
-        </div>
-        <div class="panel-body">
-					<div class="row">
-          {% for pool in pools %}
-						<div class="col-md-4">
-									<ul class="list-group">
- 										<a href="{% url "tournament.views.pool" trn.id pool.0.number %}" class="list-group-item list-group-item-info">
-											Pool {{ pool.0.number }}
-										</a>
-										{% for p in pool.1 %}
-				            <li class="list-group-item"> {{ p.participant.player1 }} -  {{ p.participant.player2 }}</li>
-				            {% endfor %}
-									</ul>
-						</div>
-          {% endfor %}
+							{% endfor %}
+						</ul>
 					</div>
-        </div>
+					<div id="matchModal" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">Modifiez match</h4>
+								</div>
+								<div class="modal-body">
+									<form action="{% url "tournament.views.save_match_changes_bracket" trn.pk %}" method="post">
+										{% csrf_token %}
+										<div class="row field">
+											<div class="col-sm-4">
+												<input type="hidden" name="matchId" value=""/>
+												<label for="id_firstname">Score paire 1:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.score1 }}
+												{% if nodes.0.match.score1 != None %}
+												{{nodes.0.match.score1}}
+												{% endif %}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.score1.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_firstname">Score paire 2:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.score2 }}
+												{% if nodes.0.match.score2 != None %}
+												{{nodes.0.match.score2}}
+												{% endif %}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.score2.errors }}
+											</div>
+										</div>
+
+										<div class="row field">
+											<div class="col-sm-4">
+												<label for="id_firstname">Terrain:</label>
+											</div>
+											<div class="col-sm-4">
+												{{ form.court }}
+											</div>
+											<div class="col-sm-4 required">
+												{{ form.court.errors }}
+											</div>
+										</div>
+										<input type="submit" value="Enregistrer" class="btn btn-warning" />
+									</form>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Pools -->
+			{% if not trn.is_open %}
+			<div class="panel panel-default hidden-print">
+				<div class="panel-heading">
+					<h3 class="panel-title"> Pools </h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						{% for pool in pools %}
+						<div class="col-md-4">
+							<ul class="list-group">
+								<a href="{% url "tournament.views.pool" trn.id pool.0.number %}" class="list-group-item list-group-item-info">
+									Pool {{ pool.0.number }}
+								</a>
+								{% for p in pool.1 %}
+								<li class="list-group-item"> {{ p.participant.player1 }} -  {{ p.participant.player2 }}</li>
+								{% endfor %}
+							</ul>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
 				<div class="panel-footer">
 					<a href="{% url "tournament.views.modify_pools" trn.pk 1 0 %}">
 						<button type="button" class="btn btn-warning"> Modifier pools</button>
 					</a>
+					<a href="{% url "tournament.views.print_pool" trn.pk %}">
+						<button type="button" class="btn btn-warning"> Imprimer</button>
+					</a>
 				</div>
 			</div>
-      {% endif %}
+			{% endif %}
 
-      {% if user.is_staff and trn.is_open %}
-      <!-- enable this section only if user is staff -->
-      <div class="panel">
-        <div class="panel-heading">
-          <h3 class="panel-title"> Fermer les inscriptions </h3>
-        </div>
+			{% if user.is_staff and trn.is_open %}
+			<!-- enable this section only if user is staff -->
+			<div class="panel hidden-print">
+				<div class="panel-heading">
+					<h3 class="panel-title"> Fermer les inscriptions </h3>
+				</div>
 
-        <div class="panel-body">
-          <form action="{% url "tournament.views.tournament" trn.id %}" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Lancer le tournoi" class="btn btn-warning" onclick="return confirm('Etes vous sûr ? Une fois que le tournoi lancé, plus aucun joueur ne pourra s'y inscrire.')" name="close_tournament"/>
-          </form>
-        </div>
-      </div>
-      {% endif %}
+				<div class="panel-body">
+					<form action="{% url "tournament.views.tournament" trn.id %}" method="post">
+						{% csrf_token %}
+						<input type="submit" value="Lancer le tournoi" class="btn btn-warning" onclick="return confirm('Etes vous sûr ? Une fois que le tournoi lancé, plus aucun joueur ne pourra s'y inscrire.')" name="close_tournament"/>
+					</form>
+				</div>
+			</div>
+			{% endif %}
 
 
 		</div>
@@ -244,68 +257,68 @@
 
 {% block script %}
 
-	<script>
-		$('#matchModal').on('show.bs.modal', function(e) {
-		    var matchId = $(e.relatedTarget).data('match-id');
-		    $(e.currentTarget).find('input[name="matchId"]').val(matchId);
-		});
-	</script>
-	<script>
-	var pools = [];
-	var scores = [];
-	var pair = [];
-	var tempResults = [];
-	var index = 0;
-	{% for node in nodes %}
-		pair = ["{{ node.match.team1 }}", "{{ node.match.team2 }}"];
-		tempResults = ["{{ node.match.score1 }}", "{{ node.match.score2 }}"];
-		pools[index] = pair;
-		scores[index] = tempResults;
-		index++;
-	{% endfor %}
-	var dataBracket = {
-	    teams : pools,
-	    results : scores
-	}
+<script>
+$('#matchModal').on('show.bs.modal', function(e) {
+	var matchId = $(e.relatedTarget).data('match-id');
+	$(e.currentTarget).find('input[name="matchId"]').val(matchId);
+});
+</script>
+<script>
+var pools = [];
+var scores = [];
+var pair = [];
+var tempResults = [];
+var index = 0;
+{% for node in nodes %}
+pair = ["{{ node.match.team1 }}", "{{ node.match.team2 }}"];
+tempResults = ["{{ node.match.score1 }}", "{{ node.match.score2 }}"];
+pools[index] = pair;
+scores[index] = tempResults;
+index++;
+{% endfor %}
+var dataBracket = {
+	teams : pools,
+	results : scores
+}
 
-	/* Called whenever bracket is modified
-	 *
-	 * data:     changed bracket object in format given to init
-	 * userData: optional data given when bracket is created.
-	 */
-	function saveFn(data, userData) {
-	  //window.alert(data.teams[0]);
-	  $.post("{{ current_path }}", data, function(response){
-	        if(response === 'success'){ alert('Score ajouté'); }
-	        else{ alert('Error! :('); }
-	    });
-	  window.alert(data.teams[0]);
-	  /*var json = jQuery.toJSON(data)
-	  $('#saveOutput').text('POST '+userData+' '+json)*/
-	  /* You probably want to do something like this
-	  jQuery.ajax("rest/"+userData, {contentType: 'application/json',
-	                                dataType: 'json',
-	                                type: 'post',
-	                                data: json})
-	  */
-	}
+/* Called whenever bracket is modified
+*
+* data:     changed bracket object in format given to init
+* userData: optional data given when bracket is created.
+*/
+function saveFn(data, userData) {
+	//window.alert(data.teams[0]);
+	$.post("{{ current_path }}", data, function(response){
+		if(response === 'success'){ alert('Score ajouté'); }
+		else{ alert('Error! :('); }
+	});
+	window.alert(data.teams[0]);
+	/*var json = jQuery.toJSON(data)
+	$('#saveOutput').text('POST '+userData+' '+json)*/
+	/* You probably want to do something like this
+	jQuery.ajax("rest/"+userData, {contentType: 'application/json',
+	dataType: 'json',
+	type: 'post',
+	data: json})
+	*/
+}
 
-	$(function() {
-	    var container = $('#bracket')
-	    container.bracket({
-	      init: dataBracket,
-		  skipConsolationRound: true,
-	      //save: saveFn,
-	      userData: "http://myapi"})
+$(function() {
+	var container = $('#bracket')
+	container.bracket({
+		init: dataBracket,
+		skipConsolationRound: true,
+		//save: saveFn,
+		userData: "http://myapi"})
 
-	    /* You can also inquiry the current data */
-	    var data = container.bracket('data')
-	    $('#dataOutput').text(jQuery.toJSON(data))
-	  })
-	
+		/* You can also inquiry the current data */
+		var data = container.bracket('data')
+		$('#dataOutput').text(jQuery.toJSON(data))
+	})
+
 	</script>
 
 	<!-- Bootstrap Core JavaScript -->
-    <script src="{% static "js/bootstrap.min.js" %}"></script>
+	<script src="{% static "js/bootstrap.min.js" %}"></script>
 
-{% endblock %}
+	{% endblock %}

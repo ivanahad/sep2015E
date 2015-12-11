@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.conf import settings
 
 import string
+from datetime import datetime
 
 
 class User(models.Model):
@@ -33,6 +34,8 @@ class User(models.Model):
     email = models.EmailField(max_length=128, unique=True)
     phone = models.CharField(max_length=32, validators=[_phone_validator])
 
+    log = models.TextField(default="", blank=True)
+
     def __str__(self):              # __unicode__ on Python 2
         return self.lastname + " " + self.firstname
 
@@ -40,6 +43,11 @@ class User(models.Model):
         return hash("" + self.email + self.address_street + \
                 self.address_number + self.address_box + str(self.birthdate) + \
                 self.firstname + self.lastname + settings.HASHKEY) % 100000000
+
+    def add_log(self, message):
+        """ Add the message to the logs with a timestamp."""
+        self.log += str(datetime.now()) + " " + message + "\n"
+        self.save()
 
     def get_level(self, season):
         """ Get the level of a player """

@@ -36,7 +36,7 @@
             <td>{{ match.0 }}</td>
             {% for m in match.1 %}
               {% if m == "blank" %}
-              <td>-</td>
+              <td></td>
               {% else %}
               <!-- MODAL TO EDIT MATCH SCORE AND COURT -->
             <td><a href="#" data-toggle="modal" data-target="#matchModal">
@@ -49,7 +49,7 @@
                 {% elif match.0.pk != m.team1.pk and m.score1 < m.score2 %}
                   V
                 {% else  %}
-                  -
+                  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                 {% endif %}
                 </a>
             </td>

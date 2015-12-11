@@ -11,7 +11,9 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Tabl
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 import players.models
+from staff.models import Staff
 import math
+from datetime import datetime
 
 class Tournament(models.Model):
     """This class defines a unique tournament.
@@ -39,9 +41,17 @@ class Tournament(models.Model):
     mixte = models.CharField(max_length=16, default="Mixte", choices=MIXTE_CHOICES)
     is_open = models.BooleanField(default=True)
     season = models.CharField(max_length=32);
+    staff = models.ForeignKey(Staff, null=True, blank=True)
+
+    log = models.TextField(default="", blank=True)
 
     class Meta:
         ordering = ['name', 'category']
+
+    def add_log(self, message):
+        """ Add message to the logs with a timestamp."""
+        self.log += str(datetime.now()) + " " + message + "\n"
+        self.save()
 
     def get_nodes(self):
         if self.k_o_root != None:
@@ -74,7 +84,6 @@ class Tournament(models.Model):
 
         self.is_open = False
         self.save()
-        self.generate_pdf()
 
     def assign_players(pools, players, size):
         """Assign all the players in the pools, trying to match size
@@ -99,7 +108,7 @@ class Tournament(models.Model):
 
     def generate_pdf(self):
         """ Generate a pdf version of the pools."""
-        doc = SimpleDocTemplate("pools.pdf", rightMargin=72, leftMargin=72,
+        doc = SimpleDocTemplate("files/"+self.name + ".pdf", rightMargin=72, leftMargin=72,
                                 topMargin=72, bottomMargin=18, showBoundary=1)
         doc.pagesize=landscape(A4)
         Story=[]
