@@ -70,6 +70,9 @@ class Tournament(models.Model):
         pairs = TournamentParticipant.objects.filter(tournament=self)
         pairs = [entry.participant for entry in pairs]
 
+        #if len(pairs) < 2 * self.pool_size :
+        #    raise Exception("Not enough participants.")
+
         nb_pools = math.ceil(len(pairs) / self.pool_size)
         pools = [Pool() for _ in range(nb_pools)]
         for i in range(len(pools)):
