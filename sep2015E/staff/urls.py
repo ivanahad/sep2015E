@@ -3,10 +3,13 @@ from django.conf.urls import include, url
 prefix = 'staff.views.'
 
 urlpatterns = [
+    url(r'^$', prefix+'home'),
+    url(r'^players$', prefix+'players'),
+    url(r'^courts$', prefix+'courts'),
+    url(r'^tournament$', 'tournament.views.all'),
     url(r'^login$', prefix+'login_staff'),
     url(r'^logout$', prefix+'logout_staff'),
     url(r'^home$', prefix+'home'),
-    url(r'^courts$', prefix+'courts'),
     url(r'^search$', prefix+'search'),
     url(r'^profile$', prefix+'edit_profile'),
     url(r'^advanced_search$', prefix+'advanced_search'),

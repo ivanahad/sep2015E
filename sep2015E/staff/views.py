@@ -120,7 +120,7 @@ def courts(request):
     return render(request, 'staff/courts.html', locals())
 
 
-def players(request, page_id):
+def players(request, page_id=1):
     """Page listing the players registered in the event."""
     if not request.user.is_authenticated():
         return redirect('staff.views.login_staff')
