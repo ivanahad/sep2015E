@@ -28,7 +28,7 @@ class MatchEditForm(forms.ModelForm):
 class BracketMatchEditForm(forms.ModelForm):
     """ Form to edit a match """
     matchId = forms.IntegerField()
-    
+
     class Meta:
         model = Match
         fields=["score1", "score2", "court"]
@@ -49,8 +49,11 @@ class AssignPoolLeaderForm(forms.Form):
         self.pool_id = kwargs.pop('pool_id')
         super(AssignPoolLeaderForm,self).__init__(*args,**kwargs)
         pool = Pool.objects.get(pk=self.pool_id)
+        pool_participants = PoolParticipant.objects.filter(pool=pool)
+        players1 = Pair.objects.filter(poolparticipant=pool_participants).only('player1')
+        players2 = Pair.objects.filter(poolparticipant=pool_participants).only('player2')
         self.fields['leader'] = forms.ModelChoiceField( \
-                queryset=User.objects.all().order_by("lastname", "firstname"), \
+                queryset=User.objects.filter(Q(player1=players1) | Q(player2=players2)).order_by("lastname", "firstname"), \
                 empty_label=None, \
             )
 
