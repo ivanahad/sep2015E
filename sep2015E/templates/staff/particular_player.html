@@ -29,9 +29,9 @@
 
 							<div class="panel-body">
 								<ul class="list-group">
-								{% for player in players %}
+									{% for player in players %}
 									<li class="list-group-item"><a href="{% url "staff.views.particular_player" page_id player.id %}">{{ player }}</a></li>
-								{% endfor %}
+									{% endfor %}
 								</ul>
 							</div>
 							<div class="panel-footer">
@@ -290,45 +290,53 @@
 									</div>
 								</form>
 								{% if player_pairs != None %}
-									<strong>Est en pair avec:</strong>
+								<strong>Est en pair avec:</strong>
 								<ul>
-								{% for pair in player_pairs %}
+									{% for pair in player_pairs %}
 									<li><a href="{% url "staff.views.particular_pair" pair.pk %}">{{pair.player1}} - {{pair.player2}}</a></li>
-								{% endfor%}
+									{% endfor%}
 
-								{% else %}
+									{% else %}
 
-								<form action="{% url "staff.views.particular_player" page_id player.id %}" method="post">
-									{% csrf_token %}
-									<div class="panel-body">
-										{{ pair_form.non_field_errors }}
-										<div class="row field">
-											<div class="col-sm-4">
-												<label for="id_firstname">Assigner une paire:</label>
+									<form action="{% url "staff.views.particular_player" page_id player.id %}" method="post">
+										{% csrf_token %}
+										<div class="panel-body">
+											{{ pair_form.non_field_errors }}
+											<div class="row field">
+												<div class="col-sm-4">
+													<label for="id_firstname">Assigner une paire:</label>
+												</div>
+												<div class="col-sm-4">
+													{{ pair_form.other_player }}
+												</div>
+												<div class="col-sm-4 required">
+													{{ pair_form.other_player.errors }}
+												</div>
 											</div>
-											<div class="col-sm-4">
-												{{ pair_form.other_player }}
-											</div>
-											<div class="col-sm-4 required">
-												{{ pair_form.other_player.errors }}
-											</div>
+											<input type="submit" value="Enregistrer" />
 										</div>
-										<input type="submit" value="Enregistrer" />
-									</div>
-								</form>
-
-								{% endif %}
+									</form>
+									
+									{% endif %}
 								</ul>
+
+								<a href="{% url "staff.views.delete_player" player.pk %}">
+									<button type="button" class="btn btn-danger">
+										Supprimer joueur
+									</button>
+								</a>
+
 							</div>
 						</div>
 					</div>
 				</div>
-				{{ player.log }}
-
 			</div>
-		</div>
+			{{ player.log }}
 
+		</div>
 	</div>
+
+</div>
 
 </div>
 

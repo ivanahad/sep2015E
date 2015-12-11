@@ -468,3 +468,28 @@ def particular_court(request, id_court):
         'form':form,
         'owner_courts':owner_courts,
         })
+
+def delete_player(request, id_player):
+    user = User.objects.get(pk=id_player)
+    pairs = Pair.objects.filter(Q(player1=user) | Q(player2=user))
+    for pair in pairs:
+        if pair.player1!=user:
+            SoloParticipant(player=pair.player2).save()
+        else:
+            SoloParticipant(player=pair.player2).save()
+        pair.delete()
+    return redirect('staff.views.players', page_id=1)
+
+def delete_pair(request, id_pair):
+    pair = Pair.objects.get(pk=id_pair)
+    player1 = pair.player1
+    player2 = pair.player2
+    pair.delete()
+    SoloParticipant(player=player1).save()
+    SoloParticipant(player=player2).save()
+    return redirect('staff.views.players', page_id=1)
+
+def delete_court(request, id_court):
+    court = Court.objects.get(pk=id_court)
+    court.delete()
+    return redirect('staff.views.courts')
