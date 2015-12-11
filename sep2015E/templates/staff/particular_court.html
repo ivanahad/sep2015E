@@ -13,7 +13,6 @@
         <div class="row">
           <div class="col-md-8">
             <div class="panel panel-default">
-              <div class="panel-heading">Editer informations terrain</div>
               <div class="panel-body">
 
                 <form enctype="multipart/form-data" action="{% url "staff.views.particular_court" court.pk %}" method="post">
@@ -204,7 +203,7 @@
                         </div>
                       </div>
 
-                      <div class="row field">
+                      <div class="row field hidden-print">
                         <div class="col-sm-4">
                           <label for="id_image">Image:</label>
                         </div>
@@ -243,12 +242,11 @@
                   </div>
                 </div>
 
-                <input type="submit" value="Enregistrer" class="btn btn-warning"/>
+                <input type="submit" value="Enregistrer" class="btn btn-warning hidden-print"/>
               </form>
-
-
             </div>
           </div>
+
           <div class="col-md-4">
             <div class="panel panel-default">
               <div class="panel-heading">Terrains du même propriétaire:</div>
