@@ -55,7 +55,6 @@ breaklines=true
 \titleGM
 \tableofcontents
 \newpage
-populate live version, maybe create logins for the staff\\
 
 \section{Introduction \& Presentation of The Project}
 
@@ -135,7 +134,7 @@ Notice that all the \textit{Must Have} requirements have been implemented. For t
     \end{itemize}
     
 \subsection*{Non-Functional}
-
+In this subsection are listed the requirements that are more technical. Those are necessary so that the website works correctly. 
 
 \subsubsection*{Interface}
 	
@@ -148,14 +147,12 @@ Notice that all the \textit{Must Have} requirements have been implemented. For t
 	
 	\begin{itemize}
 		\item The software must be well documented
-
 	\end{itemize}
 	
 \subsubsection*{Privacy}
     
     \begin{itemize}
     	\item Turn off indexation of private data
-
     \end{itemize}
 
 
@@ -178,15 +175,15 @@ The requirements below are the ones we planned to develop for the second phase. 
 
 \subsection{Organisation and Tools used}
 
-We are briefly going to explain the way the group is going to develop the project. After being introduced to the project by our customers, we had to choose between a few development methods to use throughout the making of the software. The group decided pick the \textbf{Agile} method. \\
+We are briefly going to explain the way the group decided to develop the project. After being introduced to the project by our customers, we had to choose between a few development methods to use throughout the making of the software. The group decided pick the \textbf{Agile} method. \\
 
-The first step of this method is writing down user stories. These are used to present all the functionalities of the software which is the website. Afterwards, the group has to discuss about the importance and the difficulty of each user story, and then decide which of them have the top priority. \\
+The first step of this method is writing down user stories. These are used to represent all the functionalities of the software which is the website. Afterwards, the group has to discuss about the importance and the difficulty of each user story, and then decide which of them have the top priority. \\
 
 When this is done, we will use a kanban to organize the process of the project. The kanban contains all the user stories, and is divided into the following categories : “To do, doing this iteration, done this iteration, and done”. Every member of the group picks the user stories he thinks he is able to implement, so it allows us to know which member has done each task. For the kanban we will use the \textbf{Trello} Website (www.trello.com). \\
 
-The programming language used will be Python, with the \textbf{Django} framework.\\
+The programming language we decided to used was Python, with the \textbf{Django} framework.\\
 
- We will use the third version of Python, and the 1.8 version of Django. Lastly, we will use the \textbf{Bootstrap} framework for the design of the website ( the css part essentially). \\
+We would use the third version of Python, and the 1.8 version of Django. Lastly, we would also use the \textbf{Bootstrap} framework for the design of the website (the css part essentially). \\
 
 To easily share the project’s code, we will use a Control Version System, which is in this case \textbf{Git}. Git, and its underlying service called GitHub(www.github.com), is preferred since it allows us to make private repositories. 
 
@@ -195,6 +192,7 @@ We also decided to divide the project into 4 iterations, corresponding to the 4 
 To host a live version of the website, we used Heroku (www.heroku.com).\\
 
 There are a few reasons why we picked this way of working. First of all, this method was genuinely our first choice since it is the one we are the most comfortable with, as we have been using such a method for a few projects now. Moreover, we liked its versatility since every member of the group has to be involved in every aspect of the project. Furthermore, after each iteration, we will have a meeting with our Assistant. This meeting will allow us to get a feedback of each deliverable. The feedback received will then help us to know if changes need to be done, if there are unnecessary things, or if our project is moving towards the right direction. Finally, with the Agile method, we will first implement all the “must have” functionalities, which allow us to focus on the core of the software, and then add up the functionalities with less priority. \\
+
 \subsection{The Website, Its Functionalities}
 
 In this section, we will show you the fully built website and we will explain everything you need to know about its functionalities. We will seperately explain the functionalities with the help of screenshots and sequence diagrams. To get a look at the live version of our website, you can click here : http://sep2015e.herokuapp.com. To get admin access you should add "/admin" in the url.\\
@@ -253,7 +251,7 @@ The sequence diagram at figure \ref{tournseq} illustrates better how the life cy
 \end{figure}
 \FloatBarrier
 \newpage
-\subsubsection*{File Sharing and Communication between staff members}
+\subsection*{File Sharing and Communication between staff members}
 
 In this section, we will describe a functionality that allows a good communication between the staff members, as requested. The website contains a page in which we implemented a functionality that allows to exchange messages. We also added a feature that allows to share files that they can upload/download. The staff members already have other means to communicate, so these two features should mostly be used for very important announcements. They are available on a dedicated page. You can see in figure \ref{annonce} below how a staff member can put an announcement, and how one can upload files in figure \ref{file} \\
 
