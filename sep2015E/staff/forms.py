@@ -1,6 +1,45 @@
 from django import forms
-from staff.models import Messages, Files
+from staff.models import Messages, Files, Staff
 from players.models import User
+from django.contrib.auth.models import User as Django_User
+
+class StaffEditForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+       user_id = kwargs.pop('user_id', None)
+       staff = None
+       if user_id != None:
+           staff = Staff.objects.filter(user__pk=user_id)
+       super(StaffEditForm, self).__init__(*args, **kwargs)
+       if user_id != None and staff.count() == 1:
+           staff = staff.get()
+           self.fields['address'].initial = staff.address
+           self.fields['city'].initial = staff.city
+           self.fields['country'].initial = staff.country
+           self.fields['zipcode'].initial = staff.zipcode
+           self.fields['phone'].initial = staff.phone
+    class Meta:
+        model = Staff
+        exclude = ['user']
+        widgets = {
+                'zipcode': forms.TextInput(),
+            }
+
+class UserDjangoEditForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+       user_id = kwargs.pop('user_id', None)
+       user = None
+       if user_id != None:
+           user = Django_User.objects.get(pk=user_id)
+       super(UserDjangoEditForm, self).__init__(*args, **kwargs)
+       if user != None:
+           self.fields['username'].initial = user.username
+           self.fields['first_name'].initial = user.first_name
+           self.fields['last_name'].initial = user.last_name
+           #self.fields['email'].initial = user.email
+           #self.fields['password'].initial = user.password
+    class Meta:
+        model = Django_User
+        fields = ['username', 'first_name', 'last_name']#, 'email', 'password']
 
 class MessageForm(forms.ModelForm):
     """Form when composing a message to send to other staff memebers."""
