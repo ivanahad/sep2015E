@@ -11,6 +11,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Tabl
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 import players.models
+from staff.models import Staff
 import math
 from datetime import datetime
 
@@ -40,6 +41,7 @@ class Tournament(models.Model):
     mixte = models.CharField(max_length=16, default="Mixte", choices=MIXTE_CHOICES)
     is_open = models.BooleanField(default=True)
     season = models.CharField(max_length=32);
+    staff = models.ForeignKey(Staff, null=True, blank=True)
 
     log = models.TextField(default="", blank=True)
 
