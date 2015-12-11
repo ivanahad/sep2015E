@@ -390,7 +390,7 @@ def assign_pairs_for_solo_automatic(request, id_tournament):
     n_solo_players = SoloParticipant.objects.filter(tournament=tournament).count()
     i = 0
     j = 1
-    while j+1 < n_solo_players:
+    while j+2 < n_solo_players:
         solo_p1 = solo_players[i]
         solo_p2 = solo_players[j]
         pair = Pair(player1=solo_p1.player, player2=solo_p2.player, season=settings.CURRENT_SEASON, average=0)
