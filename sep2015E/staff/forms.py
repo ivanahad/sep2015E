@@ -1,6 +1,7 @@
 from django import forms
 from staff.models import Messages, Files, Staff
 from players.models import User
+from courts.models import Court
 from django.contrib.auth.models import User as Django_User
 
 class StaffEditForm(forms.ModelForm):
@@ -77,3 +78,36 @@ class SearchForm(forms.Form):
     birthdate = forms.DateField(required=False)
     in_pair = forms.ChoiceField(choices=PAIR_LIST)
     in_tournament = forms.ChoiceField(choices=TOURNAMENT_LIST)
+
+class EditCourtForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+       id_court = kwargs.pop('id_court', None)
+       court = Court.objects.get(pk=id_court)
+       super(EditCourtForm, self).__init__(*args, **kwargs)
+       if court != None:
+           self.fields['owner_firstname'].initial = court.owner_firstname
+           self.fields['owner_lastname'].initial = court.owner_lastname
+           self.fields['owner_address_street'].initial = court.owner_address_street
+           self.fields['owner_address_number'].initial = court.owner_address_number
+           self.fields['owner_address_box'].initial = court.owner_address_box
+           self.fields['city'].initial = court.city
+           self.fields['zipcode'].initial = court.zipcode
+           self.fields['email'].initial = court.email
+           self.fields['phone'].initial = court.phone
+
+           self.fields['address_street'].initial = court.address_street
+           self.fields['address_number'].initial = court.address_number
+           self.fields['address_box'].initial = court.address_box
+           self.fields['ground'].initial = court.ground
+           self.fields['cover'].initial = court.cover
+           self.fields['image'].initial = court.image
+           self.fields['comment_access'].initial = court.comment_access
+           self.fields['comment_desiderata'].initial = court.comment_desiderata
+           self.fields['available'].initial = court.available
+
+    class Meta:
+        model = Court
+        exclude = ['log']
+        widgets = {
+                'zipcode': forms.TextInput(),
+            }

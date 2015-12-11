@@ -16,7 +16,7 @@ from datetime import datetime
 
 from staff.models import Messages, Files, Staff
 from staff.forms import MessageForm, MailListForm, FilesForm, SearchForm, \
-            StaffEditForm, UserDjangoEditForm
+            StaffEditForm, UserDjangoEditForm, EditCourtForm
 
 from courts.models import Court
 
@@ -381,3 +381,37 @@ def send_file(request, id_file):
     response = HttpResponse(f.f, content_type='none')
     response['Content-Disposition'] = 'attachment; filename=' + '"' + str(f.f) + '"'
     return response
+
+def particular_court(request, id_court):
+    court = Court.objects.get(pk=id_court)
+    if request.method == 'POST':
+        form = EditCourtForm(request.POST, id_court=id_court)
+        if form.is_valid():
+            court.owner_firstname = form.cleaned_data['owner_firstname']
+            court.owner_lastname = form.cleaned_data['owner_lastname']
+            court.owner_address_street = form.cleaned_data['owner_address_street']
+            court.owner_address_number = form.cleaned_data['owner_address_number']
+            court.owner_address_box = form.cleaned_data['owner_address_box']
+            court.city = form.cleaned_data['city']
+            court.zipcode = form.cleaned_data['zipcode']
+            court.email = form.cleaned_data['email']
+            court.phone = form.cleaned_data['phone']
+            court.address_street = form.cleaned_data['address_street']
+            court.address_number = form.cleaned_data['address_number']
+            court.address_box = form.cleaned_data['address_box']
+            court.ground = form.cleaned_data['ground']
+            court.cover = form.cleaned_data['cover']
+            court.image = form.cleaned_data['image']
+            court.comment_access = form.cleaned_data['comment_access']
+            court.comment_desiderata = form.cleaned_data['comment_desiderata']
+            court.available = True
+            court.save()
+
+    form = EditCourtForm(id_court=id_court)
+    owner_courts = Court.objects.filter(owner_firstname=court.owner_firstname,\
+                owner_lastname=court.owner_lastname).exclude(pk=court.pk)
+    return render(request, 'staff/particular_court.html', {\
+        'court':court,
+        'form':form,
+        'owner_courts':owner_courts,
+        })
