@@ -215,6 +215,9 @@
 					<a href="{% url "tournament.views.modify_pools" trn.pk 1 0 %}">
 						<button type="button" class="btn btn-warning"> Modifier pools</button>
 					</a>
+					<a href="{% url "tournament.views.print_pool" trn.pk %}">
+						<button type="button" class="btn btn-warning"> Imprimer</button>
+					</a>
 				</div>
 			</div>
       {% endif %}
@@ -302,7 +305,7 @@
 	    var data = container.bracket('data')
 	    $('#dataOutput').text(jQuery.toJSON(data))
 	  })
-	
+
 	</script>
 
 	<!-- Bootstrap Core JavaScript -->

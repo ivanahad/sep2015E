@@ -82,7 +82,6 @@ class Tournament(models.Model):
 
         self.is_open = False
         self.save()
-        self.generate_pdf()
 
     def assign_players(pools, players, size):
         """Assign all the players in the pools, trying to match size
@@ -107,7 +106,7 @@ class Tournament(models.Model):
 
     def generate_pdf(self):
         """ Generate a pdf version of the pools."""
-        doc = SimpleDocTemplate("pools.pdf", rightMargin=72, leftMargin=72,
+        doc = SimpleDocTemplate("files/"+self.name + ".pdf", rightMargin=72, leftMargin=72,
                                 topMargin=72, bottomMargin=18, showBoundary=1)
         doc.pagesize=landscape(A4)
         Story=[]

@@ -396,3 +396,13 @@ def assign_pairs_for_solo_automatic(request, id_tournament):
         i+=2
         j+=2
     return redirect('tournament.views.tournamentStaff', id_=id_tournament)
+
+def print_pool(request, id_tournament):
+    """ Print the pools for the tournament """
+    tournament = Tournament.objects.get(pk=id_tournament)
+    tournament.generate_pdf()
+    pdf_name = tournament.name+".pdf"
+    f = open('files/'+pdf_name, 'rb')
+    response = HttpResponse(f, content_type='none')
+    response['Content-Disposition'] = 'attachment; filename=' + '"' + str(f) + '"'
+    return response
