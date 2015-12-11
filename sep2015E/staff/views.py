@@ -291,8 +291,8 @@ def advanced_search(request):
         form = SearchForm(request.POST)
         query=""
         if form.is_valid():
-            users = User.objects.all()
-            owners = Court.objects.all()
+            users = User.objects.order_by('lastname', 'firstname').all()
+            owners = Court.objects.order_by('owner_firstname','owner_lastname').all()
             #Filter by name
             name = form.cleaned_data['name']
             query=name
@@ -330,10 +330,9 @@ def advanced_search(request):
                 users=users.exclude(player2=pairs)
             elif in_tournament=="F":
                 tournament_participants = TournamentParticipant.objects.all()
-                pairs = Pair.objects.exclude(tournamentparticipant=tournament_participants).only('player1')
-                users=users.filter(player1=pairs)
-                pairs = Pair.objects.exclude(tournamentparticipant=tournament_participants).only('player2')
-                users=users.filter(player2=pairs)
+                pairs1 = Pair.objects.exclude(tournamentparticipant=tournament_participants).only('player1')
+                pairs2 = Pair.objects.exclude(tournamentparticipant=tournament_participants).only('player2')
+                users=users.filter(Q(player2=pairs2) | Q(player1=pairs1))
 
             return render(request, 'staff/search.html', { \
                 'players':users,

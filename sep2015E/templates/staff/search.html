@@ -120,7 +120,7 @@
                 <div class="panel-heading"><strong>Propriétaires</strong></div>
   							<div class="panel-body">
   								{% for owner in owners %}
-  								<p>{{ owner }}</p>
+  								<p><a href="{% url "staff.views.particular_court" owner.pk %}">{{ owner }}</a></p>
   								{% endfor %}
   							</div>
   							</div>
