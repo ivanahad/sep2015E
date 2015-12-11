@@ -15,7 +15,7 @@
             <div class="panel panel-default">
               <div class="panel-body">
 
-                <form enctype="multipart/form-data" action="{% url "staff.views.particular_court" court.pk %}" method="post">
+                <form enctype="multipart/form-data" action="{% url "staff.views.particular_court" court.pk %}" method="post" id="modif">
                   {% csrf_token %}
                   {{ form.non_field_errors }}
                   <div class="panel panel-default">
@@ -181,6 +181,18 @@
 
                       <div class="row field">
                         <div class="col-sm-4">
+                          <label for="id_ground">Disponible:</label>
+                        </div>
+                        <div class="col-sm-4">
+                          {{ form.available }}
+                        </div>
+                        <div class="col-sm-4 required">
+                          {{ form.available.errors }}
+                        </div>
+                      </div>
+
+                      <div class="row field">
+                        <div class="col-sm-4">
                           <label for="id_ground">Sol:</label>
                         </div>
                         <div class="col-sm-4">
@@ -242,9 +254,11 @@
                   </div>
                 </div>
 
-                <input type="submit" value="Enregistrer" class="btn btn-warning hidden-print"/>
+                
               </form>
+              
             </div>
+            <input type="submit" value="Enregistrer" class="btn btn-warning" form="modif"/>
           </div>
 
           <div class="col-md-4">
