@@ -50,7 +50,7 @@
           <!-- PLAYER 2 -->
 					<div class="col-md-6">
 						<div class="panel panel-default">
-              <div class="panel-heading">
+              <div class="panel-heading ">
                 <a href="{% url "staff.views.particular_player" 1 pair.player2.id %}">Joueur 2</a>
               </div>
 							<div class="panel-body">
@@ -96,7 +96,7 @@
                 {% endif %}
 
 								{% if tournament.is_open != False %}
-								<form class="form-inline" action="{% url "staff.views.particular_pair" pair.pk %}" role="form" method="post">
+								<form class="form-inline hidden-print" action="{% url "staff.views.particular_pair" pair.pk %}" role="form" method="post">
 	                {% csrf_token %}
 	                <div class="form-group">
 										<select name="tournament">
