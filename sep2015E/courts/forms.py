@@ -6,7 +6,6 @@ class RegisterForm(forms.ModelForm):
     class Meta:
         model = Court
         fields = '__all__'
-        exclude = ['available']
         widgets = {
                 'comment_access': forms.Textarea(attrs={'cols': 35, 'rows':3}),
                 'comment_desiderata': forms.Textarea(attrs={'cols': 35, 'rows':3}),

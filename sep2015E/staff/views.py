@@ -286,9 +286,6 @@ def particular_player(request, page_id, player_id):
         'pair_form':pair_form
         })
 
-
-
-
 def particular_pair(request, id_pair):
     """Page showing information for a particular pair."""
     pair = Pair.objects.get(pk=id_pair)
@@ -456,13 +453,16 @@ def particular_court(request, id_court):
             court.image = form.cleaned_data['image']
             court.comment_access = form.cleaned_data['comment_access']
             court.comment_desiderata = form.cleaned_data['comment_desiderata']
-            court.available = True
             court.log = court.log + log_message
+            court.available = form.cleaned_data['available']
             court.save()
+
+            return redirect('staff.views.courts')
 
     form = EditCourtForm(id_court=id_court)
     owner_courts = Court.objects.filter(owner_firstname=court.owner_firstname,\
                 owner_lastname=court.owner_lastname).exclude(pk=court.pk)
+
     return render(request, 'staff/particular_court.html', {\
         'court':court,
         'form':form,
