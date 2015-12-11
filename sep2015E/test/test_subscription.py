@@ -64,3 +64,42 @@ class VisitorPosts(TestCase):
             print("- "+template.name)
 
         print("\n")
+
+    def test_courtRegister(self):
+        print("*** Test if a visitor can register ta new court***")
+        print("Post court form to url: /courts/register")
+        c = Client()
+        owner_firstname = "Geoffroy"
+        owner_lastname = "Husson"
+        owner_address_street = "Avenue de l'université"
+        owner_address_number = "1"
+        owner_address_box = ""
+        city = "Bruxelles"
+        zipcode = "1348"
+        email = "sep2015e@yopmail.com"
+        phone = "0478841254"
+        address_street = "Avenue du terrain de tennis"
+        address_number = "1"
+        address_box = ""
+        ground = "Brique"
+        cover = True
+        image = ""
+        comment_access = "accessible aux chaises roulantes"
+        comment_desiderata = "pas de commentaire"
+        available = "Samedi"
+        response = c.post('/courts/register', {'owner_firstname':owner_firstname,\
+            'owner_lastname':owner_lastname, 'owner_address_street':owner_address_street,\
+            'owner_address_number':owner_address_number, 'owner_address_box':owner_address_box,\
+            'city':city, 'zipcode':zipcode, 'email':email, 'phone':phone, 'address_street':address_street,\
+            'address_number':address_number, 'address_box':address_box, 'ground':ground, 'cover':cover,\
+            'image':image, 'comment_access':comment_access, 'comment_desiderata':comment_desiderata,\
+            'available':available},follow=True)
+        self.assertEqual(response.status_code, 200, \
+            "Error: Test court register post return " + \
+             str(response.status_code))
+        print("Response templates:")
+        templates = response.templates
+        for template in templates:
+            print("- "+template.name)
+
+
