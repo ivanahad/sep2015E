@@ -23,7 +23,8 @@ from courts.models import Court
 from players.models import User, Pair, UserRegistration
 from players.forms import PlayerForm, RegistrationForm, AssignPairForm
 
-from tournament.models import TournamentParticipant, Tournament, SoloParticipant
+from tournament.models import TournamentParticipant, Tournament, \
+        SoloParticipant, Pool
 
 
 
@@ -99,9 +100,33 @@ def mail_list(request):
             subject = form.cleaned_data['subject']
             message = form.cleaned_data['content']
             emitter = 'info@sep2015e.com'
-
-            datatuples = [(subject, message, emitter, [u.email]) \
-                    for u in User.objects.all()]
+            datatuples=[]
+            if "didnt_pay" in request.POST:
+                user_registration = UserRegistration.objects.filter(payement_done=False).only('user')
+                datatuples = [(subject, message, emitter, [u.email]) \
+                        for u in \
+                        User.objects.filter(userregistration=user_registration)]
+            elif 'players' in request.POST:
+                datatuples = [(subject, message, emitter, [u.email]) \
+                        for u in User.objects.all()]
+            elif 'owners' in request.POST:
+                datatuples = [(subject, message, emitter, [u.email]) \
+                        for u in Court.objects.all()]
+            elif 'leaders' in request.POST:
+                datatuples = [(subject, message, emitter, [u.email]) \
+                        for u in Pool.objects.all().only('leader')]
+            elif 'tournamentless' in request.POST:
+                tournament_participants = TournamentParticipant.objects.all()
+                players1 = Pair.objects.exclude(tournamentparticipant=tournament_participants).only('player1')
+                players2 = Pair.objects.exclude(tournamentparticipant=tournament_participants).only('player2')
+                datatuples = [(subject, message, emitter, [u.email]) \
+                        for u in User.objects.filter(Q(player1=players1) | Q(player2=players2))]
+            else:
+                datatuples = [(subject, message, emitter, [u.email]) \
+                        for u in User.objects.all()]
+                other_datatuples = [(subject, message, emitter, [c.email]) \
+                        for c in Court.objects.all()]
+                datatuples.extend(other_datatuples)
 
             send_mass_mail(datatuples)
             return HttpResponse("Email envoyé.<br/><a href=\"home\">Retour à l'accueil</a>")

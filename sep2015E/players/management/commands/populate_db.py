@@ -76,7 +76,7 @@ class Command(BaseCommand):
         city = self.random_city()
         country = "Belgique"
         zipcode = self.random_zipcode()
-        email = firstname + "." +lastname + "@test.com"
+        email = firstname.strip() + "." +lastname.strip() + "@test.com"
         phone = self.random_phone()
 
         while User.objects.filter(email=email).count ==0:
