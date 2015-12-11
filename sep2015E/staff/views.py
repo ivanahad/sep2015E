@@ -387,6 +387,12 @@ def particular_court(request, id_court):
     if request.method == 'POST':
         form = EditCourtForm(request.POST, id_court=id_court)
         if form.is_valid():
+            owner_courts = Court.objects.filter(owner_firstname=court.owner_firstname,\
+                        owner_lastname=court.owner_lastname).exclude(pk=court.pk)
+            for c in owner_courts:
+                c.owner_firstname = form.cleaned_data['owner_firstname']
+                c.owner_lastname = form.cleaned_data['owner_lastname']
+                c.save()
             court.owner_firstname = form.cleaned_data['owner_firstname']
             court.owner_lastname = form.cleaned_data['owner_lastname']
             court.owner_address_street = form.cleaned_data['owner_address_street']
