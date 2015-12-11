@@ -167,6 +167,10 @@ class Command(BaseCommand):
             ('quick', 'quick'),
             ('autres', 'autres')
         ]
+        ACCESS=[('Samedi', 'Samedi'),
+            ('Dimanche', 'Dimanche'),
+            ('Samedi et dimanche', 'Samedi et dimanche')]
+
 
         firstname, lastname, gender = self.random_name_gender()
         owner_firstname = firstname
@@ -186,7 +190,8 @@ class Command(BaseCommand):
         b = len(GROUND_TYPES)-1
         ground = GROUND_TYPES[random.randint(a,b)][0]
         cover = random.randint(0,1) == 0
-        available = random.randint(0,1) == 0
+        b = len(ACCESS)-1
+        available = ACCESS[random.randint(a,b)][0]
 
         court = Court(owner_firstname=owner_firstname, \
             owner_lastname=owner_lastname, \

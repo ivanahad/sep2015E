@@ -72,7 +72,10 @@ def tournament(request, id_):
         tournament = Tournament.objects.get(pk=id_)
         if request.method == 'POST':
             if 'close_tournament' in request.POST:
-                tournament.close_registrations()
+                try:
+                    tournament.close_registrations()
+                except:
+                    return HttpResponse("Pas assez de participants dans le tournoi.<br/><a href=\"/tournament\">Retour.</a>")
 
             return HttpResponseRedirect('/tournament/all')
             #return HttpResponseRedirect( \

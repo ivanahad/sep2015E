@@ -34,14 +34,14 @@ def register(request):
             new_court.save()
 
             send_mail('Your owner page', 'You will find informations about your court here : http://'+request.META['HTTP_HOST']+ \
-                '/courts/'+form.cleaned_data['owner_firstname']+form.cleaned_data['owner_lastname']+'/byowner', 'info@sep2015e.com', [form.cleaned_data['email']], fail_silently=False)
+                '/courts/'+form.cleaned_data['owner_firstname']+'_'+form.cleaned_data['owner_lastname']+'/byowner', 'info@sep2015e.com', [form.cleaned_data['email']], fail_silently=False)
 
             return render(request, 'courts/registration_success.html')
 
         form_owner = OwnerCourtsForm(request.POST)
         if form_owner.is_valid():
             #form_owner.cleaned_data['tournament'].close_registrations()
-            return HttpResponseRedirect('/courts/'+form.cleaned_data['owner_firstname']+form.cleaned_data['owner_lastname']+'/byowner.html')
+            return HttpResponseRedirect('/courts/'+form.cleaned_data['owner_firstname']+'_'+form.cleaned_data['owner_lastname']+'/byowner.html')
 
     else: # Si ce n'est pas du POST, c'est probablement une requête GET
         form = RegisterForm()  # Nous créons un formulaire vide
@@ -59,7 +59,8 @@ def byowner(request, param):
     """ Method who receive get request from byowner.html
         this is an owner page to get the court informations """
     court_owner = param.replace("%20", " ")
-    courts = Court.objects.filter(owner=court_owner)
+    courts = Court.objects.filter(owner_firstname=court_owner.split("_")[0], owner_lastname=court_owner.split("_")[1])
+    court_owner = param.replace("_", " ")
 
     match_list = []
     for val in courts:

@@ -252,13 +252,22 @@
                       </div>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col-md-8">
+                      <input type="submit" value="Enregistrer" class="btn btn-warning" form="modif"/>
+                    </div>
+                    <div class="col-md-4">
+                      <a href="{% url "staff.views.delete_court" court.pk %}">
+                        <button type="button" class="btn btn-danger">
+                          Supprimer terrain
+                        </button>
+                      </a>
+                    </div>
+                  </div>
                 </div>
-
-
               </form>
 
             </div>
-            <input type="submit" value="Enregistrer" class="btn btn-warning" form="modif"/>
           </div>
 
           <div class="col-md-4">

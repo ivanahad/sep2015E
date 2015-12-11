@@ -241,11 +241,11 @@ def particular_player(request, page_id, player_id):
         reg_form = RegistrationForm(request.POST, user_reg_id=user_reg.pk, instance=user_reg)
         pair_form = AssignPairForm(request.POST)
         if pair_form.is_valid():
-            other_player=pair_form.cleaned_data['other_player']
+            other_player=pair_form.cleaned_data['other_player'].player
             solo = SoloParticipant.objects.get(player=player)
             solo.delete()
             SoloParticipant.objects.get(player=other_player).delete()
-            Pair(player1=player, player2=other_player.player, average=0, season=settings.CURRENT_SEASON).save()
+            Pair(player1=player, player2=other_player, average=0, season=settings.CURRENT_SEASON).save()
             user_id = request.user.pk
             user = Django_User.objects.get(pk=user_id)
             log_message = user.first_name + " " + user.last_name + "assigned to a pair on " + time.strftime("%c") + "\n"
@@ -468,3 +468,28 @@ def particular_court(request, id_court):
         'form':form,
         'owner_courts':owner_courts,
         })
+
+def delete_player(request, id_player):
+    user = User.objects.get(pk=id_player)
+    pairs = Pair.objects.filter(Q(player1=user) | Q(player2=user))
+    for pair in pairs:
+        if pair.player1!=user:
+            SoloParticipant(player=pair.player2).save()
+        else:
+            SoloParticipant(player=pair.player2).save()
+        pair.delete()
+    return redirect('staff.views.players', page_id=1)
+
+def delete_pair(request, id_pair):
+    pair = Pair.objects.get(pk=id_pair)
+    player1 = pair.player1
+    player2 = pair.player2
+    pair.delete()
+    SoloParticipant(player=player1).save()
+    SoloParticipant(player=player2).save()
+    return redirect('staff.views.players', page_id=1)
+
+def delete_court(request, id_court):
+    court = Court.objects.get(pk=id_court)
+    court.delete()
+    return redirect('staff.views.courts')

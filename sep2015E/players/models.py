@@ -31,7 +31,7 @@ class User(models.Model):
     city = models.CharField(max_length=64)
     country = models.CharField(max_length=64)
     zipcode = models.IntegerField()
-    email = models.EmailField(max_length=128, unique=True)
+    email = models.EmailField(max_length=128, unique=False)
     phone = models.CharField(max_length=32, validators=[_phone_validator])
 
     log = models.TextField(default="", blank=True)

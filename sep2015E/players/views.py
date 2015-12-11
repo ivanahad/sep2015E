@@ -17,6 +17,11 @@ def register(request):
         reg1 = RegistrationForm(request.POST, prefix="reg1")
         usr2 = PlayerForm(request.POST, prefix="usr2")
         reg2 = RegistrationForm(request.POST, prefix="reg2")
+
+        if 'solo_registration' in request.POST :
+            usr2 = PlayerForm(prefix="usr2")
+            reg2 = RegistrationForm(prefix="reg2")
+
         pair = PairRegistrationForm(request.POST)
 
         emailForm1 = EmailOldUserForm(prefix="email1")
