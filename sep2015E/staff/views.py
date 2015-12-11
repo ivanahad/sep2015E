@@ -13,6 +13,10 @@ from django.conf import settings
 
 
 from datetime import datetime
+import time
+
+from django.contrib.auth.models import User as Django_User
+
 
 from staff.models import Messages, Files, Staff
 from staff.forms import MessageForm, MailListForm, FilesForm, SearchForm, \
@@ -227,7 +231,6 @@ def particular_player(request, page_id, player_id):
     players = User.objects.order_by('lastname', 'firstname').all()[extremity1:extremity2]
     player = User.objects.filter(id=player_id).get()
 
-
     if not request.user.is_authenticated():
         return redirect('staff.views.login_staff')
 
@@ -243,10 +246,25 @@ def particular_player(request, page_id, player_id):
             solo.delete()
             SoloParticipant.objects.get(player=other_player).delete()
             Pair(player1=player, player2=other_player.player, average=0, season=settings.CURRENT_SEASON).save()
+            user_id = request.user.pk
+            user = Django_User.objects.get(pk=user_id)
+            log_message = user.first_name + " " + user.last_name + "assigned to a pair on " + time.strftime("%c") + "\n"
+            player.log = player.log + log_message
+            player.save()
         if form.is_valid():
+            user_id = request.user.pk
+            user = Django_User.objects.get(pk=user_id)
+            log_message = user.first_name + " " + user.last_name + "edited on " + time.strftime("%c") + "\n"
+            player.log = player.log + log_message
+            player.save()
             obj = form.save()
         if reg_form.is_valid():
             obj2 = reg_form.save()
+            user_id = request.user.pk
+            user = Django_User.objects.get(pk=user_id)
+            log_message = user.first_name + " " + user.last_name + "edited on " + time.strftime("%c") + "\n"
+            player.log = player.log + log_message
+            player.save()
     player_pairs = Pair.objects.filter(season=settings.CURRENT_SEASON).filter(Q(player1=player) | Q(player2=player))
     if player_pairs.count() == 0:
         player_pairs=None
@@ -411,11 +429,15 @@ def particular_court(request, id_court):
     if request.method == 'POST':
         form = EditCourtForm(request.POST, id_court=id_court)
         if form.is_valid():
+            user_id = request.user.pk
+            user = Django_User.objects.get(pk=user_id)
+            log_message = user.first_name + " " + user.last_name + "edited on " + time.strftime("%c") + "\n"
             owner_courts = Court.objects.filter(owner_firstname=court.owner_firstname,\
                         owner_lastname=court.owner_lastname).exclude(pk=court.pk)
             for c in owner_courts:
                 c.owner_firstname = form.cleaned_data['owner_firstname']
                 c.owner_lastname = form.cleaned_data['owner_lastname']
+                c.log = c.log + log_message
                 c.save()
             court.owner_firstname = form.cleaned_data['owner_firstname']
             court.owner_lastname = form.cleaned_data['owner_lastname']
@@ -435,6 +457,7 @@ def particular_court(request, id_court):
             court.comment_access = form.cleaned_data['comment_access']
             court.comment_desiderata = form.cleaned_data['comment_desiderata']
             court.available = True
+            court.log = court.log + log_message
             court.save()
 
     form = EditCourtForm(id_court=id_court)
