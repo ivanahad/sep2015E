@@ -11,5 +11,6 @@ urlpatterns = patterns('tournament.views',
     url(r'^(?P<id_tournament>\d+)/(?P<id_page>\d+)/pool/(?P<id_pool>\d+)/remove/(?P<id_pair>\d+)$', 'remove_player_from_pool'),
     url(r'^(?P<id_tournament>\d+)/(?P<id_page>\d+)/pool/(?P<id_pool>\d+)/add/(?P<id_pair>\d+)$', 'add_player_to_pool'),
     url(r'^assign_pairs_automatic/(?P<id_tournament>\d+)$', 'assign_pairs_for_solo_automatic'),
+    url(r'^assign_tournament_staff/(?P<id_tournament>\d+)$', 'assign_tournament_staff'),
     url(r'^bracket/save/(?P<id_tournament>\d+)$', 'save_match_changes_bracket'),
 )

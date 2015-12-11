@@ -5,7 +5,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from tournament.models import *
 from players.models import *
 from tournament.forms import OpenTournamentChoiceForm, CreateTournamentForm, \
-        MatchEditForm, AssignCourtForm, AssignDateForm, AssignPoolLeaderForm, BracketMatchEditForm
+        MatchEditForm, AssignCourtForm, AssignDateForm, AssignPoolLeaderForm,\
+         BracketMatchEditForm, AssignStaffForm
 
 def all(request):
     """ Render all the tournaments """
@@ -128,6 +129,7 @@ def tournamentStaff(request, id_):
                     if(node.match != None and node.child1 == None and node.child2 == None):
                         nodes.append(node)
             form = BracketMatchEditForm()
+            staff_form = AssignStaffForm()
             return render(request, 'tournament/detailStaff.html', { \
                     'trn': tournament, \
                     'parts': parts, \
@@ -138,6 +140,7 @@ def tournamentStaff(request, id_):
                     'pools': pools, \
                     'nodes': nodes, \
                     'current_url': request.get_full_path(), \
+                    'staff_form':staff_form, \
                     })
 
     except Tournament.DoesNotExist:
@@ -406,3 +409,14 @@ def print_pool(request, id_tournament):
     response = HttpResponse(f, content_type='none')
     response['Content-Disposition'] = 'attachment; filename=' + '"' + str(f) + '"'
     return response
+
+def assign_tournament_staff(request, id_tournament):
+    tournament = Tournament.objects.get(pk=id_tournament)
+    if request.method == 'POST':
+        staff_form = AssignStaffForm(request.POST)
+        if staff_form.is_valid():
+            staff = staff_form.cleaned_data['staff']
+            tournament.staff = staff
+            tournament.save()
+            return redirect('tournament.views.tournamentStaff', id_=id_tournament)
+    return redirect('tournament.views.tournamentStaff', id_=id_tournament)

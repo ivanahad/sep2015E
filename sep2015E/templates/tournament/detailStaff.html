@@ -69,7 +69,46 @@
 						</tr>
 						<tr>
 							<td> Staff en charge:</td>
-							<td>{{ trn.staff }} </td>
+							<td>
+								<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
+									{{ trn.staff }}
+								</button>
+								<div id="myModal" class="modal fade" role="dialog">
+									<div class="modal-dialog">
+
+										<!-- Modal content-->
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+												<h4 class="modal-title">Choisir un staff en charge du tournoi.</h4>
+											</div>
+											<div class="modal-body">
+												<form action="{% url "tournament.views.assign_tournament_staff" trn.pk %}" method="post">
+	                        {% csrf_token %}
+
+	                        <div class="row field">
+	                          <div class="col-sm-4">
+	                            <label for="id_firstname">Staff:</label>
+	                          </div>
+	                          <div class="col-sm-4">
+	                            {{ staff_form.staff }}
+	                          </div>
+	                          <div class="col-sm-4 required">
+	                            {{ staff_form.staff.errors }}
+	                          </div>
+	                        </div>
+
+	                        <input type="submit" value="Enregistrer" class="btn btn-warning" />
+	                      </form>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</td>
 						</tr>
 					</table>
 				</div>
@@ -126,7 +165,7 @@
 						<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Modifier match<span class="caret"></span></button>
 
 						<a href="javascript:window.print()">
-								<button type="button" class="btn btn-warning"> Imprimer</button>
+							<button type="button" class="btn btn-warning"> Imprimer</button>
 						</a>
 						<ul class="dropdown-menu">
 							{% for node in nodes %}

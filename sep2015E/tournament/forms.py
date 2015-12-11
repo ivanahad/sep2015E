@@ -5,6 +5,7 @@ from tournament.models import Tournament, Match, PoolParticipant, Pool
 from courts.models import Court
 from players.models import User, Pair
 import tournament
+from staff.models import Staff
 
 class OpenTournamentChoiceForm(forms.Form):
     """ Form to choose a tournament """
@@ -64,3 +65,9 @@ class AssignPoolLeaderForm(forms.Form):
 
 class AssignDateForm(forms.Form):
     date = forms.DateTimeField()
+
+class AssignStaffForm(forms.Form):
+    staff = forms.ModelChoiceField( \
+            queryset=Staff.objects.all(), \
+            empty_label=None, \
+        )
