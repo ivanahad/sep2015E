@@ -75,7 +75,7 @@ def tournament(request, id_):
                 try:
                     tournament.close_registrations()
                 except:
-                    pass
+                    return HttpResponse("Pas assez de participants dans le tournoi.<br/><a href=\"/tournament\">Retour.</a>")
 
             return HttpResponseRedirect('/tournament/all')
             #return HttpResponseRedirect( \
