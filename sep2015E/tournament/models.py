@@ -291,8 +291,8 @@ class PoolParticipant(models.Model):
 
 class Match(models.Model):
     """Defines a match between two teams."""
-    team1 = models.ForeignKey('players.Pair', related_name='team1')
-    team2 = models.ForeignKey('players.Pair', related_name='team2')
+    team1 = models.ForeignKey('players.Pair', related_name='team1', null=True, blank=True)
+    team2 = models.ForeignKey('players.Pair', related_name='team2', null=True, blank=True)
     score1 = models.IntegerField(null=True, blank=True)
     score2 = models.IntegerField(null=True, blank=True)
 

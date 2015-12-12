@@ -168,12 +168,12 @@
 							<button type="button" class="btn btn-warning"> Imprimer</button>
 						</a>
 						<ul class="dropdown-menu">
-							{% for node in nodes %}
+							{% for node in nodes_to_modify %}
 							<li><a href="#" data-toggle="modal" data-target="#{{ node.match.pk }}" data-match-id={{ node.match.pk }}>{{ node.match.team1 }} - {{ node.match.team2 }}</a></li>
 							{% endfor %}
 						</ul>
 					</div>
-					{% for node in nodes %}
+					{% for node in nodes_to_modify %}
 					<div id="{{ node.match.pk }}" class="modal fade" role="dialog">
 						<div class="modal-dialog">
 							<div class="modal-content">
@@ -186,7 +186,7 @@
 										{% csrf_token %}
 										<div class="row field">
 											<div class="col-sm-4">
-												<input type="hidden" name="matchId" value="{{ node.match.pk }}"/>
+												<input type="hidden" name="matchId" value="{{ node.pk }}"/>
 												<label for="id_firstname">Score paire 1:</label>
 											</div>
 											<div class="col-sm-4">
@@ -308,14 +308,48 @@ var pools = [];
 var scores = [];
 var pair = [];
 var tempResults = [];
+var tempTempResults = [];
 var index = 0;
+var index2 = 0;
+var i = 0;
 {% for node in nodes %}
 pair = ["{{ node.match.team1 }}", "{{ node.match.team2 }}"];
-tempResults = ["{{ node.match.score1 }}", "{{ node.match.score2 }}"];
 pools[index] = pair;
-scores[index] = tempResults;
 index++;
 {% endfor %}
+index = 0;
+index2 = pools.length;
+var index3 = 0;
+	{% for node in nodes_all %}
+		if(index < index2){
+			if("{{ node.match.team1 }}" == "None"){
+				tempResults[index] = [-1,1];
+			}
+			else{
+				tempTempResults = ["{{ node.match.score1 }}", "{{ node.match.score2 }}"];
+				tempResults[index] = tempTempResults;
+			}
+			index++;
+		}
+		else{
+			scores[index3] = tempResults;
+			tempResults = [];
+			index2 = index2 / 2;
+			index = 0;
+			index3++;
+			
+			if("{{ node.match.team1 }}" == "None" && "{{ node.match.team2 }}" == "None"){
+				tempResults[index] = [];
+			}
+			else{
+				tempTempResults = ["{{ node.match.score1 }}", "{{ node.match.score2 }}"];
+				tempResults[index] = tempTempResults;
+			}
+			index++;
+		}
+	{% endfor %}
+	scores[index3] = tempResults;
+	
 var dataBracket = {
 	teams : pools,
 	results : scores

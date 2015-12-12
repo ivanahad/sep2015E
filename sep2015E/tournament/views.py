@@ -1,4 +1,4 @@
-from math import ceil
+from math import ceil, floor
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse
@@ -7,6 +7,7 @@ from players.models import *
 from tournament.forms import OpenTournamentChoiceForm, CreateTournamentForm, \
         MatchEditForm, AssignCourtForm, AssignDateForm, AssignPoolLeaderForm,\
          BracketMatchEditForm, AssignStaffForm
+from copy import copy
 
 def all(request):
     """ Render all the tournaments """
@@ -127,10 +128,16 @@ def tournamentStaff(request, id_):
             pools = [(p, PoolParticipant.objects.filter(pool=p)) \
                     for p in pools]
             nodes = []
+            nodes_to_modify = []
+            nodes_all = []
             if not tournament.is_open:
                 for node in tournament.get_nodes():
                     if(node.match != None and node.child1 == None and node.child2 == None):
                         nodes.append(node)
+                    if(node.match != None and node.match.team1 != None and node.match.team2 != None and node.match.score1 == None and node.match.score2 == None):
+                        nodes_to_modify.append(node)
+                    if(node.match != None):
+                        nodes_all = get_nodes_for_score(tournament=tournament)
             form = BracketMatchEditForm()
             staff_form = AssignStaffForm()
             return render(request, 'tournament/detailStaff.html', { \
@@ -142,12 +149,37 @@ def tournamentStaff(request, id_):
                     'form' : form, \
                     'pools': pools, \
                     'nodes': nodes, \
+                    'nodes_all': nodes_all, \
+                    'nodes_to_modify': nodes_to_modify, \
                     'current_url': request.get_full_path(), \
                     'staff_form':staff_form, \
                     })
 
     except Tournament.DoesNotExist:
         return HttpResponseRedirect('/tournament/all')
+
+def get_nodes_for_score(tournament):
+    nodes = []
+    for node in tournament.get_nodes():
+        if(node.match != None and node.child1 == None and node.child2 == None):
+            nodes.append(node)
+    parent = nodes[0]
+    nodes_temp = copy(nodes)
+    nodes_temp2 = []
+    index = 0
+    while(parent.parent != None):
+        for node in nodes_temp:
+            if(index != 1):
+                nodes.append(node.parent)
+                nodes_temp2.append(node.parent)
+                parent = node.parent
+                index = index + 1
+            else:
+                index = 0
+        nodes_temp = copy(nodes_temp2)
+        nodes_temp2 = []
+    return nodes
+
 
 def pool(request, id_tournament, id_pool):
     """ Page for visualing a particular pool """
@@ -192,31 +224,65 @@ def pool(request, id_tournament, id_pool):
             tournamentNode.save()
             tournament.k_o_root = tournamentNode
             tournament.save()
+            match = Match(team1=None,team2=None)
+            match.save()
+            tournament.k_o_root.match = match
+            tournament.k_o_root.save()
+            last_parent = tournament.k_o_root
+            last_child = tournament.k_o_root
+            number_to_reach = floor(number_pools/2)
+            if(number_pools%2 == 1 and (number_pools+1)%4 != 0):
+                number_to_reach = floor(number_pools/2)+1
             nodes_to_create = [tournament.k_o_root]
-            while leafs_number < number_pools/2:
+            while leafs_number < number_to_reach:
                 leafs_number = 0
                 current_nodes = []
                 for node in nodes_to_create:
                     tournamentNode1 = TournamentNode(parent=node)
                     tournamentNode1.save()
+                    match1 = Match(team1=None,team2=None)
+                    match1.save()
+                    tournamentNode1.match = match1
+                    tournamentNode1.save()
                     node.child1 = tournamentNode1
                     tournamentNode2 = TournamentNode(parent=node)
                     tournamentNode2.save()
+                    match2 = Match(team1=None,team2=None)
+                    match2.save()
+                    tournamentNode2.match = match2
+                    tournamentNode2.save()
                     node.child2 = tournamentNode2
+                    last_parent = node
                     leafs_number += 2
                     current_nodes.append(node.child1)
                     current_nodes.append(node.child2)
                     node.save()
-                    if leafs_number >= number_pools:
-                        break
+                    last_child = node.child2
                 nodes_to_create = current_nodes
             index = 0
             for node in nodes_to_create:
-                match = Match(team1=tournament_pool_winners[index].winner,team2=tournament_pool_winners[index+1].winner)
-                match.save()
-                node.match = match
-                node.save()
-                index +=2
+                if(index+1 < len(tournament_pool_winners)):
+                    match = Match(team1=tournament_pool_winners[index].winner,team2=tournament_pool_winners[index+1].winner)
+                    match.save()
+                    node.match = match
+                    node.save()
+                    index +=2
+            if((number_pools % 2) == 1):
+                if(number_to_reach > floor(number_pools/2)):
+                    match = Match(team1=None,team2=tournament_pool_winners[index].winner)
+                    match.save()
+                    last_child.match = match
+                    last_child.save()
+
+                    match = Match(team1=None,team2=tournament_pool_winners[index].winner)
+                    match.save()
+                    tournament.k_o_root.match = match
+                    tournament.k_o_root.save()
+                else:
+                    match = Match(team1=None,team2=tournament_pool_winners[index].winner)
+                    match.save()
+                    last_parent.match = match
+                    last_parent.save()
 
 
     if request.method == 'POST':
@@ -373,14 +439,24 @@ def save_match_changes_bracket(request, id_tournament):
             score1 = form.cleaned_data['score1']
             score2 = form.cleaned_data['score2']
             court = form.cleaned_data['court']
-            match = Match.objects.filter(id=form.cleaned_data['matchId'])
-            match = match.get()
+            node = TournamentNode.objects.filter(id=form.cleaned_data['matchId'])
+            node = node.get()
+            winner = node.match.team1
+            if(score2 > score1):
+                winner = node.match.team2
             if score1 != None:
-                match.score1 = score1
+                node.match.score1 = score1
             if score2 != None:
-                match.score2 = score2
-            match.court = court
-            match.save()
+                node.match.score2 = score2
+            node.match.court = court
+            node.match.save()
+            if(node.parent != None):
+                if(node.parent.match.team1 == None):
+                    node.parent.match.team1 = winner
+                else:
+                    if(node.parent.match.team2 == None):
+                        node.parent.match.team2 = winner
+                node.parent.match.save()
     return redirect('tournament.views.tournamentStaff', id_=id_tournament)
 
 def assign_pairs_for_solo_automatic(request, id_tournament):
