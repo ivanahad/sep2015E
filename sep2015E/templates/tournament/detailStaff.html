@@ -169,11 +169,12 @@
 						</a>
 						<ul class="dropdown-menu">
 							{% for node in nodes %}
-							<li><a href="#" data-toggle="modal" data-target="#matchModal" data-match-id={{ node.match.id }}>{{ node.match.team1 }} - {{ node.match.team2 }}</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#{{ node.match.pk }}" data-match-id={{ node.match.pk }}>{{ node.match.team1 }} - {{ node.match.team2 }}</a></li>
 							{% endfor %}
 						</ul>
 					</div>
-					<div id="matchModal" class="modal fade" role="dialog">
+					{% for node in nodes %}
+					<div id="{{ node.match.pk }}" class="modal fade" role="dialog">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -185,13 +186,13 @@
 										{% csrf_token %}
 										<div class="row field">
 											<div class="col-sm-4">
-												<input type="hidden" name="matchId" value=""/>
+												<input type="hidden" name="matchId" value="{{ node.match.pk }}"/>
 												<label for="id_firstname">Score paire 1:</label>
 											</div>
 											<div class="col-sm-4">
 												{{ form.score1 }}
-												{% if nodes.0.match.score1 != None %}
-												{{nodes.0.match.score1}}
+												{% if node.match.score1 != None %}
+												{{node.match.score1}}
 												{% endif %}
 											</div>
 											<div class="col-sm-4 required">
@@ -205,8 +206,8 @@
 											</div>
 											<div class="col-sm-4">
 												{{ form.score2 }}
-												{% if nodes.0.match.score2 != None %}
-												{{nodes.0.match.score2}}
+												{% if node.match.score2 != None %}
+												{{node.match.score2}}
 												{% endif %}
 											</div>
 											<div class="col-sm-4 required">
@@ -233,9 +234,9 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
+				{% endfor %}
 			</div>
 
 			<!-- Pools -->
