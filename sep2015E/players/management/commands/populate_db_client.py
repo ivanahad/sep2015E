@@ -23,15 +23,15 @@ class Command(BaseCommand):
         if gender == "M":
             a = 1
             b = int(linecache.getline('static/txt/male.txt', 1))
-            firstname = linecache.getline('static/txt/male.txt', random.randint(a, b))
+            firstname = linecache.getline('static/txt/male.txt', random.randint(a, b)).strip()
         else:
             a = 1
             b = int(linecache.getline('static/txt/female.txt', 1))
-            firstname = linecache.getline('static/txt/female.txt', random.randint(a, b))
+            firstname = linecache.getline('static/txt/female.txt', random.randint(a, b)).strip()
         #Choose the lastname
         a = 1
         b = int(linecache.getline('static/txt/names', 1))
-        lastname = linecache.getline('static/txt/names', random.randint(a, b))
+        lastname = linecache.getline('static/txt/names', random.randint(a, b)).strip()
 
         return firstname, lastname, gender
 
