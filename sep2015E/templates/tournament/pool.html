@@ -39,7 +39,7 @@
               <td></td>
               {% else %}
               <!-- MODAL TO EDIT MATCH SCORE AND COURT -->
-            <td><a href="#" data-toggle="modal" data-target="#matchModal">
+            <td><a href="#" data-toggle="modal" data-target="#{{m.pk}}">
                 {% if match.0.pk == m.team1.pk and m.score1 > m.score2 %}
                   V
                 {% elif match.0.pk == m.team1.pk and m.score1 < m.score2 %}
@@ -53,7 +53,7 @@
                 {% endif %}
                 </a>
             </td>
-              <div id="matchModal" class="modal fade" role="dialog">
+              <div id="{{m.pk}}" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
