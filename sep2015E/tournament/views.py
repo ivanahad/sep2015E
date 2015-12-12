@@ -231,7 +231,7 @@ def pool(request, id_tournament, id_pool):
             last_parent = tournament.k_o_root
             last_child = tournament.k_o_root
             number_to_reach = floor(number_pools/2)
-            if(number_pools%2 == 1 and (number_pools+1)%4 != 0):
+            if(number_pools%2 == 1):
                 number_to_reach = floor(number_pools/2)+1
             nodes_to_create = [tournament.k_o_root]
             while leafs_number < number_to_reach:

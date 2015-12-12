@@ -313,7 +313,14 @@ var index = 0;
 var index2 = 0;
 var i = 0;
 {% for node in nodes %}
-pair = ["{{ node.match.team1 }}", "{{ node.match.team2 }}"];
+if("{{ node.match.team1 }}" == "None" && "{{ node.match.team2 }}" == "None")
+	pair = [" ", " "];
+else if("{{ node.match.team1 }}" == "None")
+	pair = [" ", "{{ node.match.team2 }}"];
+else if("{{ node.match.team2 }}" == "None")
+	pair = ["{{ node.match.team1 }}", " "];
+else
+	pair = ["{{ node.match.team1 }}", "{{ node.match.team2 }}"];
 pools[index] = pair;
 index++;
 {% endfor %}
