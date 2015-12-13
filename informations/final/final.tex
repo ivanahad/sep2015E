@@ -1,4 +1,4 @@
-
+ 
 \documentclass[a4paper, 12pt]{article}
 
 \usepackage[french]{babel} 
@@ -56,6 +56,10 @@ breaklines=true
 \tableofcontents
 \newpage
 
+\begin{figure}[h]
+
+\includegraphics[scale=0.4]{accueil.png}
+\end{figure}
 \section{Introduction \& Presentation of The Project}
 
 Each year, the ASMAE non-profit organization organizes a tennis tournament that gathers many players during one week-end. Last September, representatives of this organization queried our help to revamp their website. This website is used for the tennis players to register themselves for several kinds of tournaments. However, their current website was old and started to show its limits.\\
@@ -169,9 +173,9 @@ In this subsection are listed the requirements that are more technical. Those ar
 
 
 \newpage
-\section{Development and Implementation}
 
-The requirements below are the ones we planned to develop for the second phase. This time, every requirement has been implemented. \\
+
+In this section, we will present to you our website and all the important aspects of it, such as how we developed it, how it looks like, what kind of features it contains, etc.
 
 \subsection{Organisation and Tools used}
 
@@ -193,22 +197,34 @@ To host a live version of the website, we used Heroku (www.heroku.com).\\
 
 There are a few reasons why we picked this way of working. First of all, this method was genuinely our first choice since it is the one we are the most comfortable with, as we have been using such a method for a few projects now. Moreover, we liked its versatility since every member of the group has to be involved in every aspect of the project. Furthermore, after each iteration, we will have a meeting with our Assistant. This meeting will allow us to get a feedback of each deliverable. The feedback received will then help us to know if changes need to be done, if there are unnecessary things, or if our project is moving towards the right direction. Finally, with the Agile method, we will first implement all the “must have” functionalities, which allow us to focus on the core of the software, and then add up the functionalities with less priority. \\
 
+\begin{figure}[h]
+
+\includegraphics[scale=0.5]{onglets.png}
+\end{figure}
+\section{Development and Implementation}
 \subsection{The Website, Its Functionalities}
 
-In this section, we will show you the fully built website and we will explain everything you need to know about its functionalities. We will seperately explain the functionalities with the help of screenshots and sequence diagrams. To get a look at the live version of our website, you can click here : http://sep2015e.herokuapp.com. To get admin access you should add "/admin" in the url.\\
+In this section, we will show you the fully built website and we will explain everything you need to know about its functionalities. We will seperately explain the functionalities with the help of screenshots and sequence diagrams. To get a look at the live version of our website, you can click here : http://sep2015e.herokuapp.com. \\
 
 
 
 \subsection*{Registration of a player}
 
-%\begin{figure}[h]
-% \caption{\label{register} Registration form}
-%  \includegraphics[scale=0.7]{recap.png}
-%\end{figure}
+\begin{figure}[h]
+\caption{\label{register} Registration form}
+\includegraphics[scale=0.5]{playerform.png}
+\end{figure}
+\FloatBarrier
 
 The first main and most important functionality of the website is the registration of a player, as the users will usually visit the website to to do and to assign themselves to a tournament.\\
 
-To do so, a user must fill in the form with all the required fields, as you can see in the screenshot above(REF NECESSARY). Once this is done, the system will check if all the mandatory fields have been filled. If not, some warning will appear to precise which field must be correctly filled. Once all the fields are correct, the user is redirected to a page that shows a summary of all the payments for him, allowing him to check what he is going to pay afterwards.. It is important to note that we have implemented a smart registration, where a player is automatically assigned to a tournament according to his information. In figure \ref{recap}, you can see an example of how the information is presented after validation. Also note that the payment choice is chosen after a user has entered and validated all his information.\\
+\begin{figure}[h]
+\caption{\label{obligatoire} Required fields}
+\includegraphics[scale=0.7]{obligatoire.png}
+\end{figure}
+\FloatBarrier
+
+To do so, a user must fill in the form with all the required fields. Once this is done, the system will check if all the mandatory fields have been filled. If not, some warning will appear to precise which field must be correctly filled, as you can see in the screenshot above(Figure \ref{obligatoire}). Once all the fields are correct, the user is redirected to a page that shows a summary of all the payments for him, allowing him to check what he is going to pay afterwards.. It is important to note that we have implemented a smart registration, where a player is automatically assigned to a tournament according to his information. In figure \ref{recap}, you can see an example of how the information is presented after validation. Also note that the payment choice is chosen after a user has entered and validated all his information.\\
 
 If a member is registered alone for a tournament, a staff member can eventually match him with another member that is alone.\\
 
@@ -230,18 +246,101 @@ We have built a sequence diagram, at figure \ref{playerseq}, that illustrates ho
 \FloatBarrier
 \newpage
 
+\subsection*{Owner Court Registration}
+
+One other main reason why users usually visit the website is to register their own court to make them available for the different tournaments of the week-end event. We will see how one can register a court.\\
+
+
+\begin{figure}[h]
+\includegraphics[scale=0.5]{registercourt.png}
+\end{figure}
+
+When clicking on the "\textit{Terrains}" tab of our website, a user gets to a page as presented above. A form is available to be filled with the information of the owner of a court that must be registered. Once this is done, there is a second form to be filled with all the information of the court to be registered, such as its address, the surface of the court, a picture, etc.\\
+
+\begin{figure}[h]
+\includegraphics[scale=0.5]{courtmail.png}
+\end{figure}
+
+This message above is shown when the registration is completed, an confirmation email is then sent to the owner.\\
+
+We have built a sequence diagram, at figure \ref{courtseq}, that illustrates how the registration of a court is done in a more technical way.\\
+
+\begin{figure}[h]
+   \caption{\label{courtseq} Sequence diagram for a Court registration}
+  \includegraphics[scale=0.4]{courtseq.png}
+\end{figure}
+
+\FloatBarrier
+\newpage
+
 \subsection*{Staff Role}
 
-(staff peut gérer les joueurs, les éditer, voir les paires, tout le côté manuel)
+\begin{figure}[h]
+\includegraphics[scale=0.5]{staffaccueil.png}
+\end{figure}
+\FloatBarrier
+A staff has a key role for the management of the website. We made sure that his abilities were as wide as possible. The staff part of the website is recognizable thanks to its different and darker background. Let us see what a staff user can manage in the website.\\
 
-Tout ce qu'il peut faire manuellement
-On verra si on ajoute tout ça ou pas.
-\subsection*{Tournaments managing}
+\subsubsection*{Editing a Player's Information}
+\begin{figure}[h]
+\includegraphics[scale=0.5]{listeplayers.png}
+\end{figure}
+
+A staff member can check and edit the list of all the registered players by clicking on the "Joueurs" tab. There are three lists in this page, a regular list of all the players, a list of the pairs that aren't assigned to a tournament yet, and players that are alone. When clicking on the name of a player, one gets access to a form with all the fields that are editable, as well as deleting a member if necessary.\\
+
+\subsubsection*{Checking the Courts' information}
+\begin{figure}[h]
+\includegraphics[scale=0.5]{courts.png}
+\end{figure}
+A staff member also has acces the all the courts' information available at the "Terrains" tab that were registered for the week-end, as you can see in the screenshot above. 
+\subsubsection*{File Sharing and Communication between staff members}
+
+In this section, we will describe a functionality that allows a good communication between the staff members, as requested. The website contains a page reached by clicking on the "Accueil tab" in which we implemented a functionality that allows to exchange messages. We also added a feature that allows to share files that they can upload/download. The staff members already have other means to communicate, so these two features should mostly be used for very important announcements. They are available on a dedicated page. You can see in figure \ref{annonce} below how a staff member can put an announcement, and how one can upload files in figure \ref{file}.\\
+
+\begin{figure}[h]
+  \caption{\label{annonce} Announcement creation}
+  \includegraphics[scale=0.7]{annonce.png}
+\end{figure}
+\FloatBarrier
+\begin{figure}[h]
+  \caption{\label{file} File sharing}
+  \includegraphics[scale=0.7]{fichier.png}
+\end{figure}
+\FloatBarrier
+
+ \newpage
 
 
-A staff member can visualize and print the evolution of the tournament in a fashionable and displayable form (both graphic and text), step by step, using the knockoff, and print the pool matchup sheet. When closing the registration for a tournament, a pdf is generated with all the pools. It was done this way so that the visitors can print the pdf themselves. Plus, the pdf is only generated once. The staff members can see on the website the pools and the corresponding fixtures, they can also edit the matches, as they have a global view of the pools. \\
+\subsubsection*{Tournaments managing}
+The last key role for a staff member is everything that is related to the tournaments management. A staff member has access to the tournaments managing page by going to the "Tournois" tab.\\
 
-Upon encoding all the scores of the matches in a pool, the winner of this group is displayed in green and the knock-off tournament is created in the database. Plus, it is now possible to see the bracket with a pretty graphical version. The players that are the winners of a group will then get to the bracket. The scores are, for now, only editable by an admin account. Another feature that was added is that a user can now delete his own email address from the database, so that he can delete his own information on his own.\\
+\begin{figure}[h]
+\includegraphics[scale=0.5]{stafftournament.png}
+\end{figure}
+\FloatBarrier
+The main feature is the creation of a tournament, as presented in the screenshot above. A staff member must choose the tournament's name by filling the required field, must choose the level of its participants, the number of players per groups and finally if the tournament is mixed or not.\\
+
+Afterwards, a list of all the created tournaments is available on the same page, with all their important information. By clicking on a tournament, one gets access to every important feature of each of them. Let us see what are those features that a staff member can use to edit/add information.\\
+
+\begin{figure}[h]
+\includegraphics[scale=0.5]{infotournament.png}
+\end{figure}
+\FloatBarrier
+First, there is a summary of all the information of the chosen tournament. There is a button that allows to assign staff members to the tournament as its managers.\\
+
+\begin{figure}[h]
+\includegraphics[scale=0.5]{participtournament.png}
+\end{figure}
+\FloatBarrier
+There is also the list of the fully registered players by pairs, and a list of all the players that are alone. From that point, we implemented a feature that allows a staff member to automatically match single players with each others to form a pair.\\
+
+\begin{figure}[h]
+\includegraphics[scale=0.5]{bracket.png}
+\end{figure}
+\FloatBarrier
+When all the players are registered, the tournament is set to be launched, and the groups containing all the registered players will be available. The knockoff tournament is represented in the "bracket section" that you see on the screenshot above. A staff member can visualize and print the evolution of the tournament in a fashionable and displayable form (both graphic and text), step by step, using the knockoff, and print the pool matchup sheet. When closing the registration for a tournament, a pdf is generated with all the pools. It was done this way so that the visitors can print the pdf themselves. Plus, the pdf is only generated once. The staff members can see on the website the pools and the corresponding fixtures, they can also edit the matches, as they have a global view of the pools. \\
+
+Upon encoding all the scores of the matches in a pool, the winner of this group is displayed in green and the knock-off tournament is created in the database. Plus, it is  possible to see the bracket with a pretty graphical version. The players that are the winners of a group will then get to the bracket.\\
 
 The sequence diagram at figure \ref{tournseq} illustrates better how the life cycle of a tournament is. More generally, it shows how players are added into groups, how the knock-off tournament is created, how the tournament is created, etc.\\
 
@@ -251,30 +350,18 @@ The sequence diagram at figure \ref{tournseq} illustrates better how the life cy
 \end{figure}
 \FloatBarrier
 \newpage
-\subsection*{File Sharing and Communication between staff members}
 
-In this section, we will describe a functionality that allows a good communication between the staff members, as requested. The website contains a page in which we implemented a functionality that allows to exchange messages. We also added a feature that allows to share files that they can upload/download. The staff members already have other means to communicate, so these two features should mostly be used for very important announcements. They are available on a dedicated page. You can see in figure \ref{annonce} below how a staff member can put an announcement, and how one can upload files in figure \ref{file} \\
-
-\begin{figure}[h]
-  \caption{\label{annonce} Announcement creation}
-  \includegraphics[scale=0.7]{annonce.png}
-\end{figure}
-\begin{figure}[h]
-  \caption{\label{file} File sharing}
-  \includegraphics[scale=0.7]{fichier.png}
-\end{figure}
-
- \newpage
-\subsection*{Owner Court Registration}
-\begin{figure}[h]
-   \caption{\label{courtseq} Sequence diagram for a Court registration}
-  \includegraphics[scale=0.4]{courtseq.png}
-\end{figure}
-\FloatBarrier
-\newpage
 
 \subsection*{Administration part}
-An admin can create an admin account, an admin can modify his credentials, an admin can create a staff account, An admin can delete an account. Those three requirements are done by default by Django.\\
+
+An administrator is in top of the hierarchy when it comes to abilities on the wbesite. In this case, administrators are very important, as they are able to create staff and admin accounts, to delete other staff and admin accounts, and to delete regular accounts. Plus, it can modify the credentials of all the users that are registered.\\
+
+However, the most important role for an administrator is that it is the only type of account that is able to close a tournament.
+
+\subsection*{For Future Developers}
+
+In case future developers would want to modify anything on the website, we made a wiki that explains everything about the project and the code. The wiki is available here :https://github.com/ivanahad/sep2015E/wiki, however we will not discuss about it in this report, as the wiki already contains consistent information.
+
 \subsection{The Architecture}
 This section will be dedicated to explain the more technical parts of our software and its underlying programming particularities. It will be divided in two parts. The first one will give further details about how tournaments, players, users, courts, and other important objects are represented in the database, and how those objects are linked together. The second one even more technical, as it explains how the software is structured, and how our team programmed all the important parts to build the website.\\
 
