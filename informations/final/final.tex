@@ -88,7 +88,7 @@ Notice that all the \textit{Must Have} requirements have been implemented. For t
 	These requirements describe functionalities for a player that wants to take part in one of the tournaments. Among them, a user must be able to enter his information in a form containing all the important fields, to register for a tournament, to register one of his courts if he is an owner, etc.\\
 	
 	\begin{itemize}
-		\item The user can enter his data (including special characters) 
+		\item \underline{The user can enter his data (including special characters) }
 		\item The users can register to a tournament as a pair, selecting his category 
 		\item \textit{The user can reuse old data linked to his email address to automatically fill a registration form}
 		\item The user can register for activities during a tournament (barbecue, etc) and choose preferences such as taking responsibilities and payment method
@@ -103,11 +103,11 @@ Notice that all the \textit{Must Have} requirements have been implemented. For t
     Here, we have the requirements that concern all the abilities that an administrator account must have. More generally, an administrator must be able to control most of the website, that is the registrations, the other admin accounts, staff accounts, etc. An administrator must also have the ability to manage tournaments in general. An administrator account has more rights than staff accounts, as they must manage almost every aspect of the website.\\ 
     
     \begin{itemize}
-    	\item An admin can start or close a tournament
-    	\item An admin can close the registration for a tournament (and trigger the creation of pools)
-    	\item An admin can create an admin account
-		\item An admin can create a staff account
-		\item An admin can delete an account
+    	\item \underline{An admin can start or close a tournament}
+    	\item \underline{An admin can close the registration for a tournament (and trigger the creation of pools)}
+    	\item \underline{An admin can create an admin account}
+		\item \underline{An admin can create a staff account}
+		\item \underline{An admin can delete an account}
 
     \end{itemize}
     
@@ -115,17 +115,17 @@ Notice that all the \textit{Must Have} requirements have been implemented. For t
     A staff account is used by the members of the ASMAE organisation. They make sure the tournaments are going as expected, they send important information to the players for their matches, they can assign courts to players, etc. For example, we made it possible for staff members to  broadcast a message to all participants so that they can send new information and reminders about the tournaments.\\\\
     
     \begin{itemize}
-    	\item After a pool has been generated, a staff member can manually reorganize it
+    	\item \underline{After a pool has been generated, a staff member can manually reorganize it}
 		\item A staff member can manually assign a court for each match, or modify it in case of raining
 		\item A staff member can use a mail list / newsletter functionality
-		\item A staff member can enter or edit match result data
-		\item A staff member can see all the user informations (except credentials)
-		\item A staff member can visualize and print the evolution of the tournament in a fashionable and displayable form (both graphic and text), step by step using the knockoff, and print the pool matchup sheet
-		\item A staff member can access the courts list
-		\item \textit{A staff member can manually match two users as a pair for a tournament}
-		\item \textit{Common page for staff members}
-		\item \textit{Files sharing between staff members}
-		\item \textit{Communication channel between staff members}
+		\item \underline{A staff member can enter or edit match result data}
+		\item \underline{A staff member can see all the user informations (except credentials)}
+		\item \underline{A staff member can visualize and print the evolution of the tournament in a fashionable and displayable form (both graphic and text), step by step using the knockoff, and print the pool matchup sheet}
+		\item \underline{A staff member can access the courts list}
+		\item \underline{\textit{A staff member can manually match two users as a pair for a tournament}}
+		\item \underline{\textit{Common page for staff members}}
+		\item \underline{\textit{Files sharing between staff members}}
+		\item \underline{\textit{Communication channel between staff members}}
     \end{itemize}
     
 \subsubsection*{System}   
@@ -175,6 +175,13 @@ In this subsection are listed the requirements that are more technical. Those ar
 \newpage
 
 
+
+
+\begin{figure}[h]
+
+\includegraphics[scale=0.5]{onglets.png}
+\end{figure}
+\section{Development and Implementation}
 In this section, we will present to you our website and all the important aspects of it, such as how we developed it, how it looks like, what kind of features it contains, etc.
 
 \subsection{Organisation and Tools used}
@@ -197,11 +204,6 @@ To host a live version of the website, we used Heroku (www.heroku.com).\\
 
 There are a few reasons why we picked this way of working. First of all, this method was genuinely our first choice since it is the one we are the most comfortable with, as we have been using such a method for a few projects now. Moreover, we liked its versatility since every member of the group has to be involved in every aspect of the project. Furthermore, after each iteration, we will have a meeting with our Assistant. This meeting will allow us to get a feedback of each deliverable. The feedback received will then help us to know if changes need to be done, if there are unnecessary things, or if our project is moving towards the right direction. Finally, with the Agile method, we will first implement all the “must have” functionalities, which allow us to focus on the core of the software, and then add up the functionalities with less priority. \\
 
-\begin{figure}[h]
-
-\includegraphics[scale=0.5]{onglets.png}
-\end{figure}
-\section{Development and Implementation}
 \subsection{The Website, Its Functionalities}
 
 In this section, we will show you the fully built website and we will explain everything you need to know about its functionalities. We will seperately explain the functionalities with the help of screenshots and sequence diagrams. To get a look at the live version of our website, you can click here : http://sep2015e.herokuapp.com. \\
