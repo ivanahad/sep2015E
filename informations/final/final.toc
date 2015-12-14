@@ -1,0 +1,13 @@
+\select@language {french}
+\contentsline {section}{\numberline {1}Introduction \& Presentation of The Project}{2}{section.1}
+\contentsline {section}{\numberline {2}List of All The Requirements}{3}{section.2}
+\contentsline {subsection}{\numberline {2.1}Organisation and Tools used}{6}{subsection.2.1}
+\contentsline {section}{\numberline {3}Development and Implementation}{7}{section.3}
+\contentsline {subsection}{\numberline {3.1}The Website, Its Functionalities}{7}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}The Architecture}{17}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}The Object-Relational Mapping}{18}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}The Uniform Modeling Language}{20}{subsubsection.3.2.2}
+\contentsline {subsection}{\numberline {3.3}Evolution of the Project}{22}{subsection.3.3}
+\contentsline {section}{\numberline {4}Teamwork}{22}{section.4}
+\contentsline {section}{\numberline {5}Advantages of Our Website}{23}{section.5}
+\contentsline {section}{\numberline {6}Conclusion}{23}{section.6}

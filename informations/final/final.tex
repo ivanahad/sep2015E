@@ -80,7 +80,7 @@ However, rather than dividing them in those four categories, we decided to divid
 
 We also sorted  them depending on if they're functionnal or non-functional. Note that we added some requirements not explicitly said by the clients but that we consider to be relevant for the project (such the privacy parts).The \textit{non-functional} requirements answer to the question "how should it be done" while the \textit{functional} ones represent actual functionalities.\\
 
-Notice that all the \textit{Must Have} requirements have been implemented. For the \textit{Would Like to Have} requirements, we thought they required too much time and we decided to focus on the top priority requirements. Among the \textit{Should Have} requirements, the automatic generation of knock-off has been implmemented. QUID DES COULD HAVE ET SHOULD HAVE?\\
+Notice that all the \textit{Must Have} requirements have been implemented. For the \textit{Would Like to Have} requirements, we thought they required too much time and we decided to focus on the top priority requirements. Among the \textit{Should Have} requirements, the automatic generation of knock-off has been implmemented.\\
 \subsection*{Functional}
 
 \subsubsection*{User}
@@ -89,14 +89,17 @@ Notice that all the \textit{Must Have} requirements have been implemented. For t
 	
 	\begin{itemize}
 		\item \underline{The user can enter his data (including special characters) }
-		\item The users can register to a tournament as a pair, selecting his category 
-		\item \textit{The user can reuse old data linked to his email address to automatically fill a registration form}
-		\item The user can register for activities during a tournament (barbecue, etc) and choose preferences such as taking responsibilities and payment method
-		\item \textit{The user can register on a tournament alone and be matched with another player}
-		\item The user can register a personal court as being available for the tournament
-		\item \textit{Users who registered their own court can see information about players who will play on those.}
-		\item \textit{The user can use a payment method among several options}
-		\item The user can leave a comment when registering
+		\item \underline{The users can register to a tournament as a pair, selecting his category}
+		\item \underline{\textit{The user can reuse old data linked to his email address to automatically fill a registration form}}
+		\item \underline{The user can register for activities during a tournament (barbecue, etc) and choose preferences-} 
+		
+		\item \underline{-such as taking responsibilities and payment method}
+		\item \underline{\textit{The user can register on a tournament alone and be matched with another player}}
+		\item \underline{The user can register a personal court as being available for the tournament}
+		\item \underline{\textit{Users who registered their own court can see information about players who will play on those.}}
+		\item \underline{\textit{The user can use a payment method among several options}}
+		\item \underline{The user can leave a comment when registering}
+		
 	\end{itemize}
 
 \subsubsection*{Administrator}
@@ -116,8 +119,8 @@ Notice that all the \textit{Must Have} requirements have been implemented. For t
     
     \begin{itemize}
     	\item \underline{After a pool has been generated, a staff member can manually reorganize it}
-		\item A staff member can manually assign a court for each match, or modify it in case of raining
-		\item A staff member can use a mail list / newsletter functionality
+		\item \underline{A staff member can manually assign a court for each match, or modify it in case of raining}
+		\item \underline{A staff member can use a mail list / newsletter functionality}
 		\item \underline{A staff member can enter or edit match result data}
 		\item \underline{A staff member can see all the user informations (except credentials)}
 		\item \underline{A staff member can visualize and print the evolution of the tournament in a fashionable and displayable form (both graphic and text), step by step using the knockoff, and print the pool matchup sheet}
@@ -131,8 +134,8 @@ Notice that all the \textit{Must Have} requirements have been implemented. For t
 \subsubsection*{System}   
      This represents the functionalities of the website.
     \begin{itemize}
-    	\item \textit{The system can create pools and match ups}
-		\item \textit{The system must confirm email addresses}
+    	\item \underline{\textit{The system can create pools and match ups}}
+		\item \underline{\textit{The system must confirm email addresses}}
 		\item \textit{The system must query AFT rankings}
 		\item \textit{The system can create smaller pools when it rains}
     \end{itemize}
@@ -143,20 +146,20 @@ In this subsection are listed the requirements that are more technical. Those ar
 \subsubsection*{Interface}
 	
 	\begin{itemize}
-		\item The interface must be user friendly
-		\item \textit{The interface must be mobile friendly}
+		\item \underline{The interface must be user friendly} - yes
+		\item \underline{\textit{The interface must be mobile friendly}} (Our website is mobile-friendly but some input boxes are not, so it is an incompleted requirement.)
 	\end{itemize}
 
 \subsubsection*{Documentation}
 	
 	\begin{itemize}
-		\item The software must be well documented
+		\item \underline{The software must be well documented}
 	\end{itemize}
 	
 \subsubsection*{Privacy}
     
     \begin{itemize}
-    	\item Turn off indexation of private data
+    	\item \underline{Turn off indexation of private data}
     \end{itemize}
 
 
@@ -165,10 +168,10 @@ In this subsection are listed the requirements that are more technical. Those ar
 
 
 	\begin{itemize}
-		\item Interface is easier to use
-		\item Many tasks are automated
-		\item Code base is simpler and more modular if future modifications are wanted
-		\item More flexibility for users such as solo enrollment
+		\item \underline{Interface is easier to use}
+		\item \underline{Many tasks are automated}
+		\item \underline{Code base is simpler and more modular if future modifications are wanted} - yes
+		\item \underline{More flexibility for users such as solo enrollment}
 	\end{itemize}
 
 
@@ -177,10 +180,7 @@ In this subsection are listed the requirements that are more technical. Those ar
 
 
 
-\begin{figure}[h]
 
-\includegraphics[scale=0.5]{onglets.png}
-\end{figure}
 \section{Development and Implementation}
 In this section, we will present to you our website and all the important aspects of it, such as how we developed it, how it looks like, what kind of features it contains, etc.
 
@@ -204,6 +204,10 @@ To host a live version of the website, we used Heroku (www.heroku.com).\\
 
 There are a few reasons why we picked this way of working. First of all, this method was genuinely our first choice since it is the one we are the most comfortable with, as we have been using such a method for a few projects now. Moreover, we liked its versatility since every member of the group has to be involved in every aspect of the project. Furthermore, after each iteration, we will have a meeting with our Assistant. This meeting will allow us to get a feedback of each deliverable. The feedback received will then help us to know if changes need to be done, if there are unnecessary things, or if our project is moving towards the right direction. Finally, with the Agile method, we will first implement all the “must have” functionalities, which allow us to focus on the core of the software, and then add up the functionalities with less priority. \\
 
+\begin{figure}[h]
+
+\includegraphics[scale=0.5]{onglets.png}
+\end{figure}
 \subsection{The Website, Its Functionalities}
 
 In this section, we will show you the fully built website and we will explain everything you need to know about its functionalities. We will seperately explain the functionalities with the help of screenshots and sequence diagrams. To get a look at the live version of our website, you can click here : http://sep2015e.herokuapp.com. \\
@@ -218,7 +222,7 @@ In this section, we will show you the fully built website and we will explain ev
 \end{figure}
 \FloatBarrier
 
-The first main and most important functionality of the website is the registration of a player, as the users will usually visit the website to to do and to assign themselves to a tournament.\\
+The first main and most important functionality of the website is the registration of a player, as the users will usually visit the website to register and to assign themselves to a tournament.\\
 
 \begin{figure}[h]
 \caption{\label{obligatoire} Required fields}
@@ -226,13 +230,11 @@ The first main and most important functionality of the website is the registrati
 \end{figure}
 \FloatBarrier
 
-To do so, a user must fill in the form with all the required fields. Once this is done, the system will check if all the mandatory fields have been filled. If not, some warning will appear to precise which field must be correctly filled, as you can see in the screenshot above(Figure \ref{obligatoire}). Once all the fields are correct, the user is redirected to a page that shows a summary of all the payments for him, allowing him to check what he is going to pay afterwards.. It is important to note that we have implemented a smart registration, where a player is automatically assigned to a tournament according to his information. In figure \ref{recap}, you can see an example of how the information is presented after validation. Also note that the payment choice is chosen after a user has entered and validated all his information.\\
+To do so, a user must fill in the form with all the required fields. Once this is done, the system will check if all the mandatory fields have been filled. If not, some warning will appear to precise which fields must be correctly filled, as you can see in the screenshot above(Figure \ref{obligatoire}). Once all the fields are correct, the user is redirected to a page that shows a summary of all the payments for him, allowing him to check what he is going to pay afterwards. It is important to note that we have implemented a smart registration, where a player is automatically assigned to a tournament according to his information. In figure \ref{recap}, you can see an example of how the information is presented after validation. Also note that the payment choice is chosen after a user has entered and validated all his information.\\
 
 If a member is registered alone for a tournament, a staff member can eventually match him with another member that is alone.\\
 
-The user can also re-use old data linked to his email address to automatically fill a registration form. To implement this, we added a link on the registration forms so that previous participants can use their old information for new ones. All they have to do is give  their previously used address. Another use of the email address of a user is when a participant submits his registration form, the software sends an automatic email to confirm that the player has a valid email address.\\
-
-To make it possible for a user to look for other users or to check the list of all the available courts, we added a functionality that allows to look for players and courts, but also pairs. We then added a list of all the players and all the courts.(SCREEN)\\
+The user can also re-use old data linked to his email address to automatically fill a registration form. To implement this, we added a link on the registration forms so that previous participants can use their old information for new ones. All they have to do is give their previously used address. Another use of the email address of a user is when a participant submits his registration form, the software sends an automatic email to confirm that the player has a valid email address.\\
 
 We have built a sequence diagram, at figure \ref{playerseq}, that illustrates how the registration of a player goes.\\
 \begin{figure}[h]
@@ -263,7 +265,7 @@ When clicking on the "\textit{Terrains}" tab of our website, a user gets to a pa
 \includegraphics[scale=0.5]{courtmail.png}
 \end{figure}
 
-This message above is shown when the registration is completed, an confirmation email is then sent to the owner.\\
+This message above is shown when the registration is completed, a confirmation email is then sent to the owner.\\
 
 We have built a sequence diagram, at figure \ref{courtseq}, that illustrates how the registration of a court is done in a more technical way.\\
 
@@ -297,7 +299,7 @@ A staff member can check and edit the list of all the registered players by clic
 A staff member also has acces the all the courts' information available at the "Terrains" tab that were registered for the week-end, as you can see in the screenshot above. 
 \subsubsection*{File Sharing and Communication between staff members}
 
-In this section, we will describe a functionality that allows a good communication between the staff members, as requested. The website contains a page reached by clicking on the "Accueil tab" in which we implemented a functionality that allows to exchange messages. We also added a feature that allows to share files that they can upload/download. The staff members already have other means to communicate, so these two features should mostly be used for very important announcements. They are available on a dedicated page. You can see in figure \ref{annonce} below how a staff member can put an announcement, and how one can upload files in figure \ref{file}.\\
+In this section, we will describe a functionality that allows a good communication between the staff members, as requested. The website contains a page reached by clicking on the "Accueil tab" in which we implemented a functionality that allows to exchange messages. We also added a feature that allows to share files that they can upload/download. The staff members already have other means to communicate, so these two features should mostly be used for very important announcements. You can see in figure \ref{annonce} below how a staff member can put an announcement, and how one can upload files in figure \ref{file}.\\
 
 \begin{figure}[h]
   \caption{\label{annonce} Announcement creation}
@@ -320,7 +322,7 @@ The last key role for a staff member is everything that is related to the tourna
 \includegraphics[scale=0.5]{stafftournament.png}
 \end{figure}
 \FloatBarrier
-The main feature is the creation of a tournament, as presented in the screenshot above. A staff member must choose the tournament's name by filling the required field, must choose the level of its participants, the number of players per groups and finally if the tournament is mixed or not.\\
+The main feature is the creation of a tournament, as presented in the screenshot above. A staff member must choose the tournament's name by filling the required field, the level of its participants, the number of players per groups and finally if the tournament is mixed or not.\\
 
 Afterwards, a list of all the created tournaments is available on the same page, with all their important information. By clicking on a tournament, one gets access to every important feature of each of them. Let us see what are those features that a staff member can use to edit/add information.\\
 
@@ -424,9 +426,7 @@ There was also a lack of intermediate meetings between the members that would ha
 
 At the end of the day, we still managed to make a fully workable software, but we think we could have been more focused on those details to help us optimize our work. However, the team got along very well, there was no friction between the members, and the atmosphere was always very good.\\
 
-\section{Advantages of Our Website}
-
 \section{Conclusion}
-
+As the development of our project comes to an end, we tried to make a fully working website that contains all of the most important functionalities so that the organisation "Le Charles de Lorraine" week-end event is as easy as possible. We have tried to implement all the features so that they are trivial and easy to use, and one of our main goals was simplicity, that is having a website that only contained essential information for the event. 
 
 \end{document}
