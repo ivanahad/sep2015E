@@ -186,23 +186,23 @@ In this section, we will present to you our website and all the important aspect
 
 \subsection{Organisation and Tools used}
 
-We are briefly going to explain the way the group decided to develop the project. After being introduced to the project by our customers, we had to choose between a few development methods to use throughout the making of the software. The group decided pick the \textbf{Agile} method. \\
+We are briefly going to explain the way the group decided to develop the project. After being introduced to the project by our customers, we had to choose between a few development methods to use throughout the making of the software. The group decided to pick  the \textbf{Agile} method. \\
 
 The first step of this method is writing down user stories. These are used to represent all the functionalities of the software which is the website. Afterwards, the group has to discuss about the importance and the difficulty of each user story, and then decide which of them have the top priority. \\
 
-When this is done, we will use a kanban to organize the process of the project. The kanban contains all the user stories, and is divided into the following categories : “To do, doing this iteration, done this iteration, and done”. Every member of the group picks the user stories he thinks he is able to implement, so it allows us to know which member has done each task. For the kanban we will use the \textbf{Trello} Website (www.trello.com). \\
+When this was done, we used a kanban to organize the process of the project. The kanban contains all the user stories, and is divided into the following categories : “To do, doing this iteration, done this iteration, and done”. Every member of the group picked the user stories he thought he was able to implement, so it allowed us to know which member had done each task. For the kanban we used the \textbf{Trello} Website (www.trello.com). \\
 
 The programming language we decided to used was Python, with the \textbf{Django} framework.\\
 
-We would use the third version of Python, and the 1.8 version of Django. Lastly, we would also use the \textbf{Bootstrap} framework for the design of the website (the css part essentially). \\
+We used the third version of Python, and the 1.8 version of Django. Lastly, we used the \textbf{Bootstrap} framework for the design of the website (the css part essentially). \\
 
-To easily share the project’s code, we will use a Control Version System, which is in this case \textbf{Git}. Git, and its underlying service called GitHub(www.github.com), is preferred since it allows us to make private repositories. 
+To easily share the project’s code, we used a Control Version System, which is in this case \textbf{Git}. Git, and its underlying service called GitHub(www.github.com), was preferred since it allowed us to make private repositories. 
 
-We also decided to divide the project into 4 iterations, corresponding to the 4 phases presented to us. With the Agile method, there will be a working deliverable for each of these phases. Through each iteration, we will have to add up functionalities to the working project, until each of them is implemented.  \\
+We also decided to divide the project into 4 iterations, corresponding to the 4 phases presented to us. With the Agile method, there was a working deliverable for each of these phases. Through each iteration, we had to add up functionalities to the working project, until each of them is implemented.  \\
 
 To host a live version of the website, we used Heroku (www.heroku.com).\\
 
-There are a few reasons why we picked this way of working. First of all, this method was genuinely our first choice since it is the one we are the most comfortable with, as we have been using such a method for a few projects now. Moreover, we liked its versatility since every member of the group has to be involved in every aspect of the project. Furthermore, after each iteration, we will have a meeting with our Assistant. This meeting will allow us to get a feedback of each deliverable. The feedback received will then help us to know if changes need to be done, if there are unnecessary things, or if our project is moving towards the right direction. Finally, with the Agile method, we will first implement all the “must have” functionalities, which allow us to focus on the core of the software, and then add up the functionalities with less priority. \\
+There are a few reasons why we picked this way of working. First of all, this method was genuinely our first choice since it is the one we are the most comfortable with, as we had been using such this method for a few projects now. Moreover, we liked its versatility since every member of the group has to be involved in every aspect of the project. Furthermore, after each iteration, we had a meeting with our Assistant. These meetings allowed us to get a feedback of each deliverable. The feedback received then helped us to know if changes needed to be done, if there were unnecessary things, or if our project was moving towards the right direction. Finally, with the Agile method, we first implemented all the “must have” functionalities, which allowed us to focus on the core of the software, and then added up the functionalities with less priority. \\
 
 \begin{figure}[h]
 
@@ -358,7 +358,7 @@ The sequence diagram at figure \ref{tournseq} illustrates better how the life cy
 
 \subsection*{Administration part}
 
-An administrator is in top of the hierarchy when it comes to abilities on the wbesite. In this case, administrators are very important, as they are able to create staff and admin accounts, to delete other staff and admin accounts, and to delete regular accounts. Plus, it can modify the credentials of all the users that are registered.\\
+An administrator is on top of the hierarchy when it comes to abilities on the wbesite. In this case, administrators are very important, as they are able to create staff and admin accounts, to delete other staff and admin accounts, and to delete regular accounts. Plus, it can modify the credentials of all the users that are registered.\\
 
 However, the most important role for an administrator is that it is the only type of account that is able to close a tournament.
 
@@ -372,7 +372,7 @@ This section will be dedicated to explain the more technical parts of our softwa
 
 \textbf{To get access to the code of our project}, you can click on the link to our \textit{Github} repository : https://github.com/ivanahad/sep2015E\\
 
-Our architecture mainly uses a Model View Controller. Indeed, Django uses classes of models linked to the database. It uses some views (HTML templates) to display information, and it uses a controller that is a view.py and form.py that links the models to the view. As you can see, he mainly followed the default structure of Django with little to no modification. For the \textit{database} we use SQLite that is provided by Django which is easy to use. All the operations between the Django framework and the database are automated, which greatly helped us using the database. We don't need to use anything else for the database because there isn't much information to be stored since the website is rather small. 
+Our architecture mainly uses a Model View Controller. Indeed, Django uses classes of models linked to the database. It uses some views (HTML templates) to display information, and it uses a controller that is a view.py and form.py that links the models to the view. As you can see, we mainly followed the default structure of Django with little to no modification. For the \textit{database} we use SQLite that is provided by Django which is easy to use. All the operations between the Django framework and the database are automated, which greatly helped us using the database. We don't need to use anything else for the database because there isn't much information to be stored since the website is rather small. 
 
 \newpage
 \subsubsection{The Object-Relational Mapping}
@@ -384,9 +384,9 @@ A pair is formed of two users. A single pair can only participate in one pool of
 
 As we said, a tournament is composed of pools but also of a knock-off tournament that we called tree in our diagram. Moreover, a tournament is defined by its category. Finally, the tree is composed of nodes that is basically a pair of two users.\\
 
-A staff, similarly to a user is characterized by it's name, address, contact (phone and email) but also by it's password. Also a staff is part of group representing the actions he can do. \\
+A staff, similarly to a user is characterized by its name, address, contact (phone and email) but also by its password. Also a staff is part of group representing the actions he can do. \\
 
-A message is defined by it's author which is a staff member, by it's title and by it's content (text). A file is defined by it's title, it's owner and the file.\\
+A message is defined by its author which is a staff member, by its title and by its content (text). A file is defined by i's title, its owner and the file.\\
 
 This concludes the description of our ORM diagram. 
 
@@ -398,13 +398,13 @@ This concludes the description of our ORM diagram.
 
 
 \subsubsection{The Uniform Modeling Language}
-We can see in Fig.2 our class diagram, describing the architecture of our software. We mostly followed the regular architecture offered by Django. The diagram was structu- red by the packages and the ".py" files, for example "players(package).models(.py).User".\\
+We can see in Fig.2 our class diagram, describing the architecture of our software. We mostly followed the regular architecture offered by Django. The diagram was structured by the packages and the ".py" files, for example "players(package).models(.py).User".\\
 
 Some files only contain methods but it was still important to put them in the diagram.\\
 
 The class diagram contains 4 very important parts. One represents the players, the second is the staff, the third is the tournament and the fourth is the courts.\\
 
-As you can guess, the players part contains all the functions for the savings of data about a player and those that allow him to register for the tournament.\\
+As you can see, the players part contains all the functions for the savings of data about a player and those that allow him to register for the tournament.\\
 
 The staff part is composed of the views to display the staff webpage. It also contains methods to allow staff members to send messages to each others.\\
 
