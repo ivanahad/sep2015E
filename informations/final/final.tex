@@ -57,14 +57,14 @@ breaklines=true
 \newpage
 
 \begin{figure}[h]
-
+\centering
 \includegraphics[scale=0.4]{accueil.png}
 \end{figure}
 \section{Introduction \& Presentation of The Project}
 
 Each year, the ASMAE non-profit organization organizes a tennis tournament that gathers many players during one week-end. Last September, representatives of this organization queried our help to revamp their website. This website is used for the tennis players to register themselves for several kinds of tournaments. However, their current website was old and started to show its limits.\\
 
-Thus, our goal is to create a new revamped website that allows players to register, court owners to lend their own courts for the sake of the tournament, and having a better experience of the utilization of the website, as it will need to be easy and trivial to use. One important update is to have a fully working staff part to manage the tournaments, the players, the courts, etc. \\
+Thus, our goal was to create a new revamped website that allows players to register, court owners to lend their own courts for the sake of the tournament, and having a better experience of the utilization of the website, as it will need to be easy and trivial to use. One important update is to have a fully working staff part to manage the tournaments, the players, the courts, etc. \\
 
 This report will describe everything you need to know about the software in general and all the important information of how it works and how it has been built. \\
 
@@ -170,7 +170,7 @@ In this subsection are listed the requirements that are more technical. Those ar
 	\begin{itemize}
 		\item \underline{Interface is easier to use}
 		\item \underline{Many tasks are automated}
-		\item \underline{Code base is simpler and more modular if future modifications are wanted} - yes
+		\item \underline{Code base is simpler and more modular if future modifications are wanted}
 		\item \underline{More flexibility for users such as solo enrollment}
 	\end{itemize}
 
@@ -372,6 +372,8 @@ This section will be dedicated to explain the more technical parts of our softwa
 
 \textbf{To get access to the code of our project}, you can click on the link to our \textit{Github} repository : https://github.com/ivanahad/sep2015E\\
 
+Our architecture mainly uses a Model View Controller. Indeed, Django uses classes of models linked to the database. It uses some views (HTML templates) to display information, and it uses a controller that is a view.py and form.py that links the models to the view. As you can see, he mainly followed the default structure of Django with little to no modification. For the \textit{database} we use SQLite that is provided by Django which is easy to use. All the operations between the Django framework and the database are automated, which greatly helped us using the database. We don't need to use anything else for the database because there isn't much information to be stored since the website is rather small. 
+
 \newpage
 \subsubsection{The Object-Relational Mapping}
 Fig.1 shows our ORM diagram. It gives an idea about how the different objects used by the website are linked together. We will give a brief description of what the object represents and its relations to others.\\
@@ -396,7 +398,18 @@ This concludes the description of our ORM diagram.
 
 
 \subsubsection{The Uniform Modeling Language}
-UML
+We can see in Fig.2 our class diagram, describing the architecture of our software. We mostly followed the regular architecture offered by Django. The diagram was structu- red by the packages and the ".py" files, for example "players(package).models(.py).User".\\
+
+Some files only contain methods but it was still important to put them in the diagram.\\
+
+The class diagram contains 4 very important parts. One represents the players, the second is the staff, the third is the tournament and the fourth is the courts.\\
+
+As you can guess, the players part contains all the functions for the savings of data about a player and those that allow him to register for the tournament.\\
+
+The staff part is composed of the views to display the staff webpage. It also contains methods to allow staff members to send messages to each others.\\
+
+The tournament contains all the methods needed to generate a tournament and close it (at the end of registration).
+Lastly, the courts part allows a court owner to register himself and his court(s).\\
 \begin{figure}[h]
 	\centering
  	\caption{\label{uml} UML diagram}
